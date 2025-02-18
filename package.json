@@ -1,0 +1,66 @@
+{
+  "name": "better-makefile",
+  "displayName": "Better Makefile",
+  "description": "improved syntax highlighting of Makefiles in VS Code",
+  "icon": "misc/icon_256.png",
+  "author": {
+    "name": "carlwr",
+    "url": "https://github.com/carlwr"
+  },
+  "publisher": "carlwr",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carlwr/vscode-better-makefile"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "syntax",
+    "textmate",
+    "highlighting",
+    "coloring",
+    "color",
+    "makefile",
+    "make",
+    "gnu make"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "makefile",
+        "aliases": [
+          "Makefile",
+          "makefile"
+        ],
+        "extensions": [
+          "*.mak",
+          ".mk"
+        ],
+        "filenames": [
+          "Makefile",
+          "makefile",
+          "GNUmakefile",
+          "OCamlMakefile"
+        ],
+        "firstLine": "^#!\\s*/usr/bin/make",
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "makefile",
+        "scopeName": "source.makefile",
+        "path": "./syntaxes/make.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "LAST_dummy": "echo \"Dear Sir,\n\n'); UPDATE jsonrules SET trailing_commas='allowed'; --\" | sendmail packagejson-wg@nodejs.org"
+  }
+}

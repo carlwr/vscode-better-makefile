@@ -1,0 +1,6 @@
+*                  text=auto
+*.json             text eol=lf
+syntaxes/*.json    linguist-generated
+scripts/*          linguist-detectable
+*.mk               diff=make merge=make linguist-language=makefile
+Makefile           diff=make merge=make linguist-language=makefile

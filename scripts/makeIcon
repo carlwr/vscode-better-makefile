@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+
+# invoke from repo root
+
+set -eu -o pipefail
+
+# high-res image to generate downscaled icon from are not included in the repo - should be available from an upload to a repo Wiki page (first two links), otherwise use the local file
+iconSrcs=(
+  'https://github.com/user-attachments/assets/cf51baef-a7fd-434e-96ca-2ad54b62b3aa'
+
+  'https://private-user-images.githubusercontent.com/76884940/467443748-cf51baef-a7fd-434e-96ca-2ad54b62b3aa.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI3NDI1NzgsIm5iZiI6MTc1Mjc0MjI3OCwicGF0aCI6Ii83Njg4NDk0MC80Njc0NDM3NDgtY2Y1MWJhZWYtYTdmZC00MzRlLTk2Y2EtMmFkNTRiNjJiM2FhLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE3VDA4NTExOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWE4MjZhZjc3MjYyZmNmZGI0NjU5ZDQxMGMxNjAyODkxYTk2MGQwMGE3MzIzNzY2NzFhMDZkMWQzNWUyOTk3ODAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.ctBKmxqsBJPuBoybznTvk-7gjpjb3lBW6gorrIXjD-k'
+
+  'file://../.backup/vscode-better-makefile/icon_1024.png'
+)
+
+url=${iconSrcs[1]}
+
+opts=(
+  -filter  Lanczos
+  -quality 100
+  -define  png:compression-level=9
+  -strip
+  )
+
+foreach out res (
+  misc/icon_256.png '-resize 256x256'
+  misc/icon_128.png '-resize 128x128'
+  ) {
+
+  if [[ ${1-} == '--dry' ]]
+  then print curl -sfL $url \| magick - $=opts $=res $out
+  else       curl -sfL $url  | magick - $=opts $=res $out && ls -lh $out
+  fi
+
+  }

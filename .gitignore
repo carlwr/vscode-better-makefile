@@ -1,0 +1,8 @@
+.eslintcache
+node_modules/
+*.vsix
+.aider.*
+**/.claude/settings.local.json
+syntaxes/makefile.tmLanguage.json
+syntaxes/makefile.scopes.txt
+out/

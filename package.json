@@ -56,7 +56,7 @@
       {
         "language": "makefile",
         "scopeName": "source.makefile",
-        "path": "./syntaxes/make.tmLanguage.json"
+        "path": "./syntaxes/makefile.tmLanguage.json"
       }
     ]
   },

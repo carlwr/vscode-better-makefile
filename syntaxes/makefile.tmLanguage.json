@@ -311,7 +311,7 @@
       "begin": "^\\t([+\\-@]*)",
       "beginCaptures": {
         "1": {
-          "name": "keyword.control.$1.makefile"
+          "name": "keyword.control.$1.makefile keyword.control.recipe-lineprefix.makefile"
         }
       },
       "end": "[^\\\\]$",
@@ -338,7 +338,7 @@
           ]
         },
         "3": {
-          "name": "punctuation.separator.key-value.makefile"
+          "name": "punctuation.separator.key-value.makefile keyword.operator.assignment.makefile"
         }
       },
       "end": "\\n",

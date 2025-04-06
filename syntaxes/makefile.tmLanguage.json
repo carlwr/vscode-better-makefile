@@ -475,8 +475,14 @@
     "builtin-variable-parentheses": {
       "patterns": [
         {
-          "match": "(?<=\\()(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKELEVEL|MAKEFLAGS|MAKECMDGOALS|CURDIR|SUFFIXES|\\.LIBPATTERNS)(?=\\s*\\))",
-          "name": "variable.language.makefile"
+          "match": "(?<=\\()(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKEFLAGS|MAKECMDGOALS|SUFFIXES|MAKE_TERMOUT|MAKE_TERMERR|\\.LIBPATTERNS|\\.DEFAULT_GOAL|\\.RECIPEPREFIX\\.EXTRA_PREREQS)(?=\\s*\\))",
+          "name": "variable.language.readwrite.makefile",
+          "comment": "special variables, mutable"
+        },
+        {
+          "match": "(?<=\\()(MAKEFILE_LIST|MAKELEVEL|CURDIR|MAKE_RESTARTS|\\.VARIABLES|\\.FEATURES|\\.INCLUDE_DIRS)(?=\\s*\\))",
+          "name": "variable.language.constant.makefile",
+          "comment": "special variables, immutable"
         }
       ]
     },

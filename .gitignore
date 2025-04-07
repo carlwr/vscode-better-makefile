@@ -4,5 +4,6 @@ node_modules/
 .aider.*
 **/.claude/settings.local.json
 syntaxes/make.tmLanguage.json
+syntaxes/makefile.tmLanguage.json
 syntaxes/makefile.scopes.txt
 out/

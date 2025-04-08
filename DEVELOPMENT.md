@@ -1,31 +1,38 @@
-package originally generated with: `npx --package yo --package generator-code -- yo code`
+# _Better Makefile_ VS Code extension
+
+_Better syntax highlighting for makefiles_
 
 
-non-compact json:
-```shell
-$ mv syntaxes/make.tmLanguage.json{,.bak}
-syntaxes/make.tmLanguage.json -> syntaxes/make.tmLanguage.json.bak
-$ jq <syntaxes/make.tmLanguage.json.bak >syntaxes/make.tmLanguage.json
+## Development
+
+### Set-up
+
+```bash
+
+# clone the repo:
+git clone carlwr/vscode-better-makefile
+cd vscode-better-makefile
+
+# install dependencies:
+pnpm install
+
 ```
 
+### Building and testing
 
+The textMate grammar is defined in _textMate YAML_. A build step converts the YAML file to the JSON textMate format that VS Code understands.
 
-tmLanguage.json based on:
+For building, testing and other dev-related tasks, either invoke the scripts in `package.json` or use the makefile. E.g. to build the JSON file, do:
+
+```bash
+make
+# or
+pnpm build
 ```
-/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/extensions/make/syntaxes/make.tmLanguage.json
+
+For details, see the mentioned files.
+
+Run the grammar tests with:
+```bash
+# TODO - not yet implemented
 ```
-
-
-# scope names
-
-* built-in variables (= special variables)
-  * `variable.language`
-  * user may read, not set
-    * e.g. `MAKEFLAGS`
-    * `variable.other.constant`, since an immutable variable
-    * `variable.language.constant`, since immutable variables should get scope `variable.[*.]constant`
-  * user may read and set
-    * e.g. `CURDIR`
-    * `variable.language.readwrite`
-  * ref's
-    * https://www.sublimetext.com/docs/scope_naming.html#variable

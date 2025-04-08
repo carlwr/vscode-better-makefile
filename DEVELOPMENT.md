@@ -34,5 +34,13 @@ For details, see the mentioned files.
 
 Run the grammar tests with:
 ```bash
-# TODO - not yet implemented
+make test
+  # - runs xpass, xfail and parse tests
+  # - supports verbosity and output formatting control (see Makefile)
+
+# or
+
+pnpm test
+  # - only runs xpass tests
 ```
+For the grammar tests, some of the files in `doc/dev/` are relevant.

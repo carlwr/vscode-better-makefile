@@ -1,12 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/tmlanguage.json
 ---
-information_for_contributors:
-  - This file has been converted from
-    https://github.com/fadeevab/make.tmbundle/blob/master/Syntaxes/Makefile.plist
-  - If you want to provide a fix or improvement, please create a pull
-    request against the original repository.
-  - Once accepted there, we are happy to receive an update request.
-version: https://github.com/fadeevab/make.tmbundle/commit/1d4c0b541959995db098df751ffc129da39a294b
+
 
 name: make
 scopeName: source.makefile
@@ -42,19 +36,28 @@ repository:
     name: punctuation.separator.delimeter.comma.makefile
 
   comment:
-    begin: (^[ ]+)?((?<!\\)(\\\\)*)(?=#)
-    beginCaptures:
-      "1": { name: punctuation.whitespace.comment.leading.makefile }
-    end: (?!\G)
     patterns:
-      - begin: "#"
+      - include: "#comment-actual"
+    repository:
+      comment-actual:
+        begin: |
+          (?x)
+          (     ^[ ]+        )?  # "1": any whitespaces at beginning of line
+          (?<!  \\           )   # otherwise unreliable \ count -> don't match
+          (     (?: \\ \\)*  )   # "2": any even no. of \-s -> quoting \-es
+          (?=   \#           )   # an (unquoted) # on next position
         beginCaptures:
-          "0": { name: punctuation.definition.comment.makefile }
-        end: (?=[^\\])$
-        name: comment.line.number-sign.makefile
+          "1": { name: punctuation.whitespace.comment.leading.makefile }
+        end: (?!\G)
         patterns:
-          - match: \\\n
-            name: constant.character.escape.continuation.makefile
+          - begin: \#
+            beginCaptures:
+              "0": { name: punctuation.definition.comment.makefile }
+            end:   (?=[^\\])$
+            name: comment.line.number-sign.makefile
+            patterns:
+              - match: \\\n
+                name: constant.character.escape.continuation.makefile
 
   line-cont:
     comment: |-
@@ -87,26 +90,43 @@ repository:
         begin: ^[ ]*([s\-]?include)\b
         beginCaptures:
           "1": { name: keyword.control.include.makefile }
-        end: ^
+        end:   ^
         patterns:
           - include: "#comment"
           - include: "#variables"
-          - match: "%"
+          - match: '%'
             name: constant.other.placeholder.makefile
 
       vpath:
         begin: ^[ ]*(vpath)\b
         beginCaptures:
           "1": { name: keyword.control.vpath.makefile }
-        end: ^
+        end:   ^
         patterns:
           - include: "#comment"
           - include: "#variables"
-          - match: "%"
+          - match: '%'
             name: constant.other.placeholder.makefile
 
       define:
-        begin: ^\s*(?:(override)\s*)?(define)\s*([^\s]+)\s*(=|!=|\+=|\?=|:=|::=|:::=)?(?=\s)
+        begin: |
+          (?x)
+          ^
+          \s* \b(override\b)?        # "1", optional
+          \s* \b(define  \b)         # "2", required
+          \s*   (                    # "3", required
+                  [^\s]+
+                )
+          \s*   (                    # "4", optional
+                  (                    # optional prefix...
+                  |   !
+                  |  \+
+                  |  \?
+                  |   :?:?:?
+                  )?
+                  =                    # ...and "="
+                )?
+          (?=\s)
         captures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
@@ -115,8 +135,10 @@ repository:
         end: ^\s*(endef)\b
         name: meta.scope.conditional.makefile
         patterns:
-          - begin: \G(?!\n)
-            end: ^
+          - comment: |
+              detect comments in define head
+            begin: \G(?!\n)
+            end:   ^
             patterns:
               - include: "#comment"
           - include: "#variables"
@@ -126,18 +148,18 @@ repository:
         begin: ^[ ]*(export)\b
         beginCaptures:
           "1": { name: keyword.control.$1.makefile }
-        end: ^
+        end:   ^
         patterns:
           - include: "#comment"
           - include: "#variable-assignment"
-          - match: "[^\\s]+"
+          - match: \S+
             name: variable.other.makefile
 
       override_private:
         begin: ^[ ]*(override|private)\b
         beginCaptures:
           "1": { name: keyword.control.$1.makefile }
-        end: ^
+        end:   ^
         patterns:
           - include: "#comment"
           - include: "#variable-assignment"
@@ -146,21 +168,21 @@ repository:
         begin: ^[ ]*(unexport|undefine)\b
         beginCaptures:
           "1": { name: keyword.control.$1.makefile }
-        end: ^
+        end:   ^
         patterns:
           - include: "#comment"
-          - match: "[^\\s]+"
+          - match: \S+
             name: variable.other.makefile
 
       conditional:
         begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
         captures:
           "1": { name: keyword.control.$1.makefile }
-        end: ^\s*(endif)\b
+        end:   ^\s*(endif)\b
         name: meta.scope.conditional.makefile
         patterns:
           - begin: \G
-            end: ^
+            end:   ^
             name: meta.scope.condition.makefile
             patterns:
               - include: "#comma"
@@ -169,7 +191,7 @@ repository:
           - begin: ^\s*else(?=\s)\s*(ifeq|ifneq|ifdef|ifndef)*(?=\s)
             beginCaptures:
               "0": { name: keyword.control.else.makefile }
-            end: ^
+            end:   ^
             patterns:
               - include: "#comma"
               - include: "#variables"
@@ -181,7 +203,15 @@ repository:
 
   __ruleheadBegin:
     match: &__ruleheadBegin |-
-      ^(?!\t)([^:]*)(::|:|&::|&:)(?!\=)
+      (?x)
+      ^(?!\t)    # not a recipe line
+      ([^:]*)    # group 1; name of target(s)
+      (  ::      # group 2; the separator after the target(s)
+      |  :
+      | &::
+      | &:
+      )
+      (?!\=)     # ...but not if ':='
 
   rulehead:
     name: meta.scope.rulehead.makefile
@@ -192,25 +222,48 @@ repository:
         patterns:
           - captures:
               "1": { name: support.function.target.$1.makefile }
-            match: ^\s*(\.(PHONY|SUFFIXES|DEFAULT|PRECIOUS|(NOT)?INTERMEDIATE|SECONDARY|SECONDEXPANSION|DELETE_ON_ERROR|IGNORE|LOW_RESOLUTION_TIME|SILENT|EXPORT_ALL_VARIABLES|NOTPARALLEL|ONESHELL|POSIX|WAIT))\s*$
+            match: '(?x)
+              ^
+              \s*
+              (?# special targets: )
+              ( \.DEFAULT
+              | \.DELETE_ON_ERROR
+              | \.EXPORT_ALL_VARIABLES
+              | \.IGNORE
+              | \.INTERMEDIATE
+              | \.LOW_RESOLUTION_TIME
+              | \.NOTINTERMEDIATE
+              | \.NOTPARALLEL
+              | \.ONESHELL
+              | \.PHONY
+              | \.POSIX
+              | \.PRECIOUS
+              | \.SECONDARY
+              | \.SECONDEXPANSION
+              | \.SILENT
+              | \.SUFFIXES
+              | \.WAIT
+              )
+              \s*
+              $'
           - begin: (?=\S)
-            end: (?=\s|$)
+            end:   (?=\s|$)
             name: entity.name.function.target.makefile
             patterns:
               - include: "#variables"
-              - match: "%"
+              - match: '%'
                 name: constant.other.placeholder.makefile
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
-    end: "[^\\\\]$"
+    end:   '[^\\]$'
     patterns:
       - begin: \G(?!\n|;)
-        end: (?=[^\\])$
+        end:   (?=[^\\])$
         contentName: meta.scope.prerequisites.makefile
         patterns:
           - match: '[ ]+'
           - match: \\\n
             name: constant.character.escape.continuation.makefile
-          - match: "%|\\*"
+          - match: '%|\*'
             name: constant.other.placeholder.makefile
           - include: "#comment"
           - include: "#variables"
@@ -224,7 +277,7 @@ repository:
     beginCaptures:
       "1": { name: keyword.control.$1.makefile
                    keyword.control.recipe-lineprefix.makefile }
-    end: "[^\\\\]$"
+    end:   '[^\\]$'
     patterns:
       - match: \\\n
         name: constant.character.escape.continuation.makefile
@@ -235,16 +288,28 @@ repository:
 
   __varAssignBegin:
     match: &__varAssignBegin |-
-     (^[ ]*|\G\s*)([^\s:#=]+)\s*((?<![?:+!])=|!=|\+=|\?=|:=|::=|:::=)
+      (?x)
+      (?:  ^[\ ]*|\G\s*  )  # discard leading whitespace
+      (    [^\s:#=]+     )  # group 1; the variable name
+      \s*                   # any space between name and assignment operator
+                            # assignment operators:
+      ( (?<![?:+!])   =     #    =
+      |              !=     #   !=
+      |             \+=     #   +=
+      |             \?=     #   ?=
+      |              :=     #   :=
+      |             ::=     #  ::=
+      |            :::=     # :::=
+      )
 
   variable-assignment:
     begin: *__varAssignBegin
     beginCaptures:
-      "2":
+      "1":
         name: variable.other.makefile
         patterns:
           - include: "#variables"
-      "3":
+      "2":
         name: punctuation.separator.key-value.makefile
               keyword.operator.assignment.makefile
     end: \n
@@ -265,20 +330,24 @@ repository:
     #   $p_var-builtin_p  <=>  captures <builtin-var> in $(<builtin-var>)
 
   variables:
+    comment: entry point for all searches for variable expansions
     patterns:
       - include: "#simple-variable"
       - include: "#variable-parentheses"
       - include: "#variable-braces"
   simple-variable:
-    patterns:
-      - match: \$[^(){}]
+    match: (\$)([^(){}#\n])
+    captures:
+      "1":
+        name: variable.language.makefile
+      "2":
         name: variable.language.makefile
   variable-parentheses:
     patterns:
-      - begin: \$\(
+      - begin: (?x) \$\(
         captures:
           "0": { name: punctuation.definition.variable.makefile }
-        end: \)|((?<!\\)\n)
+        end:   (?x)   \) | (?<!\\)\n
         name: string.interpolated.makefile
         patterns:
           - include: "#variables"
@@ -288,10 +357,10 @@ repository:
           - include: "#another-variable-parentheses"
   variable-braces:
     patterns:
-      - begin: \${
+      - begin: (?x) \$\{
         captures:
           "0": { name: punctuation.definition.variable.makefile }
-        end: "}|((?<!\\\\)\\n)"
+        end:   (?x)   \} | (?<!\\)\n
         name: string.interpolated.makefile
         patterns:
           - include: "#variables"
@@ -308,6 +377,7 @@ repository:
         match: (?<=\()(MAKEFILE_LIST|MAKELEVEL|CURDIR|MAKE_RESTARTS|\.VARIABLES|\.FEATURES|\.INCLUDE_DIRS)(?=\s*\))
         name: variable.language.constant.makefile
   builtin-variable-braces:
+    comment: TODO distinguish mutable and immutable
     patterns:
       - comment: special variables -> braces -> mutable+immutable
         match: (?<={)(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKELEVEL|MAKEFLAGS|MAKECMDGOALS|CURDIR|SUFFIXES|\.LIBPATTERNS)(?=\s*})
@@ -323,7 +393,7 @@ repository:
           - include: "#comma"
           - include: "#variables"
           - include: "#interpolation"
-          - match: "%|\\*"
+          - match: '%|\*'
             name: constant.other.placeholder.makefile
           - match: \\\n
             name: constant.character.escape.continuation.makefile
@@ -332,13 +402,13 @@ repository:
       - begin: (?<={)(subst|patsubst|strip|findstring|filter(-out)?|sort|word(list)?|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|wildcard|realpath|abspath|info|error|warning|shell|foreach|if|or|and|call|eval|value|file|guile|let|intcmp)\s
         beginCaptures:
           "1": { name: support.function.$1.makefile }
-        end: (?=}|((?<!\\)\n))
+        end: (?=}|(?<!\\)\n)
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#comma"
           - include: "#variables"
           - include: "#interpolation"
-          - match: "%|\\*"
+          - match: '%|\*'
             name: constant.other.placeholder.makefile
           - match: \\\n
             name: constant.character.escape.continuation.makefile
@@ -356,15 +426,15 @@ repository:
       * will later be renamed to "*NESTED*"
 
   parentheses-interpolation:
-    begin: \(
-    end: \)
+    begin: (?x) \(
+    end:   (?x) \)
     patterns:
       - include: "#variables"
       - include: "#interpolation"
 
   braces-interpolation:
-    begin: "{"
-    end: "}"
+    begin: (?x) \{
+    end:   (?x) \}
     patterns:
       - include: "#variables"
       - include: "#interpolation"
@@ -375,7 +445,7 @@ repository:
         contentName: variable.other.makefile
         beginCaptures:
           "1": { name: support.function.$1.makefile }
-        end: (?=\))
+        end:   (?=\))
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#variables"
@@ -385,14 +455,14 @@ repository:
         contentName: variable.other.makefile
         beginCaptures:
           "1": { name: support.function.$1.makefile }
-        end: (?=})
+        end:   (?=})
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#variables"
   another-variable-parentheses:
     patterns:
-      - begin: (?<=\()(?!\))
-        end: (?=\)|((?<!\\)\n))
+      - begin: (?x) (?<=\()   (?! \))
+        end:   (?x) (?= \)|(?<!\\)\n )
         name: variable.other.makefile
         patterns:
           - include: "#variables"
@@ -400,10 +470,11 @@ repository:
             name: constant.character.escape.continuation.makefile
   another-variable-braces:
     patterns:
-      - begin: (?<={)(?!})
-        end: (?=}|((?<!\\)\n))
+      - begin: (?x) (?<=\{)   (?! \})
+        end:   (?x) (?= \}|(?<!\\)\n )
         name: variable.other.makefile
         patterns:
           - include: "#variables"
           - match: \\\n
             name: constant.character.escape.continuation.makefile
+...

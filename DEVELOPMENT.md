@@ -3,6 +3,14 @@
 _Better syntax highlighting for makefiles_
 
 
+## Misc.
+
+To print the scope names the grammar defines to stdout, run:
+```bash
+./scripts/scopes
+```
+
+
 ## Development
 
 ### Set-up

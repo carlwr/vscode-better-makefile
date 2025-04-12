@@ -419,7 +419,49 @@ repository:
 
   expansions-$p_func-builtin_..p:
     patterns:
-    - begin: (?<=\()(subst|patsubst|strip|findstring|filter(-out)?|sort|word(list)?|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|wildcard|realpath|abspath|info|error|warning|shell|foreach|if|or|and|call|eval|value|file|guile|let|intcmp)\s
+    - begin: |-
+        (?x)
+        (?<= \( )
+        (?# built-in functions -> parens: )
+        (?# ref.: function.c -> struct function_table_entry + guile)
+        ( abspath
+        | addprefix
+        | addsuffix
+        | and
+        | basename
+        | call
+        | dir
+        | error
+        | eval
+        | file
+        | filter
+        | filter-out
+        | findstring
+        | firstword
+        | foreach
+        | guile
+        | if
+        | info
+        | intcmp
+        | join
+        | lastword
+        | let
+        | notdir
+        | or
+        | patsubst
+        | realpath
+        | shell
+        | sort
+        | strip
+        | subst
+        | suffix
+        | value
+        | warning
+        | wildcard
+        | word
+        | wordlist
+        )
+        \s
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end: (?=\)|((?<!\\)\n))
@@ -434,7 +476,48 @@ repository:
 
   expansions-$b_func-builtin_..b:
     patterns:
-    - begin: (?<={)(subst|patsubst|strip|findstring|filter(-out)?|sort|word(list)?|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|wildcard|realpath|abspath|info|error|warning|shell|foreach|if|or|and|call|eval|value|file|guile|let|intcmp)\s
+    - begin: |-
+        (?x)
+        (?<= { )
+        (?# built-in functions -> braces: )
+        ( abspath
+        | addprefix
+        | addsuffix
+        | and
+        | basename
+        | call
+        | dir
+        | error
+        | eval
+        | file
+        | filter
+        | filter-out
+        | findstring
+        | firstword
+        | foreach
+        | guile
+        | if
+        | info
+        | intcmp
+        | join
+        | lastword
+        | let
+        | notdir
+        | or
+        | patsubst
+        | realpath
+        | shell
+        | sort
+        | strip
+        | subst
+        | suffix
+        | value
+        | warning
+        | wildcard
+        | word
+        | wordlist
+        )
+        \s
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end: (?=}|(?<!\\)\n)

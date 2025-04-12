@@ -1,0 +1,173 @@
+#!/usr/bin/env zsh
+
+emulate zsh
+set -eu -o pipefail
+setopt extendedglob NO_multios
+
+
+# ------------------------------------------------------------- #
+#                           parameters                          #
+# ------------------------------------------------------------- #
+
+me=${0:t}
+
+help=(
+  ''
+  "usage:"
+  "    $me"' --files-with-tests f.mk g.mk ..   # [1]'
+  "    $me"' f.mk <<< $(make -np f.mk)         # [2]'
+  ''
+  '    [1]: output names of files with tests'
+  '    [2]: run the tests in the file'
+  ''
+  'the test will pass iff'
+  '    for every parseAssert directive in the test file,'
+  '    its regex matches >=1 substring in the make database on stdin'
+  ''
+  'syntax and example:'
+  ''
+  '    ----test.mk----'
+  '    ## /var:?=str/'
+  ''
+  ''
+  '        """""""""       <- parseAssert regex'
+  '    """"""""""""""      <- parseAssert directive'
+  ''
+  'environment:'
+  '    flags: see source code'
+  )
+
+[[ -v  HUMAN         ]] || HUMAN=           # use colors for terminal output
+[[ -v  PARSE_NOTRACE ]] || PARSE_NOTRACE=   # suppress msgs on failing tests
+[[ -v  PARSE_DBG     ]] || PARSE_DBG=
+
+directiveRE='##\s*/\K.*(?=/)'
+
+
+# ------------------------------------------------------------- #
+#                           functions                           #
+# ------------------------------------------------------------- #
+
+p2g() {
+  command -v pcre2grep &>/dev/null \
+  || { wrn_no-p2g; exit 0; }
+  pcre2grep --utf $@
+  }
+
+files-with-tests() {
+  dbg '%s(), args: %s' $0 "$@"
+  (($#@)) || exit 0
+  p2g --files-with-matches --regex=$directiveRE "$@" || true
+  }
+
+get-assertREs() {
+  local f_test=$1 toName=$2
+  local newArr=( ${(f)"$(p2g -o --regex=$directiveRE $f_test||true)"} )
+  typeset -ag $toName
+  : "${(PA)toName::=${(@)newArr}}"
+  }
+
+run-test() {
+  local f_test=$1
+  dbg '%s(), f_test=%s' $0 $f_test
+
+  () {
+    local f_mkDB=$1
+
+    local lines_mkDB=$(wc -l < $f_mkDB)
+    dbg 'make db: %d lines' $lines_mkDB
+    ((lines_mkDB>10)) || wrn_mkDB-lines $f_test $lines_mkDB
+
+    local assertREs
+    get-assertREs $f_test assertREs
+    (($#assertREs)) || wrn_noAssertRE $f_test
+    dbgv assertREs
+
+    local re p2g_stderr
+    foreach re ( $assertREs ) {
+      { if p2g_stderr=$(p2g --regex=$re $f_mkDB 2>&1 >/dev/null)
+        then  dbg 'regex matched: /%s/' $re
+        else  failtrace $f_test $re
+              exit 1
+        fi
+      }\
+      always { (($#p2g_stderr==0)) || wrn_p2g-stderr $re $p2g_stderr; }
+      }
+
+    } =(cat)  # capture stdin
+
+  }
+
+failtrace() {
+  local f_test=$1 re=$2
+
+  ((! $#PARSE_NOTRACE)) || return 0
+
+  # TODO declare as array, or immediately do foreach
+  # consider whether to send `prnt` arguments (to be paired by prnt) instead
+
+  prnt red     '✖ '
+  prnt red_it   $f_test$'\n'
+  prnt red    $'  parse test failed\n'
+
+  prnt dark    '  regex: /'
+  prnt regx    "$re"
+  prnt dark   $'/\n'
+
+  prnt dark   $'  no match in make database\n\n'
+  }
+
+
+# ------------------------------------------------------------- #
+#                   functions: terminal output                  #
+# ------------------------------------------------------------- #
+
+prnt() {
+  (($#HUMAN)) || { print -rn -- "$2"; return; }
+
+  case $1 in
+     (red   ) print -rn -- "$(tput setaf   1; )"
+  ;; (red_it) print -rn -- "$(tput setaf   1; tput sitm     ; )"
+  ;; (regx  ) print -rn -- "$(tput setaf 105; )"
+  ;; (dark  ) print -rn -- "$(tput setaf   0; )"
+  ;; (yellow) print -rn -- "$(tput setaf   3; )"
+  ;;
+  # TODO error if not recognized?
+  esac
+  print -rn -- "$2"
+  print -rn -- "$(tput sgr0)"
+}
+
+wrn_() {
+  print -n '[' && prnt yellow $me && print -n '] '
+  prnt  yellow 'warning: '
+  prnt  dark   "$1"$'\n'
+  # TODO
+  # prnt - '[' -yelw $me - ']' -yelw 'warning: ' -dark "$1"$'\n'
+  } >&2
+
+dbg_(){
+  (($#PARSE_DBG)) || return 0
+  prnt dark "[$me] $1"$'\n'
+  } >&2
+
+dbg (){ dbg_ "$(printf $1 ${@:2})"; }
+dbgv(){ dbg_ "$(echo \`"$@"\`:; typeset -p1 -- $@|sed 's/^/    /')"$'\n' ; }
+
+wrn_no-p2g    () { wrn_ "no pcre2grep; won't run parse tests"  ; }
+wrn_mkDB-lines() { wrn_ "$1: only $2 lines in make database"   ; }
+wrn_noAssertRE() { wrn_ "$1: unexpected: no assert REs found"  ; }
+wrn_p2g-stderr() { wrn_ "pcre2grep stderr for regex /$1/: '$2'"; }
+
+
+# ------------------------------------------------------------- #
+#                              main                             #
+# ------------------------------------------------------------- #
+
+case ${1-} in
+   ( --help|-h          ) print "${(@F)help}"
+;; ( ''                 ) print "${(@F)help}" >&2
+;; ( --files-with-tests ) shift     && files-with-tests $@
+;; ( *                  ) f_test=$1 && run-test ${f_test:?}
+;;
+esac

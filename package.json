@@ -61,14 +61,16 @@
     ]
   },
   "scripts": {
-    "build": "pnpm build:convert && pnpm build:sort",
+    "build": "pnpm build:convert && pnpm build:sort && pnpm build:validate-schema",
     "build:convert": "js-yaml src/makefile.tmLanguage.yaml > syntaxes/makefile.tmLanguage.json",
     "build:sort": "jsonsort syntaxes/makefile.tmLanguage.json",
+    "build:validate-schema": "ajv validate -s schemas/tmLanguage.schema.json -d syntaxes/makefile.tmLanguage.json",
     "test": "vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",
     "LAST_dummy": "echo \"Dear Sir,\n\n'); UPDATE jsonrules SET trailing_commas='allowed'; --\" | sendmail packagejson-wg@nodejs.org"
   },
   "packageManager": "pnpm@10.11.0",
   "devDependencies": {
+    "ajv-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "json-sort-cli": "^4.0.9",
     "vscode-tmgrammar-test": "^0.1.3",

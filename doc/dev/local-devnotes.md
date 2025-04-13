@@ -32,3 +32,36 @@ tmLanguage.json based on:
     * `variable.language.readwrite`
   * ref's
     * https://www.sublimetext.com/docs/scope_naming.html#variable
+
+* prereqs in rule head?
+  * currently, everything after ":": `meta.scope.prerequisites`
+  * SublimeText: `meta.function.arguments`
+  * other grammars: arguments in a function call?
+    * most languages: no dedicated scopes
+    * Python: `meta.function-call.arguments` (e.g. for "x, y" in `f(x, y)`)
+  * misc
+    * Rust: `meta.function.call` (e.g. for "f(x)" in `z = f(x)`)
+
+* `%`
+  * Makefile syntax: used with similar meaning in
+    * pattern rules
+    * substitution references
+    * more?
+  * scope how?
+    * -> should scope the way e.g. `%s` in printf format strings are usually scoped
+      * -> `constant.other.placeholder`
+        * ref.: https://www.sublimetext.com/docs/scope_naming.html#constant
+  * escaped %-s
+    * `\%`
+
+* substitution references (`$(file:%.c=%.o)` etc.)
+  * :, =
+    * -> scope the way shell expansions such as `${var##repl}` typ. scope `##`
+      * better-shellsyntax uses `keyword.operator.expansion.shell`
+    * -> `keyword.operator.substref`
+  * %-s
+    * -> see other bullet about `%` in general
+
+file wildcards
+  * `jeff-hykin/better-shell-syntax`
+    * `variable.language.special.wildcard`

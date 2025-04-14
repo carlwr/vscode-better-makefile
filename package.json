@@ -61,7 +61,9 @@
     ]
   },
   "scripts": {
-    "build": "js-yaml src/makefile.tmLanguage.yaml > syntaxes/makefile.tmLanguage.json && jsonsort syntaxes/makefile.tmLanguage.json",
+    "build": "pnpm build:convert && pnpm build:sort",
+    "build:convert": "js-yaml src/makefile.tmLanguage.yaml > syntaxes/makefile.tmLanguage.json",
+    "build:sort": "jsonsort syntaxes/makefile.tmLanguage.json",
     "test": "vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",
     "LAST_dummy": "echo \"Dear Sir,\n\n'); UPDATE jsonrules SET trailing_commas='allowed'; --\" | sendmail packagejson-wg@nodejs.org"
   },

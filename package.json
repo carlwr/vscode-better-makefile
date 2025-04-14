@@ -65,7 +65,8 @@
     "build:convert": "js-yaml src/makefile.tmLanguage.yaml > syntaxes/makefile.tmLanguage.json",
     "build:sort": "jsonsort syntaxes/makefile.tmLanguage.json",
     "build:validate-schema": "ajv validate -s schemas/tmLanguage.schema.json -d syntaxes/makefile.tmLanguage.json",
-    "test": "vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",
+    "test": "timeout -t 3s -- vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",
+    "test:silent": "pnpm run test >/dev/null && echo 'tests: passed' && echo",
     "LAST_dummy": "echo \"Dear Sir,\n\n'); UPDATE jsonrules SET trailing_commas='allowed'; --\" | sendmail packagejson-wg@nodejs.org"
   },
   "packageManager": "pnpm@10.11.0",
@@ -73,6 +74,7 @@
     "ajv-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "json-sort-cli": "^4.0.9",
+    "timeout-cli": "^0.3.2",
     "vscode-tmgrammar-test": "^0.1.3",
     "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
   }

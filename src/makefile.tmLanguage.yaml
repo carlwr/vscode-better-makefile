@@ -464,19 +464,81 @@ repository:
   expansions-$p_var-builtin_p:
     patterns:
     - comment: special variables -> parens -> mutable
-      match: (?<=\()(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKEFLAGS|MAKECMDGOALS|SUFFIXES|MAKE_TERMOUT|MAKE_TERMERR|\.LIBPATTERNS|\.DEFAULT_GOAL|\.RECIPEPREFIX\.EXTRA_PREREQS)(?=\s*\))
+      match: |-
+        (?x)
+        (?<= \( )
+        (?# special variables -> parens -> mutable: )
+        ( MAKE
+        | MAKECMDGOALS
+        | MAKEFILES
+        | MAKEFLAGS
+        | MAKESHELL
+        | MAKE_TERMERR
+        | MAKE_TERMOUT
+        | SHELL
+        | SUFFIXES
+        | VPATH
+        | \.DEFAULT_GOAL
+        | \.EXTRA_PREREQS
+        | \.LIBPATTERNS
+        | \.RECIPEPREFIX
+        )
+        \s* (?= \) )
       name: variable.language.readwrite.makefile
     - comment: special variables -> parens -> immutable
-      match: (?<=\()(MAKEFILE_LIST|MAKELEVEL|CURDIR|MAKE_RESTARTS|\.VARIABLES|\.FEATURES|\.INCLUDE_DIRS)(?=\s*\))
+      match: |-
+        (?x)
+        (?<= \( )
+        (?# special variables -> parens -> immutable: )
+        ( CURDIR
+        | MAKEFILE_LIST
+        | MAKELEVEL
+        | MAKE_RESTARTS
+        | \.FEATURES
+        | \.INCLUDE_DIRS
+        | \.VARIABLES
+        )
+        \s* (?= \) )
       name: variable.language.constant.makefile
 
   expansions-$b_var-builtin_b:
     patterns:
     - comment: special variables -> braces -> mutable
-      match: (?<={)(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKEFLAGS|MAKECMDGOALS|SUFFIXES|MAKE_TERMOUT|MAKE_TERMERR|\.LIBPATTERNS|\.DEFAULT_GOAL|\.RECIPEPREFIX\.EXTRA_PREREQS)(?=\s*})
+      match: |-
+        (?x)
+        (?<= { )
+        (?# special variables -> braces -> mutable: )
+        ( MAKE
+        | MAKECMDGOALS
+        | MAKEFILES
+        | MAKEFLAGS
+        | MAKESHELL
+        | MAKE_TERMERR
+        | MAKE_TERMOUT
+        | SHELL
+        | SUFFIXES
+        | VPATH
+        | \.DEFAULT_GOAL
+        | \.EXTRA_PREREQS
+        | \.LIBPATTERNS
+        | \.RECIPEPREFIX
+        )
+        \s* (?= } )
       name: variable.language.readwrite.makefile
     - comment: special variables -> braces -> immutable
-      match: (?<={)(MAKEFILE_LIST|MAKELEVEL|CURDIR|MAKE_RESTARTS|\.VARIABLES|\.FEATURES|\.INCLUDE_DIRS)(?=\s*})
+      match: |-
+        (?x)
+        (?<= { )
+        (?# special variables -> braces -> immutable: )
+        ( CURDIR
+        | MAKEFILE_LIST
+        | MAKELEVEL
+        | MAKE_RESTARTS
+        | \.FEATURES
+        | \.INCLUDE_DIRS
+        | \.VARIABLES
+        )
+        \s* (?= } )
       name: variable.language.constant.makefile
 
   expansions-$p_func-builtin_..p:

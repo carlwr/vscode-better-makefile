@@ -454,11 +454,13 @@ repository:
       name: variable.language.constant.makefile
 
   expansions-$b_var-builtin_b:
-    comment: TODO distinguish mutable and immutable
     patterns:
-    - comment: special variables -> braces -> mutable+immutable
-      match: (?<={)(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKELEVEL|MAKEFLAGS|MAKECMDGOALS|CURDIR|SUFFIXES|\.LIBPATTERNS)(?=\s*})
-      name: variable.language.makefile
+    - comment: special variables -> braces -> mutable
+      match: (?<={)(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKEFLAGS|MAKECMDGOALS|SUFFIXES|MAKE_TERMOUT|MAKE_TERMERR|\.LIBPATTERNS|\.DEFAULT_GOAL|\.RECIPEPREFIX\.EXTRA_PREREQS)(?=\s*})
+      name: variable.language.readwrite.makefile
+    - comment: special variables -> braces -> immutable
+      match: (?<={)(MAKEFILE_LIST|MAKELEVEL|CURDIR|MAKE_RESTARTS|\.VARIABLES|\.FEATURES|\.INCLUDE_DIRS)(?=\s*})
+      name: variable.language.constant.makefile
 
   expansions-$p_func-builtin_..p:
     patterns:

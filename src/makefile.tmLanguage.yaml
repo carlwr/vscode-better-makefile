@@ -409,7 +409,12 @@ repository:
     match: (\$)([^({$#\n ])
     captures:
       "1": { name: punctuation.definition.variable.makefile }
-      "2": { name: variable.language.makefile }
+      "2":
+        name: meta.scope.expansion.makefile
+        patterns:
+        - include: "#varname-automatic"
+        - include: "#varname-positional"
+        - { match: ., name: *SCOPE_var }
 
   expansions-_$p..p_:
     patterns:
@@ -635,3 +640,36 @@ repository:
       patterns:
       - include: "#expansions"
       - { match: \\\n, name: *SCOPE_lineCont }
+
+
+# ----------------------- variable names ---------------------- #
+
+  varname-specialVar:
+    comment: TODO placeholder for future
+
+  varname-automatic:
+    match: |-
+      (?x)
+      [@%<?^+|*]
+      (?: (?<= \$[({]. ) [FD] (?= [)}:\\] )  # $(@F)
+      |   (?<= \$[({]. )      (?= [)}:\\] )  # $(@)
+      |   (?<= \$    . )                     # $@
+      )
+      (?# 2nd char above currently not matched - preparation for future)
+    name: variable.parameter.automatic.makefile
+
+  varname-positional:
+    match: |-
+      (?x)
+      [0-9]
+      (?: (?<= \$[({]. )      (?= [)}:\\] )  # $(1)
+      |   (?<= \$    . )                     # $1
+      )
+      (?# 2nd char above currently not matched - preparation for future)
+    name: variable.parameter.positional.makefile
+
+  substref-segment:
+    comment: TODO placeholder for future
+
+  varname-segment:
+    comment: TODO placeholder for future

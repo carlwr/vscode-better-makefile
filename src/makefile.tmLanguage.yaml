@@ -476,6 +476,7 @@ repository:
         | wildcard
         | word
         | wordlist
+        | words
         )
         (?:[ ]|(?=\\ \n))
       beginCaptures:
@@ -532,6 +533,7 @@ repository:
         | wildcard
         | word
         | wordlist
+        | words
         )
         (?:[ ]|(?=\\ \n))
       beginCaptures:

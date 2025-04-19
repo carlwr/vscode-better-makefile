@@ -468,13 +468,17 @@ repository:
         (?x)
         (?<= \( )
         (?# special variables -> parens -> mutable: )
-        ( MAKE
-        | MAKECMDGOALS
+        ( COMSPEC
+        | GNUMAKEFLAGS
+        | GPATH
+        | MAKE
         | MAKEFILES
         | MAKEFLAGS
+        | MAKEOVERRIDES
         | MAKESHELL
         | MAKE_TERMERR
         | MAKE_TERMOUT
+        | MFLAGS
         | SHELL
         | SUFFIXES
         | VPATH
@@ -482,6 +486,7 @@ repository:
         | \.EXTRA_PREREQS
         | \.LIBPATTERNS
         | \.RECIPEPREFIX
+        | \.SHELLFLAGS
         )
         (?= \) )
       name: variable.language.readwrite.makefile
@@ -491,12 +496,20 @@ repository:
         (?<= \( )
         (?# special variables -> parens -> immutable: )
         ( CURDIR
+        | MAKECMDGOALS
         | MAKEFILE_LIST
         | MAKELEVEL
+        | MAKE_HOST
         | MAKE_RESTARTS
+        | MAKE_TMPDIR
+        | MAKE_VERSION
         | \.FEATURES
         | \.INCLUDE_DIRS
+        | \.LOADED
+        | \.SHELLSTATUS
         | \.VARIABLES
+        | -\*-eval-flags-\*-
+        | -\*-command-variables-\*-
         )
         (?= \) )
       name: variable.language.constant.makefile
@@ -508,13 +521,17 @@ repository:
         (?x)
         (?<= { )
         (?# special variables -> braces -> mutable: )
-        ( MAKE
-        | MAKECMDGOALS
+        ( COMSPEC
+        | GNUMAKEFLAGS
+        | GPATH
+        | MAKE
         | MAKEFILES
         | MAKEFLAGS
+        | MAKEOVERRIDES
         | MAKESHELL
         | MAKE_TERMERR
         | MAKE_TERMOUT
+        | MFLAGS
         | SHELL
         | SUFFIXES
         | VPATH
@@ -522,6 +539,7 @@ repository:
         | \.EXTRA_PREREQS
         | \.LIBPATTERNS
         | \.RECIPEPREFIX
+        | \.SHELLFLAGS
         )
         (?= } )
       name: variable.language.readwrite.makefile
@@ -531,12 +549,20 @@ repository:
         (?<= { )
         (?# special variables -> braces -> immutable: )
         ( CURDIR
+        | MAKECMDGOALS
         | MAKEFILE_LIST
         | MAKELEVEL
+        | MAKE_HOST
         | MAKE_RESTARTS
+        | MAKE_TMPDIR
+        | MAKE_VERSION
         | \.FEATURES
         | \.INCLUDE_DIRS
+        | \.LOADED
+        | \.SHELLSTATUS
         | \.VARIABLES
+        | -\*-eval-flags-\*-
+        | -\*-command-variables-\*-
         )
         (?= } )
       name: variable.language.constant.makefile

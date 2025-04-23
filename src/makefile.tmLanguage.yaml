@@ -116,6 +116,7 @@ repository:
 
     patterns:
     - include: "#include-directive"
+    - include: "#load"
     - include: "#vpath"
     - include: "#define"
     - include: "#export"
@@ -138,7 +139,28 @@ repository:
 
       load:
         patterns:
-        - comment: TODO placeholder
+        - begin: ^[ ]*([-]?load)\b
+          beginCaptures:
+            "1": { name: keyword.control.load.makefile }
+          end:   ^
+          patterns:
+          - include: "#comment"
+          - include: "#load-symbolname"
+          - include: "#doubleDollar"
+          - include: "#expansions"
+        repository:
+          load-symbolname:
+            begin: (?x) \(
+            end:   (?x) \) | (?=\n)
+            applyEndPatternLast: 1
+            contentName: meta.scope.load-symbolname.makefile
+            captures:
+              "0": { name: punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile}
+            patterns:
+            - include: "#doubleDollar"
+            - include: "#expansions"
+            - match: \\$
+              name: *SCOPE_lineCont
 
       vpath:
         begin: ^[ ]*(vpath)\b

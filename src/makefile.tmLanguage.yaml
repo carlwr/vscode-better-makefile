@@ -181,7 +181,7 @@ repository:
 
   __ruleheadBegin:
     match: &__ruleheadBegin |-
-      ^(?!\t)([^:]*)(:)(?!\=)
+      ^(?!\t)([^:]*)(::|:|&::|&:)(?!\=)
 
   rulehead:
     name: meta.scope.rulehead.makefile

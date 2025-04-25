@@ -72,7 +72,19 @@ repository:
   directives:
 
     patterns:
-      - begin: ^[ ]*([s\-]?include)\b
+
+    - include: "#include-directive"
+    - include: "#vpath"
+    - include: "#define"
+    - include: "#export"
+    - include: "#override_private"
+    - include: "#unexport_undefine"
+    - include: "#conditional"
+
+    repository:
+
+      include-directive:
+        begin: ^[ ]*([s\-]?include)\b
         beginCaptures:
           "1": { name: keyword.control.include.makefile }
         end: ^
@@ -81,7 +93,9 @@ repository:
           - include: "#variables"
           - match: "%"
             name: constant.other.placeholder.makefile
-      - begin: ^[ ]*(vpath)\b
+
+      vpath:
+        begin: ^[ ]*(vpath)\b
         beginCaptures:
           "1": { name: keyword.control.vpath.makefile }
         end: ^
@@ -90,7 +104,9 @@ repository:
           - include: "#variables"
           - match: "%"
             name: constant.other.placeholder.makefile
-      - begin: ^\s*(?:(override)\s*)?(define)\s*([^\s]+)\s*(=|\?=|:=|\+=)?(?=\s)
+
+      define:
+        begin: ^\s*(?:(override)\s*)?(define)\s*([^\s]+)\s*(=|\?=|:=|\+=)?(?=\s)
         captures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
@@ -105,7 +121,9 @@ repository:
               - include: "#comment"
           - include: "#variables"
           - include: "#directives"
-      - begin: ^[ ]*(export)\b
+
+      export:
+        begin: ^[ ]*(export)\b
         beginCaptures:
           "1": { name: keyword.control.$1.makefile }
         end: ^
@@ -114,14 +132,18 @@ repository:
           - include: "#variable-assignment"
           - match: "[^\\s]+"
             name: variable.other.makefile
-      - begin: ^[ ]*(override|private)\b
+
+      override_private:
+        begin: ^[ ]*(override|private)\b
         beginCaptures:
           "1": { name: keyword.control.$1.makefile }
         end: ^
         patterns:
           - include: "#comment"
           - include: "#variable-assignment"
-      - begin: ^[ ]*(unexport|undefine)\b
+
+      unexport_undefine:
+        begin: ^[ ]*(unexport|undefine)\b
         beginCaptures:
           "1": { name: keyword.control.$1.makefile }
         end: ^
@@ -129,7 +151,9 @@ repository:
           - include: "#comment"
           - match: "[^\\s]+"
             name: variable.other.makefile
-      - begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
+
+      conditional:
+        begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
         captures:
           "1": { name: keyword.control.$1.makefile }
         end: ^\s*(endif)\b

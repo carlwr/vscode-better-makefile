@@ -200,7 +200,12 @@ repository:
           \s* \b(override\b)?        # "1", optional
           \s* \b(define  \b)         # "2", required
           \s*   (                    # "3", required
-                  [^\s]+
+                  (?: [^\s#=!+?:]+     # >=1 of the subsequences
+                  |   ! (?!    =)
+                  |  \+ (?!    =)
+                  |  \? (?!    =)
+                  |   : (?!:?:?=)
+                  )+
                 )
           \s*   (                    # "4", optional
                   (                    # optional prefix...
@@ -211,7 +216,6 @@ repository:
                   )?
                   =                    # ...and "="
                 )?
-          (?=\s)
         beginCaptures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
@@ -224,7 +228,7 @@ repository:
         patterns:
         - comment: |-
             detect comments in define head
-          begin: \G(?!\n)
+          begin: \G(?!^)
           end:   ^
           patterns:
           - include: "#comment"

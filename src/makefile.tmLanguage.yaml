@@ -106,7 +106,7 @@ repository:
             name: constant.other.placeholder.makefile
 
       define:
-        begin: ^\s*(?:(override)\s*)?(define)\s*([^\s]+)\s*(=|\?=|:=|\+=)?(?=\s)
+        begin: ^\s*(?:(override)\s*)?(define)\s*([^\s]+)\s*(=|!=|\+=|\?=|:=|::=|:::=)?(?=\s)
         captures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
@@ -235,7 +235,7 @@ repository:
 
   __varAssignBegin:
     match: &__varAssignBegin |-
-      (^[ ]*|\G\s*)([^\s:#=]+)\s*((?<![?:+!])=|\?=|:=|\+=|!=)
+     (^[ ]*|\G\s*)([^\s:#=]+)\s*((?<![?:+!])=|!=|\+=|\?=|:=|::=|:::=)
 
   variable-assignment:
     begin: *__varAssignBegin

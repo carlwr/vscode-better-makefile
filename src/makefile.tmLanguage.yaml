@@ -65,6 +65,7 @@ repository:
 
   comment:
     patterns:
+    - include: "#quoted-hash"
     - include: "#comment-actual"
     repository:
       comment-actual:
@@ -76,15 +77,26 @@ repository:
           (?=   \#           )   # an (unquoted) # on next position
         beginCaptures:
           "1": { name: punctuation.whitespace.comment.leading.makefile }
+          "2": { name: constant.character.escape.backslash.makefile }
         end: (?!\G)
         patterns:
         - begin: \#
           beginCaptures:
             "0": { name: punctuation.definition.comment.makefile }
-          end:   (?=[^\\])$
+          end:   (?<!\\)(?=\n)
           name: comment.line.number-sign.makefile
           patterns:
-          - { match: \\\n, name: *SCOPE_lineCont }
+          - { match: \\$, name: *SCOPE_lineCont }
+      quoted-hash:
+        match: |-
+          (?x)
+          (?<!    \\        )   # otherwise unreliable \ count -> don't match
+          (   (?: \\{2} )*  )   # "1": any even no. of \-s -> quoting \-es
+                 (\\)(\#)       #    : the quoted #
+        captures:
+          "1": { name: constant.character.escape.backslash.makefile }
+          "2": { name: constant.character.escape.backslash.makefile }
+          "3": { name: meta.escaped-char.makefile }
 
   line-cont:
     comment: |-

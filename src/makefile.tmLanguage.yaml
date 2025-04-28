@@ -382,14 +382,14 @@ repository:
           - include: "#expansions"
           - include: "#percent"
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
-    end:   '[^\\]$'
+    end:   (?<!\\)(?=\n)
     patterns:
     - begin: \G(?!\n|;)
-      end:   (?=[^\\])$
+      end:   (?<!\\)(?=\n)
       contentName: meta.scope.prerequisites.makefile
       patterns:
       - match: '[ ]+'
-      - { match: \\\n, name: *SCOPE_lineCont }
+      - { match: \\$, name: *SCOPE_lineCont }
       - { match: '\*', name: constant.other.placeholder.makefile }
       - include: "#percent"
       - include: "#comment"
@@ -405,9 +405,9 @@ repository:
     beginCaptures:
       "1": { name: keyword.control.$1.makefile
                    keyword.control.recipe-lineprefix.makefile }
-    end:   '[^\\]$'
+    end:   (?<!\\)(?=\n)
     patterns:
-    - { match: \\\n, name: *SCOPE_lineCont }
+    - { match: \\$, name: *SCOPE_lineCont }
     - include: "#expansions"
 
 

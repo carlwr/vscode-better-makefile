@@ -104,7 +104,26 @@ repository:
       TODO
 
   percent:
-    comment: TODO
+    match: \\*%
+    captures:
+      "0":
+        patterns:
+        - match: |-
+            (?x)
+            (?<!  \\      )   # otherwise unreliable \ count -> don't match
+            ( (?: \\ \\)* )   # "1": any even no. of \-s -> quoting \-es
+            ( \\ %        )   # "2": the quoted %
+          captures:
+            "1": { name: constant.character.escape.backslash.makefile }
+            "2": { name: meta.escaped-char.makefile }
+        - match: |-
+            (?x)
+            (?<!  \\      )   # otherwise unreliable \ count -> don't match
+            ( (?: \\ \\)* )   # "1": any even no. of \-s -> quoting \-es
+            ( %           )   # "2": an (unquoted) # on next position
+          captures:
+            "1": { name: constant.character.escape.backslash.makefile }
+            "2": { name: constant.other.placeholder.percent.makefile }
 
   wildcard:
     comment: TODO
@@ -170,8 +189,7 @@ repository:
         patterns:
         - include: "#comment"
         - include: "#expansions"
-        - match: '%'
-          name: constant.other.placeholder.makefile
+        - include: "#percent"
         - match: ':'
           name: punctuation.separator.paths.vpath.makefile
 
@@ -358,8 +376,7 @@ repository:
           name: entity.name.function.target.makefile
           patterns:
           - include: "#expansions"
-          - match: '%'
-            name: constant.other.placeholder.makefile
+          - include: "#percent"
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
     end:   '[^\\]$'
     patterns:
@@ -369,8 +386,8 @@ repository:
       patterns:
       - match: '[ ]+'
       - { match: \\\n, name: *SCOPE_lineCont }
-      - match: '%|\*'
-        name: constant.other.placeholder.makefile
+      - { match: '\*', name: constant.other.placeholder.makefile }
+      - include: "#percent"
       - include: "#comment"
       - include: "#expansions"
 

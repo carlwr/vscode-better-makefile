@@ -461,7 +461,7 @@ repository:
         | word
         | wordlist
         )
-        \s
+        (?:[ ]|(?=\\ \n))
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end: (?=\)|((?<!\\)\n))
@@ -517,7 +517,7 @@ repository:
         | word
         | wordlist
         )
-        \s
+        (?:[ ]|(?=\\ \n))
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end: (?=}|(?<!\\)\n)

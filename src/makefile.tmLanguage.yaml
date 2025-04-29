@@ -427,14 +427,14 @@ repository:
 
   parentheses-interpolation:
     begin: (?x) \(
-    end:   (?x) \)
+    end:   (?x) \) | (?<!\\)(?=\n)
     patterns:
       - include: "#variables"
       - include: "#interpolation"
 
   braces-interpolation:
     begin: (?x) \{
-    end:   (?x) \}
+    end:   (?x) \} | (?<!\\)(?=\n)
     patterns:
       - include: "#variables"
       - include: "#interpolation"

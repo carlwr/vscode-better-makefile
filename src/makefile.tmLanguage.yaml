@@ -57,7 +57,8 @@ repository:
     comment: TODO
 
   doubleDollar:
-    comment: TODO
+    match: (\$\$)+
+    name: constant.character.escape.dollar.makefile
 
   comma:
     match: ","
@@ -377,6 +378,7 @@ repository:
   expansions:
     comment: entry point for all searches for variable expansions
     patterns:
+    - include: "#doubleDollar"
     - include: "#expansions-_$c_"
     - include: "#expansions-_$p..p_"
     - include: "#expansions-_$b..b_"

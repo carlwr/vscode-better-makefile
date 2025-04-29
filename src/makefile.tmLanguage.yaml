@@ -704,6 +704,7 @@ repository:
     patterns:
     - include: "#expansions"
     - include: "#expansions--func-builtin-NESTED"
+    - { match: \\$, name: *SCOPE_lineCont }
 
   expansions--func-builtin-NESTED-bb:
     begin: (?x) \{
@@ -711,6 +712,7 @@ repository:
     patterns:
     - include: "#expansions"
     - include: "#expansions--func-builtin-NESTED"
+    - { match: \\$, name: *SCOPE_lineCont }
 
   expansions-$p_func-builtin_flavor.._p:
     patterns:

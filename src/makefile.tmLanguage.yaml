@@ -442,7 +442,7 @@ repository:
     - begin: (?x) \$\(
       captures:
         "0": { name: punctuation.definition.variable.makefile }
-      end:   (?x)   \) | (?<!\\)\n
+      end:   (?x)   \) | (?<!\\)(?=\n)
       name: string.interpolated.makefile
       patterns:
       - include: "#expansions"
@@ -456,7 +456,7 @@ repository:
     - begin: (?x) \$\{
       captures:
         "0": { name: punctuation.definition.variable.makefile }
-      end:   (?x)   \} | (?<!\\)\n
+      end:   (?x)   \} | (?<!\\)(?=\n)
       name: string.interpolated.makefile
       patterns:
       - include: "#expansions"
@@ -619,7 +619,7 @@ repository:
         (?:[ ]|(?=\\ \n))
       beginCaptures:
         "1": { name: support.function.$1.makefile }
-      end: (?=\)|((?<!\\)\n))
+      end: (?x) (?= \)) | (?<!\\)(?=\n)
       name: meta.scope.function-call.makefile
       patterns:
       - include: "#comma"
@@ -627,7 +627,7 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - match: '%|\*'
         name: constant.other.placeholder.makefile
-      - { match: \\\n, name: *SCOPE_lineCont }
+      - { match: \\$, name: *SCOPE_lineCont }
 
   expansions-$b_func-builtin_..b:
     patterns:
@@ -676,7 +676,7 @@ repository:
         (?:[ ]|(?=\\ \n))
       beginCaptures:
         "1": { name: support.function.$1.makefile }
-      end: (?=}|(?<!\\)\n)
+      end: (?x) (?= \}) | (?<!\\)(?=\n)
       name: meta.scope.function-call.makefile
       patterns:
       - include: "#comma"
@@ -684,7 +684,7 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - match: '%|\*'
         name: constant.other.placeholder.makefile
-      - { match: \\\n, name: *SCOPE_lineCont }
+      - { match: \\$, name: *SCOPE_lineCont }
 
   expansions--func-builtin-NESTED:
     patterns:
@@ -737,20 +737,20 @@ repository:
   expansions-$p_text_p:
     patterns:
     - begin: (?x) (?<=\()   (?! \))
-      end:   (?x) (?= \)|(?<!\\)\n )
+      end:   (?x) (?= \)) | (?<!\\)(?=\n)
       name: *SCOPE_var
       patterns:
       - include: "#expansions"
-      - { match: \\\n, name: *SCOPE_lineCont }
+      - { match: \\$, name: *SCOPE_lineCont }
 
   expansions-$b_text_b:
     patterns:
     - begin: (?x) (?<=\{)   (?! \})
-      end:   (?x) (?= \}|(?<!\\)\n )
+      end:   (?x) (?= \}) | (?<!\\)(?=\n)
       name: *SCOPE_var
       patterns:
       - include: "#expansions"
-      - { match: \\\n, name: *SCOPE_lineCont }
+      - { match: \\$, name: *SCOPE_lineCont }
 
 
 # ----------------------- variable names ---------------------- #

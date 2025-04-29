@@ -483,7 +483,7 @@ repository:
         | \.LIBPATTERNS
         | \.RECIPEPREFIX
         )
-        \s* (?= \) )
+        (?= \) )
       name: variable.language.readwrite.makefile
     - comment: special variables -> parens -> immutable
       match: |-
@@ -498,7 +498,7 @@ repository:
         | \.INCLUDE_DIRS
         | \.VARIABLES
         )
-        \s* (?= \) )
+        (?= \) )
       name: variable.language.constant.makefile
 
   expansions-$b_var-builtin_b:
@@ -523,7 +523,7 @@ repository:
         | \.LIBPATTERNS
         | \.RECIPEPREFIX
         )
-        \s* (?= } )
+        (?= } )
       name: variable.language.readwrite.makefile
     - comment: special variables -> braces -> immutable
       match: |-
@@ -538,7 +538,7 @@ repository:
         | \.INCLUDE_DIRS
         | \.VARIABLES
         )
-        \s* (?= } )
+        (?= } )
       name: variable.language.constant.makefile
 
   expansions-$p_func-builtin_..p:

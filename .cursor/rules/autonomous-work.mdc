@@ -1,0 +1,123 @@
+---
+description: Guidelines for autonomous tasks - always read before such work
+globs:
+alwaysApply: false
+---
+# guidelines for autonomous work
+
+## misc.
+
+do not read, and do not update/edit, the following files (unless explicitly requested to):
+- Makefile
+- README.md
+- other docs
+
+
+## current tried-and-true project config settings
+
+With "project config settings" we mean e.g.:
+- tsconfig.json
+- some settings in package.json, like the presence or not, and value if present, of e.g. `"type": "module",`, `"import:"`, `"export:"`
+- the eslint config file and its settings
+- any bundling/build config in build.ts if any, e.g. tsup settings (may or may not be used in the current version of the project)
+
+The _project config settings_ - i.e. that mentioned above - should not be changed light-heartedly: it may be done only if there is a good reason, if done it must be done with care. (A valid reason to indeed change project config settings is e.g. when explicitly asked to trouble-shoot or change the project config, if explicitly requested by the user etc.)
+
+
+## project config, dependencies
+
+managing dependencies:
+* never edit dependencies in package.json manually, instead use or suggest `pnpm add` or `pnpm add -D` commands: let pnpm edit dependencies in package.json
+
+
+## compiling/building, running
+
+IF the user has provided instructions on what exact command(s) to use
+THEN:
+  * use those
+ELSE:
+  * follow these guidelines:
+  * preparation: before running a command to compile/build or run:
+    * always check the scripts in `package.json` to learn what commands are the standard and configured ways to build and run
+    * if there is another layer involved, like a `build.ts` file that the scripts use, read this file as well
+  * invocation:
+    * you can then choose how to invoke; e.g. use a build script (e.g. `pnpm build`) or use an explicit command (e.g. `pnpm tsx ..`)
+
+during development, _prefer compiling to **non-minified** javascript_, since that will make it easier to inspect the built .js files if that should be needed
+
+use _project-local tools_ (when possible), typically by invoking through `pnpm ..` - examples:
+```zsh
+pnpm tsx ..  # <- CORRECT!
+// tsx ..    # <- WRONG (tsx is not on PATH)
+```
+
+To check/verify the whole project, use the `lint` script in `package.json`:
+```zsh
+pnpm lint
+
+```
+
+## about changing directories: issues and resolutions
+
+### don't `cd` in a stateful way
+
+In general:
+* _never change the current directory in a stateful way_ - even if you will do prolonged work/opereations in some other dir
+* instead: if you need to use `cd`, do so in a subprocess.
+```zsh
+# // CORRECT:
+(cd .. && diff ..)
+(cd .. && grep ..)
+(cd .. && cat ..)
+# //
+# note: other benefits with the above forms:
+# - the command is guarded by the `cd` command -> you know that if the command is executed, the `cd` command was successful -> you know you are operating within the dir you think you are
+# - the exit code of the executed command will be available to you
+
+
+# // WRONG:
+# cd ..
+# diff ..
+# grep ..
+# cat ..
+# //
+# problem with above: the current dir is changed in a way that may persist to your next command or tool use
+# also when you do repeated work in a foreign dir, do not
+
+# for commands that are known never to implicitly use the current dir but only operate on provided paths, providing paths as _absolute_ paths is also always safe:
+# // CORRECT:
+cat /absolute/dir/..
+diff /absolute/dir/../file1 /other/absolute/dir/file2
+# //
+```
+
+### avoid using tools other than terminal commands in _foreign_ dirs
+
+"foreign dir": a dir that is not a subdirs of the curren dir / the repo root
+
+**this section applies only if you operate on dirs/files outside of the current project, which is likely to be uncommon**
+
+when reading or operating on foreign dirs / files in foreign dirs:
+* avoid using _your tools_
+* instead, prefer to use _terminal commands_
+  * since: you can then control and predict what file/dir is read/operated on
+
+reason and background:
+* some of your tools have limitations in that you can't always control, or won't always know, how they handle foreign dirs
+* consequence: you may be operating on other dirs/files than you think
+
+examples
+```zsh
+# // CORRECT:
+(cd .. && git status)
+(cd .. && ls -a)
+(cd .. && head -n20 package.json)
+# //
+
+# // WRONG (if operating outside of the repo dir):
+# [using one of your _tools_ to check the git status]
+# [using your _directory listing tool_ or similar]
+# [using your _read file tool_ or similar]
+# //
+```
+

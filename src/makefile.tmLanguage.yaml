@@ -46,9 +46,12 @@ repository:
     - match: &SCOPE_recipeLN >-
         meta.scope.recipe.line.makefile
 
-    # currently unused:
     - match: &SCOPE_recipeRH >-
         meta.scope.recipe.rulehead.makefile
+
+    - match: &SCOPE_recipeLnPfx >-
+        keyword.control.recipe-lineprefix.makefile
+        keyword.control.recipe-lineprefix.$1.makefile
 
     - match: &__notExp |-
         (?x)
@@ -404,10 +407,21 @@ repository:
   __ruleheadBegin:
     match: &__ruleheadBegin |-
       (?x)
+      # We must decide with a single regex whether we have a rulehead or not - make a sensible effort. The key is identifying the rulehead colon + friends reliably.
+      # Posessively eat anything that could be part of the target list before the colon, but importantly, NOT the colon - it must be carefully protected in the eating phase. When this eating is done, we are positioned to attempt to match one of the colon separators - if one matches, we go for a rulehead.
       ^(?!\t)    # recipe line - fail the match
       [ ]*       # eat leading whitespace
       ( # "1": name of target(s)
-        [^:]*
+        (?:
+          (?:[^$&:#\\])++ # chars we can eat carelessly
+        | \\    [:#\\]    # eat escaped variants of these
+        | \\              # after the above, we can eat any backslash
+        | \g<exp>         # expansions (important: includes $(substref:colons))
+        | \$(?! [({] )    # eat $<char> expansions
+        | &(?!:)          # an `&` not followed by colon - eat!
+                          # (note: with `\&`, make does NOT treat & as escaped)
+                          # (importantly, we never eat unescaped #-s)
+        )++
       )
       ( # "2": the separator after the target(s)
          ::
@@ -416,6 +430,11 @@ repository:
       | &:
       )
       (?!\=)     # the : was part of ':=' -> assignment -> fail the match!
+
+      # define named groups for recursive expansion detection:
+      (?<_ch>  (?~| [(){}] | .+ )                                      ){0}
+      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)* \} )++
+                           |   (?: \$\( (?:\g<exp>|\g<_ch>)* \) )++ )  ){0}
 
   rulehead:
     name: meta.scope.rulehead.makefile
@@ -426,66 +445,68 @@ repository:
         patterns:
         - match: '[ ]+'
         - comment: special target
+          match: *__specialTargets
           captures: { "1": { name: support.function.target.$1.makefile } }
-          match: '(?x)
-            ^
-            \s*
-            (?# special targets: )
-            ( \.DEFAULT
-            | \.DELETE_ON_ERROR
-            | \.EXPORT_ALL_VARIABLES
-            | \.IGNORE
-            | \.INTERMEDIATE
-            | \.LOW_RESOLUTION_TIME
-            | \.NOTINTERMEDIATE
-            | \.NOTPARALLEL
-            | \.ONESHELL
-            | \.PHONY
-            | \.POSIX
-            | \.PRECIOUS
-            | \.SECONDARY
-            | \.SECONDEXPANSION
-            | \.SILENT
-            | \.SUFFIXES
-            | \.WAIT
-            )
-            \s*
-            $'
         - comment: a target, possibly with expansion(s)
           begin: (?<![^ ])
           end:   \z|(?=[ ])
-          name: entity.name.function.target.makefile
           patterns:
           - include: "#expansions"
-          - include: "#percent"
+          - match: *__notExp
+            comment: need a separate match for non-expansions - we don't want to scope expansions in targets with entity.name.function.target
+            name: entity.name.function.target.makefile
+            captures:
+              "0":
+                patterns:
+                - include: "#doubleDollar"
+                - include: "#percent"
+                - include: "#wildcard"
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
-    end:   (?<!\\)(?=\n)
+    end:   (?=\n)
+    applyEndPatternLast: 1
     patterns:
     - begin: \G(?!\n|;)
-      end:   (?<!\\)(?=\n)
+      end:     (?=\n|;)
+      applyEndPatternLast: 1
       contentName: meta.scope.prerequisites.makefile
       patterns:
       - match: '[ ]+'
-      - { match: \\$, name: *SCOPE_lineCont }
-      - { match: '\*', name: constant.other.placeholder.makefile }
+      - include: "#line-cont"
+      - include: "#wildcard"
       - include: "#percent"
       - include: "#comment"
+      - include: "#doubleDollar"
       - include: "#expansions"
+    - begin: ;
+      beginCaptures:
+        "0": { name: punctuation.separator.key-value.rulehead.recipe.makefile }
+      end:   (?=\n)
+      contentName: *SCOPE_recipeRH
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#recipe"
 
   recipe:
     name: *SCOPE_recipe__
-    comment: TODO placeholder
+    comment: do use a general meta scope, for testing (vscode-tmgrammar-test can only test for a complete scope name)
+    begin: (?!\n)
+    end:   (?=\n)
+    applyEndPatternLast: 1
+    patterns:
+    - match: \G[\t @+\-]+
+      captures:
+        "0": { patterns: [{ match: '[@+\-]+', name: *SCOPE_recipeLnPfx }] }
+    - include: "#line-cont"
+    - include: "#doubleDollar"
+    - include: "#expansions"
 
   recipe-line:
     name: *SCOPE_recipeLN
-    begin: ^[\t]([+\-@]*)
-    beginCaptures:
-      "1": { name: keyword.control.$1.makefile
-                   keyword.control.recipe-lineprefix.makefile }
-    end:   (?<!\\)(?=\n)
+    begin: ^[\t](?!\n)
+    end:        (?=\n)
+    applyEndPatternLast: 1
     patterns:
-    - { match: \\$, name: *SCOPE_lineCont }
-    - include: "#expansions"
+    - include: "#recipe"
 
 
 # ------------------------- expansions ------------------------ #

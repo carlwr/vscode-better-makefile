@@ -50,11 +50,45 @@ repository:
     - match: &SCOPE_recipeRH >-
         meta.scope.recipe.rulehead.makefile
 
+    - match: &__notExp |-
+        (?x)
+        ( [^ $]+
+        | (\$\$)+
+        )+
+
+    - match: &__specialTargets |-
+        (?x)
+        (?# special targets: )
+        (?<![^ ])
+        ( \.DEFAULT
+        | \.DELETE_ON_ERROR
+        | \.EXPORT_ALL_VARIABLES
+        | \.IGNORE
+        | \.INTERMEDIATE
+        | \.LOW_RESOLUTION_TIME
+        | \.NOTINTERMEDIATE
+        | \.NOTPARALLEL
+        | \.ONESHELL
+        | \.PHONY
+        | \.POSIX
+        | \.PRECIOUS
+        | \.SECONDARY
+        | \.SECONDEXPANSION
+        | \.SILENT
+        | \.SUFFIXES
+        | \.WAIT
+        )
+        (\z|(?=[ ]))
+
 
 # ------------------------ misc. rules ------------------------ #
 
   esc-backslashes:
-    comment: TODO
+    patterns:
+    - match: (\\)(\\)
+      captures:
+        "1": { name: constant.character.escape.backslash.makefile }
+        "2": { name: meta.escaped-char.makefile }
 
   doubleDollar:
     match: (\$\$)+
@@ -101,7 +135,24 @@ repository:
 
   line-cont:
     comment: |-
-      TODO
+      handles any sequence of \-s + newline
+
+      no. of \-s   |  line-cont?  consumes newline?
+      -----------  |  ---------   -----------------
+      even         |  n           n
+      odd          |  Y           Y
+      -----------  |  ---------   -----------------
+
+      applies appropriate scopes to all \-s in either case
+
+    begin: (?=\\+\n)
+    end:   (?!\G)
+    applyEndPatternLast: 1
+    patterns:
+    - include: "#esc-backslashes"
+    - begin: \\$
+      end:   ^
+      beginCaptures: { "0": { name: *SCOPE_lineCont } }
 
   percent:
     match: \\*%
@@ -126,7 +177,20 @@ repository:
             "2": { name: constant.other.placeholder.percent.makefile }
 
   wildcard:
-    comment: TODO
+    match: \\*[*?\[\]]
+    # same structure as "percent" - see that rule for explanation
+    captures:
+      "0":
+        patterns:
+        - include: "#esc-backslashes"
+        - match: (\\)([*?\[\]])
+          captures:
+            "1": { name: constant.character.escape.backslash.makefile }
+            "2": { name: meta.escaped-char.makefile }
+        - match: '[*?\[\]]'
+          name: variable.language.special.wildcard.makefile
+        - match: .*
+          name: _error_
 
 
 # ------------------------- directives ------------------------ #

@@ -109,9 +109,9 @@ repository:
       comment-actual:
         begin: |-
           (?x)
-          (     ^[ ]+        )?  # "1": any whitespaces at beginning of line
+          (     ^[ ]+        )?  # "1": if at BOL: any leading whitespace
           (?<!  \\           )   # otherwise unreliable \ count -> don't match
-          (     (?: \\ \\)*  )   # "2": any even no. of \-s -> quoting \-es
+          (     (?: \\{2} )* )   # "2": any even no. of \-s -> quoting \-es
           (?=   \#           )   # an (unquoted) # on next position
         beginCaptures:
           "1": { name: punctuation.whitespace.comment.leading.makefile }

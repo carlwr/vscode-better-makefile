@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/tmlanguage.json
+---
 information_for_contributors:
   - This file has been converted from
     https://github.com/fadeevab/make.tmbundle/blob/master/Syntaxes/Makefile.plist
@@ -6,6 +7,7 @@ information_for_contributors:
     request against the original repository.
   - Once accepted there, we are happy to receive an update request.
 version: https://github.com/fadeevab/make.tmbundle/commit/1d4c0b541959995db098df751ffc129da39a294b
+
 name: make
 scopeName: source.makefile
 patterns:
@@ -13,9 +15,18 @@ patterns:
   - include: "#variables"
   - include: "#variable-assignment"
   - include: "#directives"
-  - include: "#recipe"
-  - include: "#target"
+  - include: "#recipe-line"
+  - include: "#rulehead"
+
 repository:
+
+
+# ------------------------ misc. rules ------------------------ #
+
+  esc-backslashes:
+    comment: TODO
+  doubleDollar:
+    comment: TODO
   comma:
     match: ","
     name: punctuation.separator.delimeter.comma.makefile
@@ -33,6 +44,17 @@ repository:
         patterns:
           - match: \\\n
             name: constant.character.escape.continuation.makefile
+  line-cont:
+    comment: |
+      TODO
+  percent:
+    comment: TODO
+  wildcard:
+    comment: TODO
+
+
+# ------------------------- directives ------------------------ #
+
   directives:
     patterns:
       - begin: ^[ ]*([s\-]?include)\b
@@ -114,8 +136,16 @@ repository:
               - include: "#variables"
               - include: "#comment"
           - include: $self
-  target:
-    begin: ^(?!\t)([^:]*)(:)(?!\=)
+
+
+# --------------------------- rules --------------------------- #
+
+  __ruleheadBegin:
+    match: &__ruleheadBegin |-
+      ^(?!\t)([^:]*)(:)(?!\=)
+
+  rulehead:
+    begin: *__ruleheadBegin
     beginCaptures:
       "1":
         patterns:
@@ -143,7 +173,8 @@ repository:
             name: constant.other.placeholder.makefile
           - include: "#comment"
           - include: "#variables"
-  recipe:
+
+  recipe-line:
     begin: ^[\t]([+\-@]*)
     beginCaptures:
       "1": { name: keyword.control.$1.makefile
@@ -154,8 +185,16 @@ repository:
       - match: \\\n
         name: constant.character.escape.continuation.makefile
       - include: "#variables"
+
+
+# ----------------------- var assignment ---------------------- #
+
+  __varAssignBegin:
+    match: &__varAssignBegin |-
+      (^[ ]*|\G\s*)([^\s:#=]+)\s*((?<![?:+!])=|\?=|:=|\+=|!=)
+
   variable-assignment:
-    begin: (^[ ]*|\G\s*)([^\s:#=]+)\s*((?<![?:+!])=|\?=|:=|\+=|!=)
+    begin: *__varAssignBegin
     beginCaptures:
       "2":
         name: variable.other.makefile
@@ -170,10 +209,18 @@ repository:
         name: constant.character.escape.continuation.makefile
       - include: "#comment"
       - include: "#variables"
+
+
+# ------------------------- expansions ------------------------ #
+
+  # rule naming conventions
+    # TODO
+
   interpolation:
     patterns:
       - include: "#parentheses-interpolation"
       - include: "#braces-interpolation"
+
   parentheses-interpolation:
     begin: \(
     end: \)

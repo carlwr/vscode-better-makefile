@@ -358,7 +358,13 @@ repository:
     match: &__varAssignBegin |-
       (?x)
       (?:  ^[\ ]*|\G\s*  )  # discard leading whitespace
-      (    [^\s:#=]+     )  # group 1; the variable name
+      ( (?:        [^!+?=\s$:#\\]++
+        |   (?<!\\) [!+?] (?!=)
+        |   \\
+        |   \g<exp>
+        |   \$(?! [({] )
+        )++
+      )  # group 1; the variable name
       \s*                   # any space between name and assignment operator
                             # assignment operators:
       ( (?<![?:+!])   =     #    =
@@ -369,6 +375,10 @@ repository:
       |             ::=     #  ::=
       |            :::=     # :::=
       )
+      # define named groups for recursive expansion detection:
+      (?<_ch>  (?~| [(){}] | .+ )                                      ){0}
+      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)* \} )++
+                           |   (?: \$\( (?:\g<exp>|\g<_ch>)* \) )++ )  ){0}
 
   variable-assignment:
     begin: *__varAssignBegin
@@ -376,13 +386,16 @@ repository:
       "1":
         name: *SCOPE_varAsgn
         patterns:
+        - include: "#doubleDollar"
         - include: "#expansions"
       "2": { name: keyword.operator.assignment.makefile }
-    end: \n
+    end: (?=\n)
+    applyEndPatternLast: 1
     name: meta.expression.assignment.makefile
     patterns:
-    - { match: \\$, name: *SCOPE_lineCont }
+    - include: "#line-cont"
     - include: "#comment"
+    - include: "#doubleDollar"
     - include: "#expansions"
 
 

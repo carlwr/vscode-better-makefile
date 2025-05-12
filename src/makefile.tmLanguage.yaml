@@ -157,13 +157,15 @@ repository:
                   =                    # ...and "="
                 )?
           (?=\s)
-        captures:
+        beginCaptures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
           "3": { name: *SCOPE_varAsgn }
           "4": { name: keyword.operator.assignment.makefile }
         end: ^\s*(endef)\b
-        name: meta.scope.conditional.makefile
+        endCaptures:
+          "1": { name: keyword.control.endef.makefile }
+        name: meta.scope.define.makefile
         patterns:
         - comment: |-
             detect comments in define head
@@ -171,8 +173,8 @@ repository:
           end:   ^
           patterns:
           - include: "#comment"
+        - include: "#define"
         - include: "#expansions"
-        - include: "#directives"
 
       export:
         begin: ^[ ]*(export)\b

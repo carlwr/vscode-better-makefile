@@ -542,7 +542,7 @@ repository:
       captures:
         "0": { name: punctuation.definition.variable.makefile }
       end:   (?x)   \) | (?<!\\)(?=\n)
-      name: string.interpolated.makefile
+      contentName: meta.scope.expansion.makefile
       patterns:
       - include: "#expansions"
       - include: "#expansions-$p_var-builtin_p"
@@ -556,7 +556,7 @@ repository:
       captures:
         "0": { name: punctuation.definition.variable.makefile }
       end:   (?x)   \} | (?<!\\)(?=\n)
-      name: string.interpolated.makefile
+      contentName: meta.scope.expansion.makefile
       patterns:
       - include: "#expansions"
       - include: "#expansions-$b_var-builtin_b"

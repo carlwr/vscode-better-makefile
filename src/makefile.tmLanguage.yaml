@@ -583,56 +583,60 @@ repository:
       - include: "#varname-segment"
       - { match: '\)', name: *SCOPE_var }
 
+  ___builtInFuncBegin:
+    match: &.__builtInFuncBegin |-
+      (?x)
+      \G
+      (?# built-in functions -> )
+      (?# ref.: function.c -> struct function_table_entry + guile)
+      ( abspath
+      | addprefix
+      | addsuffix
+      | and
+      | basename
+      | call
+      | dir
+      | error
+      | eval
+      | file
+      | filter
+      | filter-out
+      | findstring
+      | firstword
+      | foreach
+      | guile
+      | if
+      | info
+      | intcmp
+      | join
+      | lastword
+      | let
+      | notdir
+      | or
+      | patsubst
+      | realpath
+      | shell
+      | sort
+      | strip
+      | subst
+      | suffix
+      | value
+      | warning
+      | wildcard
+      | word
+      | wordlist
+      | words
+      )
+      (?=[ \\])
+
   expansions-$p_func-builtin_..p:
     patterns:
-    - begin: |-
-        (?x)
-        (?<= \( )
-        (?# built-in functions -> parens: )
-        (?# ref.: function.c -> struct function_table_entry + guile)
-        ( abspath
-        | addprefix
-        | addsuffix
-        | and
-        | basename
-        | call
-        | dir
-        | error
-        | eval
-        | file
-        | filter
-        | filter-out
-        | findstring
-        | firstword
-        | foreach
-        | guile
-        | if
-        | info
-        | intcmp
-        | join
-        | lastword
-        | let
-        | notdir
-        | or
-        | patsubst
-        | realpath
-        | shell
-        | sort
-        | strip
-        | subst
-        | suffix
-        | value
-        | warning
-        | wildcard
-        | word
-        | wordlist
-        | words
-        )
-        (?:[ ]|(?=\\ \n))
+    - begin: *.__builtInFuncBegin
       beginCaptures:
         "1": { name: support.function.$1.makefile }
-      end: (?x) (?= \)) | (?<!\\)(?=\n)
+      end: (?x) (?= \)) | (?=\n)
       name: meta.scope.function-call.makefile
+      applyEndPatternLast: 1
       patterns:
       - include: "#comma"
       - include: "#doubleDollar"
@@ -644,53 +648,12 @@ repository:
 
   expansions-$b_func-builtin_..b:
     patterns:
-    - begin: |-
-        (?x)
-        (?<= { )
-        (?# built-in functions -> braces: )
-        ( abspath
-        | addprefix
-        | addsuffix
-        | and
-        | basename
-        | call
-        | dir
-        | error
-        | eval
-        | file
-        | filter
-        | filter-out
-        | findstring
-        | firstword
-        | foreach
-        | guile
-        | if
-        | info
-        | intcmp
-        | join
-        | lastword
-        | let
-        | notdir
-        | or
-        | patsubst
-        | realpath
-        | shell
-        | sort
-        | strip
-        | subst
-        | suffix
-        | value
-        | warning
-        | wildcard
-        | word
-        | wordlist
-        | words
-        )
-        (?:[ ]|(?=\\ \n))
+    - begin: *.__builtInFuncBegin
       beginCaptures:
         "1": { name: support.function.$1.makefile }
-      end: (?x) (?= \}) | (?<!\\)(?=\n)
+      end: (?x) (?= \}) | (?=\n)
       name: meta.scope.function-call.makefile
+      applyEndPatternLast: 1
       patterns:
       - include: "#comma"
       - include: "#doubleDollar"

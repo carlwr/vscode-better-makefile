@@ -333,8 +333,8 @@ repository:
     comment: entry point for all searches for variable expansions
     patterns:
       - include: "#expansions-_$c_"
-      - include: "#variable-parentheses"
-      - include: "#variable-braces"
+      - include: "#expansions-_$p..p_"
+      - include: "#expansions-_$b..b_"
   expansions-_$c_:
     match: (\$)([^(){}#\n])
     captures:
@@ -342,7 +342,7 @@ repository:
         name: variable.language.makefile
       "2":
         name: variable.language.makefile
-  variable-parentheses:
+  expansions-_$p..p_:
     patterns:
       - begin: (?x) \$\(
         captures:
@@ -355,7 +355,7 @@ repository:
           - include: "#expansions-$p_func-builtin_..p"
           - include: "#expansions-$p_func-builtin_flavor.._p"
           - include: "#another-variable-parentheses"
-  variable-braces:
+  expansions-_$b..b_:
     patterns:
       - begin: (?x) \$\{
         captures:

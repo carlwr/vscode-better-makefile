@@ -351,7 +351,7 @@ repository:
         name: string.interpolated.makefile
         patterns:
           - include: "#expansions"
-          - include: "#builtin-variable-parentheses"
+          - include: "#expansions-$p_var-builtin_p"
           - include: "#expansions-$p_func-builtin_..p"
           - include: "#expansions-$p_func-builtin_flavor.._p"
           - include: "#another-variable-parentheses"
@@ -364,11 +364,11 @@ repository:
         name: string.interpolated.makefile
         patterns:
           - include: "#expansions"
-          - include: "#builtin-variable-braces"
+          - include: "#expansions-$b_var-builtin_b"
           - include: "#expansions-$b_func-builtin_..b"
           - include: "#expansions-$b_func-builtin_flavor.._b"
           - include: "#another-variable-braces"
-  builtin-variable-parentheses:
+  expansions-$p_var-builtin_p:
     patterns:
       - comment: special variables -> parens -> mutable
         match: (?<=\()(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKEFLAGS|MAKECMDGOALS|SUFFIXES|MAKE_TERMOUT|MAKE_TERMERR|\.LIBPATTERNS|\.DEFAULT_GOAL|\.RECIPEPREFIX\.EXTRA_PREREQS)(?=\s*\))
@@ -376,7 +376,7 @@ repository:
       - comment: special variables -> parens -> immutable
         match: (?<=\()(MAKEFILE_LIST|MAKELEVEL|CURDIR|MAKE_RESTARTS|\.VARIABLES|\.FEATURES|\.INCLUDE_DIRS)(?=\s*\))
         name: variable.language.constant.makefile
-  builtin-variable-braces:
+  expansions-$b_var-builtin_b:
     comment: TODO distinguish mutable and immutable
     patterns:
       - comment: special variables -> braces -> mutable+immutable

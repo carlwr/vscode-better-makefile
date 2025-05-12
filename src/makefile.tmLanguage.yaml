@@ -53,6 +53,16 @@ repository:
         keyword.control.recipe-lineprefix.makefile
         keyword.control.recipe-lineprefix.$1.makefile
 
+    - match: &SCOPE_str >-
+        string.unquoted.makefile
+        meta.string.makefile
+
+    # substref scopes:
+    - match: &SCOPE_sr_met meta.substref.makefile
+    - match: &SCOPE_sr_col punctuation.separator.substref.colon.makefile
+    - match: &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
+    - match: &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
+
     - match: &__notExp |-
         (?x)
         ( [^ $]+
@@ -520,7 +530,6 @@ repository:
   expansions:
     comment: entry point for all searches for variable expansions
     patterns:
-    - include: "#doubleDollar"
     - include: "#expansions-_$c_"
     - include: "#expansions-_$p..p_"
     - include: "#expansions-_$b..b_"
@@ -548,7 +557,11 @@ repository:
       - include: "#expansions-$p_func-builtin_flavor.._p"
       - include: "#expansions"
       - include: "#varname-specialVar"
-      - include: "#expansions-$p_text_p"
+      - include: "#varname-automatic"
+      - include: "#varname-positional"
+      - include: "#substref-segment"
+      - include: "#varname-segment"
+      - { match: '\}', name: *SCOPE_var }
 
   expansions-_$b..b_:
     patterns:
@@ -562,7 +575,11 @@ repository:
       - include: "#expansions-$b_func-builtin_flavor.._b"
       - include: "#expansions"
       - include: "#varname-specialVar"
-      - include: "#expansions-$b_text_b"
+      - include: "#varname-automatic"
+      - include: "#varname-positional"
+      - include: "#substref-segment"
+      - include: "#varname-segment"
+      - { match: '\)', name: *SCOPE_var }
 
   expansions-$p_func-builtin_..p:
     patterns:
@@ -738,24 +755,6 @@ repository:
       - include: "#doubleDollar"
       - include: "#expansions"
 
-  expansions-$p_text_p:
-    patterns:
-    - begin: (?x) (?<=\()   (?! \))
-      end:   (?x) (?= \)) | (?<!\\)(?=\n)
-      name: *SCOPE_var
-      patterns:
-      - include: "#expansions"
-      - { match: \\$, name: *SCOPE_lineCont }
-
-  expansions-$b_text_b:
-    patterns:
-    - begin: (?x) (?<=\{)   (?! \})
-      end:   (?x) (?= \}) | (?<!\\)(?=\n)
-      name: *SCOPE_var
-      patterns:
-      - include: "#expansions"
-      - { match: \\$, name: *SCOPE_lineCont }
-
 
 # ----------------------- variable names ---------------------- #
 
@@ -818,7 +817,6 @@ repository:
       |   (?<= \$[({]. )      (?= [)}:\\] )  # $(@)
       |   (?<= \$    . )                     # $@
       )
-      (?# 2nd char above currently not matched - preparation for future)
     name: variable.parameter.automatic.makefile
 
   varname-positional:
@@ -828,11 +826,28 @@ repository:
       (?: (?<= \$[({]. )      (?= [)}:\\] )  # $(1)
       |   (?<= \$    . )                     # $1
       )
-      (?# 2nd char above currently not matched - preparation for future)
     name: variable.parameter.positional.makefile
 
   substref-segment:
-    comment: TODO placeholder for future
+    begin: ':'
+    end:   (?x) (?= \)|\} ) | (?=\n)
+    beginCaptures: { "0": { name: *SCOPE_sr_col } }
+    name: *SCOPE_sr_met
+    patterns:
+    - include: "#doubleDollar"
+    - include: "#expansions"
+    - include: "#line-cont"
+    - { match: '%'      , name: *SCOPE_sr_per }
+    - { match: '='      , name: *SCOPE_sr_eql }
+    - { match: '[^%=\s]', name: *SCOPE_str }
 
   varname-segment:
-    comment: TODO placeholder for future
+    match: |-
+      (?x)
+      (?: [^$\\:)}\n]+
+      |   (\$\$)+
+      |   \\ (?! \\* \n)   # eat if not appearing to be part of line-cont.
+                           # (in varnames, \-s escapes nothing but \n)
+      )+
+    name: *SCOPE_var
+    captures: { "0": { patterns: [include: "#doubleDollar"] } }

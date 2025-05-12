@@ -544,10 +544,10 @@ repository:
       end:   (?x)   \) | (?<!\\)(?=\n)
       contentName: meta.scope.expansion.makefile
       patterns:
-      - include: "#expansions"
-      - include: "#expansions-$p_var-builtin_p"
       - include: "#expansions-$p_func-builtin_..p"
       - include: "#expansions-$p_func-builtin_flavor.._p"
+      - include: "#expansions"
+      - include: "#expansions-$p_var-builtin_p"
       - include: "#expansions-$p_text_p"
 
   expansions-_$b..b_:
@@ -558,10 +558,10 @@ repository:
       end:   (?x)   \} | (?<!\\)(?=\n)
       contentName: meta.scope.expansion.makefile
       patterns:
-      - include: "#expansions"
-      - include: "#expansions-$b_var-builtin_b"
       - include: "#expansions-$b_func-builtin_..b"
       - include: "#expansions-$b_func-builtin_flavor.._b"
+      - include: "#expansions"
+      - include: "#expansions-$b_var-builtin_b"
       - include: "#expansions-$b_text_b"
 
   expansions-$p_var-builtin_p:

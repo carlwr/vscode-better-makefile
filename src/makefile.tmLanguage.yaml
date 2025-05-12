@@ -161,7 +161,7 @@ repository:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
           "3": { name: *SCOPE_varAsgn }
-          "4": { name: punctuation.separator.key-value.makefile }
+          "4": { name: keyword.operator.assignment.makefile }
         end: ^\s*(endef)\b
         name: meta.scope.conditional.makefile
         patterns:
@@ -253,8 +253,7 @@ repository:
         patterns:
         - include: "#expansions"
       "2":
-        name: punctuation.separator.key-value.makefile
-              keyword.operator.assignment.makefile
+        name: keyword.operator.assignment.makefile
     end: \n
     name: meta.expression.assignment.makefile
     patterns:

@@ -162,22 +162,19 @@ repository:
     captures:
       "0":
         patterns:
-        - match: |-
-            (?x)
-            (?<!  \\      )   # otherwise unreliable \ count -> don't match
-            ( (?: \\ \\)* )   # "1": any even no. of \-s -> quoting \-es
-            ( \\ %        )   # "2": the quoted %
+        - include: "#esc-backslashes"
+          # for any sequence of (backslashes + %), any leading pairs of backslashes means the first backslash in the pair escapes the second backslash
+          # at this point, we know that what remains is either
+          #   - \%   i.e. an escaped %, or
+          #   -  %   i.e. a plain %
+        - match: (\\)(%)
           captures:
             "1": { name: constant.character.escape.backslash.makefile }
             "2": { name: meta.escaped-char.makefile }
-        - match: |-
-            (?x)
-            (?<!  \\      )   # otherwise unreliable \ count -> don't match
-            ( (?: \\ \\)* )   # "1": any even no. of \-s -> quoting \-es
-            ( %           )   # "2": an (unquoted) # on next position
-          captures:
-            "1": { name: constant.character.escape.backslash.makefile }
-            "2": { name: constant.other.placeholder.percent.makefile }
+        - match: '%'
+          name: constant.other.placeholder.percent.makefile
+        - match: .*
+          name: _error_
 
   wildcard:
     match: \\*[*?\[\]]

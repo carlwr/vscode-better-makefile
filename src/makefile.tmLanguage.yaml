@@ -8,15 +8,17 @@ patterns:
 
 - include: "#comment"
 
-- include: "#expansions"
+- include: "#directives"
 
 - include: "#variable-assignment"
 
-- include: "#directives"
+- include: "#rulehead"
+
+- include: "#doubleDollar"
+
+- include: "#expansions"
 
 - include: "#recipe-line"
-
-- include: "#rulehead"
 
 
 repository:

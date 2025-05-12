@@ -352,7 +352,7 @@ repository:
         patterns:
           - include: "#expansions"
           - include: "#builtin-variable-parentheses"
-          - include: "#function-variable-parentheses"
+          - include: "#expansions-$p_func-builtin_..p"
           - include: "#expansions-$p_func-builtin_flavor.._p"
           - include: "#another-variable-parentheses"
   variable-braces:
@@ -365,7 +365,7 @@ repository:
         patterns:
           - include: "#expansions"
           - include: "#builtin-variable-braces"
-          - include: "#function-variable-braces"
+          - include: "#expansions-$b_func-builtin_..b"
           - include: "#expansions-$b_func-builtin_flavor.._b"
           - include: "#another-variable-braces"
   builtin-variable-parentheses:
@@ -382,7 +382,7 @@ repository:
       - comment: special variables -> braces -> mutable+immutable
         match: (?<={)(MAKEFILES|VPATH|SHELL|MAKESHELL|MAKE|MAKELEVEL|MAKEFLAGS|MAKECMDGOALS|CURDIR|SUFFIXES|\.LIBPATTERNS)(?=\s*})
         name: variable.language.makefile
-  function-variable-parentheses:
+  expansions-$p_func-builtin_..p:
     patterns:
       - begin: (?<=\()(subst|patsubst|strip|findstring|filter(-out)?|sort|word(list)?|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|wildcard|realpath|abspath|info|error|warning|shell|foreach|if|or|and|call|eval|value|file|guile|let|intcmp)\s
         beginCaptures:
@@ -397,7 +397,7 @@ repository:
             name: constant.other.placeholder.makefile
           - match: \\\n
             name: constant.character.escape.continuation.makefile
-  function-variable-braces:
+  expansions-$b_func-builtin_..b:
     patterns:
       - begin: (?<={)(subst|patsubst|strip|findstring|filter(-out)?|sort|word(list)?|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|wildcard|realpath|abspath|info|error|warning|shell|foreach|if|or|and|call|eval|value|file|guile|let|intcmp)\s
         beginCaptures:

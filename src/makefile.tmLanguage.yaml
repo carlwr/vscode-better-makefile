@@ -692,24 +692,27 @@ repository:
           `$(info a(b)c)` -> GNU make prints "a(b)c"
           i.e. ")" after "b" does _not_ end the argument to `info`
       * previously had names "*interpolation*"
-
-  expansions--func-builtin-NESTED-pp:
-    begin: (?x) \(
-    end:   (?x) \) | (?<!\\)(?=\n)
-    patterns:
-    - include: "#doubleDollar"
-    - include: "#expansions"
-    - include: "#expansions--func-builtin-NESTED"
-    - { match: \\$, name: *SCOPE_lineCont }
-
-  expansions--func-builtin-NESTED-bb:
-    begin: (?x) \{
-    end:   (?x) \} | (?<!\\)(?=\n)
-    patterns:
-    - include: "#doubleDollar"
-    - include: "#expansions"
-    - include: "#expansions--func-builtin-NESTED"
-    - { match: \\$, name: *SCOPE_lineCont }
+    repository:
+      expansions--func-builtin-NESTED-pp:
+        begin: (?x) \(
+        end:   (?x) \) | (?=\n)
+        name: meta.scope.function-call.parens-group.makefile
+        applyEndPatternLast: 1
+        patterns:
+        - include: "#doubleDollar"
+        - include: "#expansions"
+        - include: "#expansions--func-builtin-NESTED"
+        - include: "#line-cont"
+      expansions--func-builtin-NESTED-bb:
+        begin: (?x) \{
+        end:   (?x) \} | (?=\n)
+        name: meta.scope.function-call.braces-group.makefile
+        applyEndPatternLast: 1
+        patterns:
+        - include: "#doubleDollar"
+        - include: "#expansions"
+        - include: "#expansions--func-builtin-NESTED"
+        - include: "#line-cont"
 
   expansions-$p_func-builtin_flavor.._p:
     patterns:

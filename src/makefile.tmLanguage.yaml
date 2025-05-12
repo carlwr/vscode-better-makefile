@@ -354,7 +354,7 @@ repository:
           - include: "#expansions-$p_var-builtin_p"
           - include: "#expansions-$p_func-builtin_..p"
           - include: "#expansions-$p_func-builtin_flavor.._p"
-          - include: "#another-variable-parentheses"
+          - include: "#expansions-$p_text_p"
   expansions-_$b..b_:
     patterns:
       - begin: (?x) \$\{
@@ -367,7 +367,7 @@ repository:
           - include: "#expansions-$b_var-builtin_b"
           - include: "#expansions-$b_func-builtin_..b"
           - include: "#expansions-$b_func-builtin_flavor.._b"
-          - include: "#another-variable-braces"
+          - include: "#expansions-$b_text_b"
   expansions-$p_var-builtin_p:
     patterns:
       - comment: special variables -> parens -> mutable
@@ -459,7 +459,7 @@ repository:
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#expansions"
-  another-variable-parentheses:
+  expansions-$p_text_p:
     patterns:
       - begin: (?x) (?<=\()   (?! \))
         end:   (?x) (?= \)|(?<!\\)\n )
@@ -468,7 +468,7 @@ repository:
           - include: "#expansions"
           - match: \\\n
             name: constant.character.escape.continuation.makefile
-  another-variable-braces:
+  expansions-$b_text_b:
     patterns:
       - begin: (?x) (?<=\{)   (?! \})
         end:   (?x) (?= \}|(?<!\\)\n )

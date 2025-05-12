@@ -137,6 +137,8 @@ repository:
         - include: "#expansions"
         - match: '%'
           name: constant.other.placeholder.makefile
+        - match: ':'
+          name: punctuation.separator.paths.vpath.makefile
 
       define:
         begin: |-

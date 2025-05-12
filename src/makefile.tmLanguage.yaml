@@ -547,7 +547,7 @@ repository:
       - include: "#expansions-$p_func-builtin_..p"
       - include: "#expansions-$p_func-builtin_flavor.._p"
       - include: "#expansions"
-      - include: "#expansions-$p_var-builtin_p"
+      - include: "#varname-specialVar"
       - include: "#expansions-$p_text_p"
 
   expansions-_$b..b_:
@@ -561,114 +561,8 @@ repository:
       - include: "#expansions-$b_func-builtin_..b"
       - include: "#expansions-$b_func-builtin_flavor.._b"
       - include: "#expansions"
-      - include: "#expansions-$b_var-builtin_b"
+      - include: "#varname-specialVar"
       - include: "#expansions-$b_text_b"
-
-  expansions-$p_var-builtin_p:
-    patterns:
-    - comment: special variables -> parens -> mutable
-      match: |-
-        (?x)
-        (?<= \( )
-        (?# special variables -> parens -> mutable: )
-        ( COMSPEC
-        | GNUMAKEFLAGS
-        | GPATH
-        | MAKE
-        | MAKEFILES
-        | MAKEFLAGS
-        | MAKEOVERRIDES
-        | MAKESHELL
-        | MAKE_TERMERR
-        | MAKE_TERMOUT
-        | MFLAGS
-        | SHELL
-        | SUFFIXES
-        | VPATH
-        | \.DEFAULT_GOAL
-        | \.EXTRA_PREREQS
-        | \.LIBPATTERNS
-        | \.RECIPEPREFIX
-        | \.SHELLFLAGS
-        )
-        (?= \) )
-      name: variable.language.readwrite.makefile
-    - comment: special variables -> parens -> immutable
-      match: |-
-        (?x)
-        (?<= \( )
-        (?# special variables -> parens -> immutable: )
-        ( CURDIR
-        | MAKECMDGOALS
-        | MAKEFILE_LIST
-        | MAKELEVEL
-        | MAKE_HOST
-        | MAKE_RESTARTS
-        | MAKE_TMPDIR
-        | MAKE_VERSION
-        | \.FEATURES
-        | \.INCLUDE_DIRS
-        | \.LOADED
-        | \.SHELLSTATUS
-        | \.VARIABLES
-        | -\*-eval-flags-\*-
-        | -\*-command-variables-\*-
-        )
-        (?= \) )
-      name: variable.language.constant.makefile
-
-  expansions-$b_var-builtin_b:
-    patterns:
-    - comment: special variables -> braces -> mutable
-      match: |-
-        (?x)
-        (?<= { )
-        (?# special variables -> braces -> mutable: )
-        ( COMSPEC
-        | GNUMAKEFLAGS
-        | GPATH
-        | MAKE
-        | MAKEFILES
-        | MAKEFLAGS
-        | MAKEOVERRIDES
-        | MAKESHELL
-        | MAKE_TERMERR
-        | MAKE_TERMOUT
-        | MFLAGS
-        | SHELL
-        | SUFFIXES
-        | VPATH
-        | \.DEFAULT_GOAL
-        | \.EXTRA_PREREQS
-        | \.LIBPATTERNS
-        | \.RECIPEPREFIX
-        | \.SHELLFLAGS
-        )
-        (?= } )
-      name: variable.language.readwrite.makefile
-    - comment: special variables -> braces -> immutable
-      match: |-
-        (?x)
-        (?<= { )
-        (?# special variables -> braces -> immutable: )
-        ( CURDIR
-        | MAKECMDGOALS
-        | MAKEFILE_LIST
-        | MAKELEVEL
-        | MAKE_HOST
-        | MAKE_RESTARTS
-        | MAKE_TMPDIR
-        | MAKE_VERSION
-        | \.FEATURES
-        | \.INCLUDE_DIRS
-        | \.LOADED
-        | \.SHELLSTATUS
-        | \.VARIABLES
-        | -\*-eval-flags-\*-
-        | -\*-command-variables-\*-
-        )
-        (?= } )
-      name: variable.language.constant.makefile
 
   expansions-$p_func-builtin_..p:
     patterns:
@@ -863,7 +757,55 @@ repository:
 # ----------------------- variable names ---------------------- #
 
   varname-specialVar:
-    comment: TODO placeholder for future
+    patterns:
+    - comment: special variable -> mutable
+      match: |-
+        (?x)
+        \G
+        ( COMSPEC
+        | GNUMAKEFLAGS
+        | GPATH
+        | MAKE
+        | MAKEFILES
+        | MAKEFLAGS
+        | MAKEOVERRIDES
+        | MAKESHELL
+        | MAKE_TERMERR
+        | MAKE_TERMOUT
+        | MFLAGS
+        | SHELL
+        | SUFFIXES
+        | VPATH
+        | \.DEFAULT_GOAL
+        | \.EXTRA_PREREQS
+        | \.LIBPATTERNS
+        | \.RECIPEPREFIX
+        | \.SHELLFLAGS
+        )
+        (?= [:)}] )
+      name: variable.language.readwrite.makefile
+    - comment: special variable -> immutable
+      match: |-
+        (?x)
+        \G
+        ( CURDIR
+        | MAKECMDGOALS
+        | MAKEFILE_LIST
+        | MAKELEVEL
+        | MAKE_HOST
+        | MAKE_RESTARTS
+        | MAKE_TMPDIR
+        | MAKE_VERSION
+        | \.FEATURES
+        | \.INCLUDE_DIRS
+        | \.LOADED
+        | \.SHELLSTATUS
+        | \.VARIABLES
+        | -\*-eval-flags-\*-
+        | -\*-command-variables-\*-
+        )
+        (?= [:)}] )
+      name: variable.language.constant.makefile
 
   varname-automatic:
     match: |-

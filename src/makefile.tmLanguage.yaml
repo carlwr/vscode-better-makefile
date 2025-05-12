@@ -133,10 +133,11 @@ repository:
         - begin: \#
           beginCaptures:
             "0": { name: punctuation.definition.comment.makefile }
-          end:   (?<!\\)(?=\n)
+          end:   (?=\n)
+          applyEndPatternLast: 1
           name: comment.line.number-sign.makefile
           patterns:
-          - { match: \\$, name: *SCOPE_lineCont }
+          - include: "#line-cont"
       quoted-hash:
         match: |-
           (?x)
@@ -254,8 +255,7 @@ repository:
             patterns:
             - include: "#doubleDollar"
             - include: "#expansions"
-            - match: \\$
-              name: *SCOPE_lineCont
+            - include: "#line-cont"
 
       vpath:
         begin: ^[ ]*(vpath)\b
@@ -552,9 +552,11 @@ repository:
     - begin: (?x) \$\(
       captures:
         "0": { name: punctuation.definition.variable.makefile }
-      end:   (?x)   \) | (?<!\\)(?=\n)
+      end:   (?x)   \) | (?=\n)
       contentName: meta.scope.expansion.makefile
+      applyEndPatternLast: 1
       patterns:
+      - include: "#line-cont"
       - include: "#expansions-$p_func-builtin_..p"
       - include: "#expansions-$p_func-builtin_flavor.._p"
       - include: "#expansions"
@@ -570,9 +572,11 @@ repository:
     - begin: (?x) \$\{
       captures:
         "0": { name: punctuation.definition.variable.makefile }
-      end:   (?x)   \} | (?<!\\)(?=\n)
+      end:   (?x)   \} | (?=\n)
       contentName: meta.scope.expansion.makefile
+      applyEndPatternLast: 1
       patterns:
+      - include: "#line-cont"
       - include: "#expansions-$b_func-builtin_..b"
       - include: "#expansions-$b_func-builtin_flavor.._b"
       - include: "#expansions"
@@ -644,7 +648,7 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - include: "#percent"
       - include: "#wildcard"
-      - { match: \\$, name: *SCOPE_lineCont }
+      - include: "#line-cont"
 
   expansions-$b_func-builtin_..b:
     patterns:
@@ -661,7 +665,7 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - include: "#percent"
       - include: "#wildcard"
-      - { match: \\$, name: *SCOPE_lineCont }
+      - include: "#line-cont"
 
   expansions--func-builtin-NESTED:
     patterns:

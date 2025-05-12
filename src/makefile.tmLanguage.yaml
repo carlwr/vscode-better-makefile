@@ -216,9 +216,9 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
+        - include: "#doubleDollar"
         - include: "#expansions"
-        - match: '%'
-          name: constant.other.placeholder.makefile
+        - include: "#percent"
 
       load:
         patterns:
@@ -252,6 +252,7 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
+        - include: "#doubleDollar"
         - include: "#expansions"
         - include: "#percent"
         - match: ':'
@@ -297,6 +298,7 @@ repository:
           patterns:
           - include: "#comment"
         - include: "#define"
+        - include: "#doubleDollar"
         - include: "#expansions"
 
       export:
@@ -339,6 +341,7 @@ repository:
           name: meta.scope.condition.makefile
           patterns:
           - include: "#comma"
+          - include: "#doubleDollar"
           - include: "#expansions"
           - include: "#comment"
         - begin: ^\s*else(?=\s)\s*(ifeq|ifneq|ifdef|ifndef)*(?=\s)
@@ -347,6 +350,7 @@ repository:
           end:   ^
           patterns:
           - include: "#comma"
+          - include: "#doubleDollar"
           - include: "#expansions"
           - include: "#comment"
         - include: $self
@@ -718,10 +722,11 @@ repository:
       name: meta.scope.function-call.makefile
       patterns:
       - include: "#comma"
+      - include: "#doubleDollar"
       - include: "#expansions"
       - include: "#expansions--func-builtin-NESTED"
-      - match: '%|\*'
-        name: constant.other.placeholder.makefile
+      - include: "#percent"
+      - include: "#wildcard"
       - { match: \\$, name: *SCOPE_lineCont }
 
   expansions-$b_func-builtin_..b:
@@ -775,10 +780,11 @@ repository:
       name: meta.scope.function-call.makefile
       patterns:
       - include: "#comma"
+      - include: "#doubleDollar"
       - include: "#expansions"
       - include: "#expansions--func-builtin-NESTED"
-      - match: '%|\*'
-        name: constant.other.placeholder.makefile
+      - include: "#percent"
+      - include: "#wildcard"
       - { match: \\$, name: *SCOPE_lineCont }
 
   expansions--func-builtin-NESTED:
@@ -797,6 +803,7 @@ repository:
     begin: (?x) \(
     end:   (?x) \) | (?<!\\)(?=\n)
     patterns:
+    - include: "#doubleDollar"
     - include: "#expansions"
     - include: "#expansions--func-builtin-NESTED"
     - { match: \\$, name: *SCOPE_lineCont }
@@ -805,6 +812,7 @@ repository:
     begin: (?x) \{
     end:   (?x) \} | (?<!\\)(?=\n)
     patterns:
+    - include: "#doubleDollar"
     - include: "#expansions"
     - include: "#expansions--func-builtin-NESTED"
     - { match: \\$, name: *SCOPE_lineCont }
@@ -818,6 +826,7 @@ repository:
       end:   (?=\))
       name: meta.scope.function-call.makefile
       patterns:
+      - include: "#doubleDollar"
       - include: "#expansions"
 
   expansions-$b_func-builtin_flavor.._b:
@@ -829,6 +838,7 @@ repository:
       end:   (?=})
       name: meta.scope.function-call.makefile
       patterns:
+      - include: "#doubleDollar"
       - include: "#expansions"
 
   expansions-$p_text_p:

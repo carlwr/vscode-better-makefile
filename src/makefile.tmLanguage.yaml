@@ -353,7 +353,7 @@ repository:
           - include: "#expansions"
           - include: "#builtin-variable-parentheses"
           - include: "#function-variable-parentheses"
-          - include: "#flavor-variable-parentheses"
+          - include: "#expansions-$p_func-builtin_flavor.._p"
           - include: "#another-variable-parentheses"
   variable-braces:
     patterns:
@@ -366,7 +366,7 @@ repository:
           - include: "#expansions"
           - include: "#builtin-variable-braces"
           - include: "#function-variable-braces"
-          - include: "#flavor-variable-braces"
+          - include: "#expansions-$b_func-builtin_flavor.._b"
           - include: "#another-variable-braces"
   builtin-variable-parentheses:
     patterns:
@@ -439,7 +439,7 @@ repository:
       - include: "#expansions"
       - include: "#interpolation"
 
-  flavor-variable-parentheses:
+  expansions-$p_func-builtin_flavor.._p:
     patterns:
       - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))
         contentName: variable.other.makefile
@@ -449,7 +449,7 @@ repository:
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#expansions"
-  flavor-variable-braces:
+  expansions-$b_func-builtin_flavor.._b:
     patterns:
       - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
         contentName: variable.other.makefile

@@ -115,7 +115,7 @@ repository:
           (?=   \#           )   # an (unquoted) # on next position
         beginCaptures:
           "1": { name: punctuation.whitespace.comment.leading.makefile }
-          "2": { name: constant.character.escape.backslash.makefile }
+          "2": { patterns: [include: "#esc-backslashes"] }
         end: (?!\G)
         patterns:
         - begin: \#
@@ -132,7 +132,7 @@ repository:
           (   (?: \\{2} )*  )   # "1": any even no. of \-s -> quoting \-es
                  (\\)(\#)       #    : the quoted #
         captures:
-          "1": { name: constant.character.escape.backslash.makefile }
+          "1": { patterns: [include: "#esc-backslashes"] }
           "2": { name: constant.character.escape.backslash.makefile }
           "3": { name: meta.escaped-char.makefile }
 

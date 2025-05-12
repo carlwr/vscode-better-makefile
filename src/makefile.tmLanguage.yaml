@@ -9,7 +9,7 @@ patterns:
 
   - include: "#comment"
 
-  - include: "#variables"
+  - include: "#expansions"
 
   - include: "#variable-assignment"
 
@@ -93,7 +93,7 @@ repository:
         end:   ^
         patterns:
           - include: "#comment"
-          - include: "#variables"
+          - include: "#expansions"
           - match: '%'
             name: constant.other.placeholder.makefile
 
@@ -104,7 +104,7 @@ repository:
         end:   ^
         patterns:
           - include: "#comment"
-          - include: "#variables"
+          - include: "#expansions"
           - match: '%'
             name: constant.other.placeholder.makefile
 
@@ -141,7 +141,7 @@ repository:
             end:   ^
             patterns:
               - include: "#comment"
-          - include: "#variables"
+          - include: "#expansions"
           - include: "#directives"
 
       export:
@@ -186,7 +186,7 @@ repository:
             name: meta.scope.condition.makefile
             patterns:
               - include: "#comma"
-              - include: "#variables"
+              - include: "#expansions"
               - include: "#comment"
           - begin: ^\s*else(?=\s)\s*(ifeq|ifneq|ifdef|ifndef)*(?=\s)
             beginCaptures:
@@ -194,7 +194,7 @@ repository:
             end:   ^
             patterns:
               - include: "#comma"
-              - include: "#variables"
+              - include: "#expansions"
               - include: "#comment"
           - include: $self
 
@@ -250,7 +250,7 @@ repository:
             end:   (?=\s|$)
             name: entity.name.function.target.makefile
             patterns:
-              - include: "#variables"
+              - include: "#expansions"
               - match: '%'
                 name: constant.other.placeholder.makefile
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
@@ -266,7 +266,7 @@ repository:
           - match: '%|\*'
             name: constant.other.placeholder.makefile
           - include: "#comment"
-          - include: "#variables"
+          - include: "#expansions"
 
   recipe:
     comment: TODO placeholder
@@ -281,7 +281,7 @@ repository:
     patterns:
       - match: \\\n
         name: constant.character.escape.continuation.makefile
-      - include: "#variables"
+      - include: "#expansions"
 
 
 # ----------------------- var assignment ---------------------- #
@@ -308,7 +308,7 @@ repository:
       "1":
         name: variable.other.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
       "2":
         name: punctuation.separator.key-value.makefile
               keyword.operator.assignment.makefile
@@ -317,7 +317,7 @@ repository:
       - match: \\\n
         name: constant.character.escape.continuation.makefile
       - include: "#comment"
-      - include: "#variables"
+      - include: "#expansions"
 
 
 # ------------------------- expansions ------------------------ #
@@ -329,7 +329,7 @@ repository:
     #   _$p..p_           <=>  captures $(..)
     #   $p_var-builtin_p  <=>  captures <builtin-var> in $(<builtin-var>)
 
-  variables:
+  expansions:
     comment: entry point for all searches for variable expansions
     patterns:
       - include: "#simple-variable"
@@ -350,7 +350,7 @@ repository:
         end:   (?x)   \) | (?<!\\)\n
         name: string.interpolated.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
           - include: "#builtin-variable-parentheses"
           - include: "#function-variable-parentheses"
           - include: "#flavor-variable-parentheses"
@@ -363,7 +363,7 @@ repository:
         end:   (?x)   \} | (?<!\\)\n
         name: string.interpolated.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
           - include: "#builtin-variable-braces"
           - include: "#function-variable-braces"
           - include: "#flavor-variable-braces"
@@ -391,7 +391,7 @@ repository:
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#comma"
-          - include: "#variables"
+          - include: "#expansions"
           - include: "#interpolation"
           - match: '%|\*'
             name: constant.other.placeholder.makefile
@@ -406,7 +406,7 @@ repository:
         name: meta.scope.function-call.makefile
         patterns:
           - include: "#comma"
-          - include: "#variables"
+          - include: "#expansions"
           - include: "#interpolation"
           - match: '%|\*'
             name: constant.other.placeholder.makefile
@@ -429,14 +429,14 @@ repository:
     begin: (?x) \(
     end:   (?x) \) | (?<!\\)(?=\n)
     patterns:
-      - include: "#variables"
+      - include: "#expansions"
       - include: "#interpolation"
 
   braces-interpolation:
     begin: (?x) \{
     end:   (?x) \} | (?<!\\)(?=\n)
     patterns:
-      - include: "#variables"
+      - include: "#expansions"
       - include: "#interpolation"
 
   flavor-variable-parentheses:
@@ -448,7 +448,7 @@ repository:
         end:   (?=\))
         name: meta.scope.function-call.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
   flavor-variable-braces:
     patterns:
       - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
@@ -458,14 +458,14 @@ repository:
         end:   (?=})
         name: meta.scope.function-call.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
   another-variable-parentheses:
     patterns:
       - begin: (?x) (?<=\()   (?! \))
         end:   (?x) (?= \)|(?<!\\)\n )
         name: variable.other.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
           - match: \\\n
             name: constant.character.escape.continuation.makefile
   another-variable-braces:
@@ -474,7 +474,7 @@ repository:
         end:   (?x) (?= \}|(?<!\\)\n )
         name: variable.other.makefile
         patterns:
-          - include: "#variables"
+          - include: "#expansions"
           - match: \\\n
             name: constant.character.escape.continuation.makefile
 ...

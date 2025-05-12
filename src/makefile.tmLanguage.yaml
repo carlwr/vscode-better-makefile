@@ -332,10 +332,10 @@ repository:
   expansions:
     comment: entry point for all searches for variable expansions
     patterns:
-      - include: "#simple-variable"
+      - include: "#expansions-_$c_"
       - include: "#variable-parentheses"
       - include: "#variable-braces"
-  simple-variable:
+  expansions-_$c_:
     match: (\$)([^(){}#\n])
     captures:
       "1":

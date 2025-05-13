@@ -1,4 +1,5 @@
 # SYNTAX TEST "source.makefile"
 
-FOO = bar
-# ^ variable.other.makefile
+FOO = bar$(var)
+#^^             variable.other.assignment.makefile
+#          ^^^  variable.other.makefile

@@ -33,6 +33,13 @@ repository:
         constant.character.escape.continuation.makefile
         constant.character.escape.line-continuation.makefile
 
+    - match: &SCOPE_var >-
+        variable.other.makefile
+        variable.other.string.makefile
+
+    - match: &SCOPE_varAsgn >-
+        variable.other.assignment.makefile
+
 
 # ------------------------ misc. rules ------------------------ #
 
@@ -143,7 +150,7 @@ repository:
         captures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
-          "3": { name: variable.other.makefile }
+          "3": { name: *SCOPE_varAsgn }
           "4": { name: punctuation.separator.key-value.makefile }
         end: ^\s*(endef)\b
         name: meta.scope.conditional.makefile
@@ -165,8 +172,7 @@ repository:
         patterns:
         - include: "#comment"
         - include: "#variable-assignment"
-        - match: \S+
-          name: variable.other.makefile
+        - { match: \S+, name: *SCOPE_var }
 
       override_private:
         begin: ^[ ]*(override|private)\b
@@ -184,8 +190,7 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
-        - match: \S+
-          name: variable.other.makefile
+        - { match: \S+, name: *SCOPE_var }
 
       conditional:
         begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
@@ -234,7 +239,7 @@ repository:
     begin: *__varAssignBegin
     beginCaptures:
       "1":
-        name: variable.other.makefile
+        name: *SCOPE_varAsgn
         patterns:
         - include: "#expansions"
       "2":
@@ -455,7 +460,7 @@ repository:
   expansions-$p_func-builtin_flavor.._p:
     patterns:
     - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))
-      contentName: variable.other.makefile
+      contentName: *SCOPE_var
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end:   (?=\))
@@ -466,7 +471,7 @@ repository:
   expansions-$b_func-builtin_flavor.._b:
     patterns:
     - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
-      contentName: variable.other.makefile
+      contentName: *SCOPE_var
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end:   (?=})
@@ -478,7 +483,7 @@ repository:
     patterns:
     - begin: (?x) (?<=\()   (?! \))
       end:   (?x) (?= \)|(?<!\\)\n )
-      name: variable.other.makefile
+      name: *SCOPE_var
       patterns:
       - include: "#expansions"
       - { match: \\\n, name: *SCOPE_lineCont }
@@ -487,7 +492,7 @@ repository:
     patterns:
     - begin: (?x) (?<=\{)   (?! \})
       end:   (?x) (?= \}|(?<!\\)\n )
-      name: variable.other.makefile
+      name: *SCOPE_var
       patterns:
       - include: "#expansions"
       - { match: \\\n, name: *SCOPE_lineCont }

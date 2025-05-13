@@ -235,32 +235,6 @@ repository:
     #   _$p..p_           <=>  captures $(..)
     #   $p_var-builtin_p  <=>  captures <builtin-var> in $(<builtin-var>)
 
-  interpolation:
-    patterns:
-      - include: "#parentheses-interpolation"
-      - include: "#braces-interpolation"
-    comment: |-
-      the "*interpolation*" rules:
-      * intended to track nested (..)s and {..}s in function arguments
-      * example:
-          `$(info a(b)c)` -> GNU make prints "a(b)c"
-          i.e. ")" after "b" does _not_ end the argument to `info`
-      * will later be renamed to "*NESTED*"
-
-  parentheses-interpolation:
-    begin: \(
-    end: \)
-    patterns:
-      - include: "#variables"
-      - include: "#interpolation"
-
-  braces-interpolation:
-    begin: "{"
-    end: "}"
-    patterns:
-      - include: "#variables"
-      - include: "#interpolation"
-
   variables:
     patterns:
       - include: "#simple-variable"
@@ -339,6 +313,32 @@ repository:
             name: constant.other.placeholder.makefile
           - match: \\\n
             name: constant.character.escape.continuation.makefile
+
+  interpolation:
+    patterns:
+      - include: "#parentheses-interpolation"
+      - include: "#braces-interpolation"
+    comment: |-
+      the "*interpolation*" rules:
+      * intended to track nested (..)s and {..}s in function arguments
+      * example:
+          `$(info a(b)c)` -> GNU make prints "a(b)c"
+          i.e. ")" after "b" does _not_ end the argument to `info`
+      * will later be renamed to "*NESTED*"
+
+  parentheses-interpolation:
+    begin: \(
+    end: \)
+    patterns:
+      - include: "#variables"
+      - include: "#interpolation"
+
+  braces-interpolation:
+    begin: "{"
+    end: "}"
+    patterns:
+      - include: "#variables"
+      - include: "#interpolation"
 
   flavor-variable-parentheses:
     patterns:

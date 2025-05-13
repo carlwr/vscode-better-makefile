@@ -366,12 +366,10 @@ repository:
     - include: "#expansions-_$b..b_"
 
   expansions-_$c_:
-    match: (\$)([^(){}#\n])
+    match: (\$)([^({$#\n ])
     captures:
-      "1":
-        name: variable.language.makefile
-      "2":
-        name: variable.language.makefile
+      "1": { name: punctuation.definition.variable.makefile }
+      "2": { name: variable.language.makefile }
 
   expansions-_$p..p_:
     patterns:

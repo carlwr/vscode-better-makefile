@@ -40,6 +40,16 @@ repository:
     - match: &SCOPE_varAsgn >-
         variable.other.assignment.makefile
 
+    - match: &SCOPE_recipe__ >-
+        meta.scope.recipe.makefile
+
+    - match: &SCOPE_recipeLN >-
+        meta.scope.recipe.line.makefile
+
+    # currently unused:
+    - match: &SCOPE_recipeRH >-
+        meta.scope.recipe.rulehead.makefile
+
 
 # ------------------------ misc. rules ------------------------ #
 
@@ -321,10 +331,11 @@ repository:
       - include: "#expansions"
 
   recipe:
+    name: *SCOPE_recipe__
     comment: TODO placeholder
 
   recipe-line:
-    name: meta.scope.recipe.line.makefile
+    name: *SCOPE_recipeLN
     begin: ^[\t]([+\-@]*)
     beginCaptures:
       "1": { name: keyword.control.$1.makefile

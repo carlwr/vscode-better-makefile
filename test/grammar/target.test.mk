@@ -10,4 +10,3 @@ all: dependency
 
 	echo "Recipe line"
 # ^ meta.scope.recipe.line.makefile
-#   ^^^^ -keyword

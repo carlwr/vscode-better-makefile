@@ -10,13 +10,21 @@ version: https://github.com/fadeevab/make.tmbundle/commit/1d4c0b541959995db098df
 
 name: make
 scopeName: source.makefile
+
 patterns:
+
   - include: "#comment"
+
   - include: "#variables"
+
   - include: "#variable-assignment"
+
   - include: "#directives"
+
   - include: "#recipe-line"
+
   - include: "#rulehead"
+
 
 repository:
 
@@ -25,11 +33,14 @@ repository:
 
   esc-backslashes:
     comment: TODO
+
   doubleDollar:
     comment: TODO
+
   comma:
     match: ","
     name: punctuation.separator.delimeter.comma.makefile
+
   comment:
     begin: (^[ ]+)?((?<!\\)(\\\\)*)(?=#)
     beginCaptures:
@@ -44,11 +55,14 @@ repository:
         patterns:
           - match: \\\n
             name: constant.character.escape.continuation.makefile
+
   line-cont:
-    comment: |
+    comment: |-
       TODO
+
   percent:
     comment: TODO
+
   wildcard:
     comment: TODO
 
@@ -56,6 +70,7 @@ repository:
 # ------------------------- directives ------------------------ #
 
   directives:
+
     patterns:
       - begin: ^[ ]*([s\-]?include)\b
         beginCaptures:
@@ -215,11 +230,22 @@ repository:
 
   # rule naming conventions
     # TODO
+    # // not yet introduced; the following is planned:
+    # examples:
+    #   _$p..p_           <=>  captures $(..)
+    #   $p_var-builtin_p  <=>  captures <builtin-var> in $(<builtin-var>)
 
   interpolation:
     patterns:
       - include: "#parentheses-interpolation"
       - include: "#braces-interpolation"
+    comment: |-
+      the "*interpolation*" rules:
+      * intended to track nested (..)s and {..}s in function arguments
+      * example:
+          `$(info a(b)c)` -> GNU make prints "a(b)c"
+          i.e. ")" after "b" does _not_ end the argument to `info`
+      * will later be renamed to "*NESTED*"
 
   parentheses-interpolation:
     begin: \(
@@ -227,12 +253,14 @@ repository:
     patterns:
       - include: "#variables"
       - include: "#interpolation"
+
   braces-interpolation:
     begin: "{"
     end: "}"
     patterns:
       - include: "#variables"
       - include: "#interpolation"
+
   variables:
     patterns:
       - include: "#simple-variable"
@@ -311,6 +339,7 @@ repository:
             name: constant.other.placeholder.makefile
           - match: \\\n
             name: constant.character.escape.continuation.makefile
+
   flavor-variable-parentheses:
     patterns:
       - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))

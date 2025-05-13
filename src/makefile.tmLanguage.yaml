@@ -28,7 +28,10 @@ repository:
 
     patterns:
 
-    - comment: TODO placeholder
+    - match: &SCOPE_lineCont >-
+        punctuation.separator.continuation.makefile
+        constant.character.escape.continuation.makefile
+        constant.character.escape.line-continuation.makefile
 
 
 # ------------------------ misc. rules ------------------------ #
@@ -64,8 +67,7 @@ repository:
           end:   (?=[^\\])$
           name: comment.line.number-sign.makefile
           patterns:
-          - match: \\\n
-            name: constant.character.escape.continuation.makefile
+          - { match: \\\n, name: *SCOPE_lineCont }
 
   line-cont:
     comment: |-
@@ -240,8 +242,7 @@ repository:
               keyword.operator.assignment.makefile
     end: \n
     patterns:
-    - match: \\\n
-      name: constant.character.escape.continuation.makefile
+    - { match: \\$, name: *SCOPE_lineCont }
     - include: "#comment"
     - include: "#expansions"
 
@@ -308,8 +309,7 @@ repository:
       contentName: meta.scope.prerequisites.makefile
       patterns:
       - match: '[ ]+'
-      - match: \\\n
-        name: constant.character.escape.continuation.makefile
+      - { match: \\\n, name: *SCOPE_lineCont }
       - match: '%|\*'
         name: constant.other.placeholder.makefile
       - include: "#comment"
@@ -326,8 +326,7 @@ repository:
                    keyword.control.recipe-lineprefix.makefile }
     end:   '[^\\]$'
     patterns:
-    - match: \\\n
-      name: constant.character.escape.continuation.makefile
+    - { match: \\\n, name: *SCOPE_lineCont }
     - include: "#expansions"
 
 
@@ -410,8 +409,7 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - match: '%|\*'
         name: constant.other.placeholder.makefile
-      - match: \\\n
-        name: constant.character.escape.continuation.makefile
+      - { match: \\\n, name: *SCOPE_lineCont }
 
   expansions-$b_func-builtin_..b:
     patterns:
@@ -426,8 +424,7 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - match: '%|\*'
         name: constant.other.placeholder.makefile
-      - match: \\\n
-        name: constant.character.escape.continuation.makefile
+      - { match: \\\n, name: *SCOPE_lineCont }
 
   expansions--func-builtin-NESTED:
     patterns:
@@ -484,8 +481,7 @@ repository:
       name: variable.other.makefile
       patterns:
       - include: "#expansions"
-      - match: \\\n
-        name: constant.character.escape.continuation.makefile
+      - { match: \\\n, name: *SCOPE_lineCont }
 
   expansions-$b_text_b:
     patterns:
@@ -494,5 +490,4 @@ repository:
       name: variable.other.makefile
       patterns:
       - include: "#expansions"
-      - match: \\\n
-        name: constant.character.escape.continuation.makefile
+      - { match: \\\n, name: *SCOPE_lineCont }

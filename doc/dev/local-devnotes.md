@@ -8,6 +8,19 @@ tmLanguage.json based on:
 
 ### Scope Names
 
+* line continuation character
+  * matches for Github search `path:/.*\.json/ "semanticTokenColors" <scope>`
+    * 162 punctuation.separator.continuation
+    *  11 constant.character.escape.continuation
+    *  66 constant.character.escape.line-continuation
+    *   0 punctuation.separator.line-continuation
+  * `jeff-hykin/better-shell-syntax`: constant.character.escape.line-continuation
+  * -> use all first three of above
+
+* variable name in variable assignment
+  * `variable.other.assignment.makefile`
+  * (follows jeff-hykin/better-shell-syntax)
+
 * built-in variables (= special variables)
   * `variable.language`
   * user may read, not set

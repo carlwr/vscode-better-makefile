@@ -210,6 +210,42 @@ repository:
         - include: $self
 
 
+# ----------------------- var assignment ---------------------- #
+
+  __varAssignBegin:
+    match: &__varAssignBegin |-
+      (?x)
+      (?:  ^[\ ]*|\G\s*  )  # discard leading whitespace
+      (    [^\s:#=]+     )  # group 1; the variable name
+      \s*                   # any space between name and assignment operator
+                            # assignment operators:
+      ( (?<![?:+!])   =     #    =
+      |              !=     #   !=
+      |             \+=     #   +=
+      |             \?=     #   ?=
+      |              :=     #   :=
+      |             ::=     #  ::=
+      |            :::=     # :::=
+      )
+
+  variable-assignment:
+    begin: *__varAssignBegin
+    beginCaptures:
+      "1":
+        name: variable.other.makefile
+        patterns:
+        - include: "#expansions"
+      "2":
+        name: punctuation.separator.key-value.makefile
+              keyword.operator.assignment.makefile
+    end: \n
+    patterns:
+    - match: \\\n
+      name: constant.character.escape.continuation.makefile
+    - include: "#comment"
+    - include: "#expansions"
+
+
 # --------------------------- rules --------------------------- #
 
   __ruleheadBegin:
@@ -292,42 +328,6 @@ repository:
     patterns:
     - match: \\\n
       name: constant.character.escape.continuation.makefile
-    - include: "#expansions"
-
-
-# ----------------------- var assignment ---------------------- #
-
-  __varAssignBegin:
-    match: &__varAssignBegin |-
-      (?x)
-      (?:  ^[\ ]*|\G\s*  )  # discard leading whitespace
-      (    [^\s:#=]+     )  # group 1; the variable name
-      \s*                   # any space between name and assignment operator
-                            # assignment operators:
-      ( (?<![?:+!])   =     #    =
-      |              !=     #   !=
-      |             \+=     #   +=
-      |             \?=     #   ?=
-      |              :=     #   :=
-      |             ::=     #  ::=
-      |            :::=     # :::=
-      )
-
-  variable-assignment:
-    begin: *__varAssignBegin
-    beginCaptures:
-      "1":
-        name: variable.other.makefile
-        patterns:
-        - include: "#expansions"
-      "2":
-        name: punctuation.separator.key-value.makefile
-              keyword.operator.assignment.makefile
-    end: \n
-    patterns:
-    - match: \\\n
-      name: constant.character.escape.continuation.makefile
-    - include: "#comment"
     - include: "#expansions"
 
 

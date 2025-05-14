@@ -203,16 +203,20 @@ repository:
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
     end: "[^\\\\]$"
     patterns:
-      - begin: \G
+      - begin: \G(?!\n|;)
         end: (?=[^\\])$
-        name: meta.scope.prerequisites.makefile
+        contentName: meta.scope.prerequisites.makefile
         patterns:
+          - match: '[ ]+'
           - match: \\\n
             name: constant.character.escape.continuation.makefile
           - match: "%|\\*"
             name: constant.other.placeholder.makefile
           - include: "#comment"
           - include: "#variables"
+
+  recipe:
+    comment: TODO placeholder
 
   recipe-line:
     name: meta.scope.recipe.line.makefile

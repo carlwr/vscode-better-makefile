@@ -267,6 +267,7 @@ repository:
     match: &__ruleheadBegin |-
       (?x)
       ^(?!\t)    # recipe line - fail the match
+      [ ]*       # eat leading whitespace
       ( # "1": name of target(s)
         [^:]*
       )
@@ -285,6 +286,7 @@ repository:
       "1":
         name: meta.scope.targets.makefile
         patterns:
+        - match: '[ ]+'
         - comment: special target
           captures: { "1": { name: support.function.target.$1.makefile } }
           match: '(?x)
@@ -312,8 +314,8 @@ repository:
             \s*
             $'
         - comment: a target, possibly with expansion(s)
-          begin: (?=\S)
-          end:   (?=\s|$)
+          begin: (?<![^ ])
+          end:   \z|(?=[ ])
           name: entity.name.function.target.makefile
           patterns:
           - include: "#expansions"

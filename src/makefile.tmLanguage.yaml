@@ -252,8 +252,7 @@ repository:
         name: *SCOPE_varAsgn
         patterns:
         - include: "#expansions"
-      "2":
-        name: keyword.operator.assignment.makefile
+      "2": { name: keyword.operator.assignment.makefile }
     end: \n
     name: meta.expression.assignment.makefile
     patterns:
@@ -267,14 +266,17 @@ repository:
   __ruleheadBegin:
     match: &__ruleheadBegin |-
       (?x)
-      ^(?!\t)    # not a recipe line
-      ([^:]*)    # group 1; name of target(s)
-      (  ::      # group 2; the separator after the target(s)
+      ^(?!\t)    # recipe line - fail the match
+      ( # "1": name of target(s)
+        [^:]*
+      )
+      ( # "2": the separator after the target(s)
+         ::
       |  :
       | &::
       | &:
       )
-      (?!\=)     # ...but not if ':='
+      (?!\=)     # the : was part of ':=' -> assignment -> fail the match!
 
   rulehead:
     name: meta.scope.rulehead.makefile
@@ -283,8 +285,8 @@ repository:
       "1":
         name: meta.scope.targets.makefile
         patterns:
-        - captures:
-            "1": { name: support.function.target.$1.makefile }
+        - comment: special target
+          captures: { "1": { name: support.function.target.$1.makefile } }
           match: '(?x)
             ^
             \s*
@@ -309,7 +311,8 @@ repository:
             )
             \s*
             $'
-        - begin: (?=\S)
+        - comment: a target, possibly with expansion(s)
+          begin: (?=\S)
           end:   (?=\s|$)
           name: entity.name.function.target.makefile
           patterns:

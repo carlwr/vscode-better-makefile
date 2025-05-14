@@ -184,10 +184,11 @@ repository:
       ^(?!\t)([^:]*)(:)(?!\=)
 
   rulehead:
-    name: meta.scope.target.makefile
+    name: meta.scope.rulehead.makefile
     begin: *__ruleheadBegin
     beginCaptures:
       "1":
+        name: meta.scope.targets.makefile
         patterns:
           - captures:
               "1": { name: support.function.target.$1.makefile }
@@ -199,7 +200,7 @@ repository:
               - include: "#variables"
               - match: "%"
                 name: constant.other.placeholder.makefile
-      "2": { name: punctuation.separator.key-value.makefile }
+      "2": { name: punctuation.separator.key-value.rulehead.makefile }
     end: "[^\\\\]$"
     patterns:
       - begin: \G
@@ -214,7 +215,7 @@ repository:
           - include: "#variables"
 
   recipe-line:
-    name: meta.scope.recipe.makefile
+    name: meta.scope.recipe.line.makefile
     begin: ^[\t]([+\-@]*)
     beginCaptures:
       "1": { name: keyword.control.$1.makefile

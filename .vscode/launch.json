@@ -12,6 +12,10 @@
       "type": "extensionHost",
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "env": {
+        "VSC_ARW_ENABLED": "on",
+        "VSC_ARW_GLOBS": "${workspaceFolder}/syntaxes/*.json",
+      },
     }
   ]
 }

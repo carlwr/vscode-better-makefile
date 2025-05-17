@@ -52,3 +52,17 @@ pnpm test
   # - only runs xpass tests
 ```
 For the grammar tests, some of the files in `doc/dev/` are relevant.
+
+
+### Auto-reload window convenience
+
+With the [`auto-reload-window` extension][arw-ext], it is possible to see updated highlighting immediately and automatically when the yaml grammar file is saved:
+* run the background _watch_ task in `.vscode/tasks.json` to automatically trigger the yaml to json conversion on save
+* use the launch task in `.vscode/launch.json` to open a _development host_ window running this (=the language grammar) extension
+  * this launch tasks also sets environment variables for `auto-reload-window`
+* if `auto-reload-window` is installed, it will pick up the settings in `.vscode/settings.json`
+
+The consequence of the above taken together is that saving the yaml grammar will immediately show files in the _development host window_ with updated highlighting, whereas other windows will not be affected or automatically reloaded.
+
+[arw-gh]: https://github.com/carlwr/vscode-auto-reload-window
+[arw-ext]: https://marketplace.visualstudio.com/items?itemName=carlwr.auto-reload-window

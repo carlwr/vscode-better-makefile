@@ -17,6 +17,7 @@
   "engines": {
     "vscode": "^1.96.0"
   },
+  "type": "module",
   "categories": [
     "Programming Languages"
   ],
@@ -61,21 +62,37 @@
     ]
   },
   "scripts": {
-    "build": "pnpm build:convert && pnpm build:sort && pnpm build:validate-schema",
-    "build:convert": "js-yaml src/makefile.tmLanguage.yaml > syntaxes/makefile.tmLanguage.json",
-    "build:sort": "jsonsort syntaxes/makefile.tmLanguage.json",
-    "build:validate-schema": "ajv validate -s schemas/tmLanguage.schema.json -d syntaxes/makefile.tmLanguage.json",
+    "build": "tsx build.ts && ./scripts/scopes >./syntaxes/makefile.scopes.txt",
+    "watch:build": "tsx build.ts --watch",
+    "prebuild": "pnpm run typecheck && pnpm run lint",
+    "lint": "eslint \"src/**/*.ts\" \"build.ts\" --cache --max-warnings=40",
+    "typecheck": "tsc --noEmit",
+    "qa": "pnpm run typecheck && pnpm run lint && pnpm run test:silent",
     "test": "timeout -t 3s -- vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",
     "test:silent": "pnpm run test >/dev/null && echo 'tests: passed' && echo",
     "LAST_dummy": "echo \"Dear Sir,\n\n'); UPDATE jsonrules SET trailing_commas='allowed'; --\" | sendmail packagejson-wg@nodejs.org"
   },
   "packageManager": "pnpm@10.11.0",
   "devDependencies": {
-    "ajv-cli": "^5.0.0",
-    "js-yaml": "^4.1.0",
-    "json-sort-cli": "^4.0.9",
+    "@eemeli/yaml": "jsr:^2.8.0",
+    "@eslint/js": "^9.26.0",
+    "@types/node": "^22.15.3",
+    "@types/vscode": "1.96.0",
+    "ajv": "^8.17.1",
+    "arg": "^5.0.2",
+    "chokidar": "4.0.3",
+    "eslint": "^9.26.0",
+    "read-pkg": "^9.0.1",
+    "sort-keys-recursive": "^2.1.10",
     "timeout-cli": "^0.3.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1",
     "vscode-tmgrammar-test": "^0.1.3",
+    "zod": "^3.25.20",
     "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
+  },
+  "__metadata": {
+    "size": 156172524
   }
 }

@@ -2,6 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug Build",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm tsx build.ts",
+    },
+    {
       "name": "ExtensionHost",
       "type": "extensionHost",
       "request": "launch",

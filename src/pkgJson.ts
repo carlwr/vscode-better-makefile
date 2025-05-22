@@ -9,6 +9,9 @@ const schema = z.object({
       scopeName: z.string(),
     })),
   }),
+  devDependencies: z.object({
+    'vscode-oniguruma': z.string(),
+  }),
 });
 
 function parse(): PackageJson {

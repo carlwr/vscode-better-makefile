@@ -5,6 +5,7 @@ import arg from 'arg';
 import chokidar from 'chokidar';
 import sortKeysRecursive from 'sort-keys-recursive';
 import * as cfg from './src/cfg.js';
+import * as validate from './src/tmgrammar-validate-wrapper.js';
 
 
 const args = arg({'--watch': Boolean}, { permissive: true });
@@ -36,6 +37,14 @@ async function build() {
 
   await schemaValidate(sortedJsonObj);
   console.log(`DONE: schema OK:  ${cfg.GRAMMAR_JSON}.`);
+
+  try {
+    await validate.validate()
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+  console.log(`DONE: validated:  ${cfg.GRAMMAR_JSON}.`);
 
   console.log('')
 }

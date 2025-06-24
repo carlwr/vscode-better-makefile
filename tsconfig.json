@@ -17,6 +17,6 @@
     "types": ["node", "vscode"],
     "typeRoots": ["./node_modules/@types"],
   },
-  "include": ["src/**/*.ts", "build.ts", "eslint.config.*"],
+  "include": ["src/**/*.ts", "build.ts"],
   "exclude": ["node_modules", "out"],
 }

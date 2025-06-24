@@ -1,0 +1,49 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+  "files": {
+    "includes": ["src/**/*.ts", "build.ts", "test/**/*.ts", "vitest.config.ts"],
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true,
+    },
+  },
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off",
+      },
+      "correctness": {
+        "noUnreachable": "info",
+        "noUnusedVariables": "info",
+      },
+      "style": {
+        "useTemplate": "info",
+        "noUnusedTemplateLiteral": "info",
+        "noParameterAssign": "warn",
+        "noYodaExpression": "warn",
+        "useAsConstAssertion": "info",
+        "useForOf": "info",
+        "useNodejsImportProtocol": "warn",
+        "useShorthandAssign": "info",
+        "noImplicitBoolean": "info",
+        "noNonNullAssertion": "off",
+      },
+      "complexity": {
+        "noForEach": "off",
+      },
+    },
+  },
+  "formatter": {
+    "enabled": false,
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+}

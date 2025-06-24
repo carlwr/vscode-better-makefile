@@ -18,11 +18,11 @@ import { pkgJson } from './pkgJson.js';
 /* NOTE about using the 'vscode-textmate' import:
 use...
   vscTM.default.<member>    ...for runtime
-  vscTM.<Type>              ...for types (for TypeScript/eslint)
+  vscTM.<Type>              ...for types
 
 details, background:
   - (the below is probably true for both vscode-textmate and vscode-oniguruma)
-  - for this/these packages, there is seemingly some deficiency in how the module interface is exported and/or how the .d.ts files are generated - in a way that can cause a runtime TypeError although `tsc --noEmit` and eslint is happy.
+  - for this/these packages, there is seemingly some deficiency in how the module interface is exported and/or how the .d.ts files are generated - in a way that can cause a runtime TypeError even though typechecker and linter are happy.
 */
 
 

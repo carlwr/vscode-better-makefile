@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises';
+import * as tmv from '@carlwr/textmate-validate'
 import * as yaml from '@eemeli/yaml';
 import Ajv from 'ajv';
 import arg from 'arg';
 import chokidar from 'chokidar';
 import sortKeysRecursive from 'sort-keys-recursive';
 import * as cfg from './src/cfg.js';
-import * as validate from './src/tmgrammar-validate-wrapper.js';
 
 
 const args = arg({'--watch': Boolean}, { permissive: true });
@@ -38,12 +38,7 @@ async function build() {
   await schemaValidate(sortedJsonObj);
   console.log(`DONE: schema OK:  ${cfg.GRAMMAR_JSON}.`);
 
-  try {
-    await validate.validate()
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
+  await tmvValidate(cfg.GRAMMAR_JSON);
   console.log(`DONE: validated:  ${cfg.GRAMMAR_JSON}.`);
 
   console.log('')
@@ -61,5 +56,15 @@ async function schemaValidate(jsonObj: SomeRecord) {
   const ajv = new Ajv.Ajv();
   if (!ajv.validate(schema, jsonObj)) {
     throw new Error(ajv.errorsText());
+  }
+}
+
+async function tmvValidate(jsonPath: string) {
+  const result = await tmv.validateGrammar(jsonPath)
+  if (!tmv.passed(result)) {
+    const verbosity = 2
+    const compact = false
+    tmv.printResult(result, verbosity, compact)
+    throw new Error('FAILED: textmate-validate')
   }
 }

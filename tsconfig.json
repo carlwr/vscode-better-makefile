@@ -14,9 +14,9 @@
     "skipLibCheck": true,
     "allowJs": true,
     "noErrorTruncation": true,
-    "types": ["node", "vscode"],
+    "types": ["node"],
     "typeRoots": ["./node_modules/@types"],
   },
   "include": ["src/**/*.ts", "build.ts"],
-  "exclude": ["node_modules", "out"],
+  "exclude": ["node_modules"],
 }

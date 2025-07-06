@@ -1,0 +1,42 @@
+name: better-makefile
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: |
+            - args: [--frozen-lockfile]
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Build + package extension
+        run: pnpm run vsix
+
+      - name: Create release, upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: false
+          fail_on_unmatched_files: true
+          files: |
+            syntaxes/makefile.tmLanguage.json
+            syntaxes/makefile.scopes.txt
+            better-makefile.vsix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -65,3 +65,8 @@ tmLanguage.json based on:
 file wildcards
   * `jeff-hykin/better-shell-syntax`
     * `variable.language.special.wildcard`
+
+### Links
+
+* https://github.com/tree-sitter-grammars/tree-sitter-make
+  * https://github.com/tree-sitter-grammars/tree-sitter-make/blob/main/queries/highlights.scm

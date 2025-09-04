@@ -70,3 +70,5 @@ file wildcards
 
 * https://github.com/tree-sitter-grammars/tree-sitter-make
   * https://github.com/tree-sitter-grammars/tree-sitter-make/blob/main/queries/highlights.scm
+* https://github.com/vsce-toolroom/vscode-textmate-languageservice
+  * adding VS Code language services to an extension with only a textmate grammar + config file

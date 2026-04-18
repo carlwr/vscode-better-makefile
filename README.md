@@ -112,3 +112,7 @@ Grammar bugs can be reported in the [GitHub issues](https://github.com/carlwr/vs
 ## For theme authors
 
 The scopes this extension defines are available in the `makefile.scopes.txt` file which is generated and included with each [release](https://github.com/carlwr/vscode-better-makefile/releases).
+
+## Written by a human
+
+All code and text in this repo is hand-written by me (Carl), a human developer. AI models were occasionally used for questions and discussions; the majority of the work was performed before AI models and agents were strong enough that using them more extensively gave desired results faster than if I hand-coded everything myself.

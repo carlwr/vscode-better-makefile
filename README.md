@@ -9,10 +9,10 @@
 
 <p align="center">
   <a href="https://marketplace.visualstudio.com/items?itemName=carlwr.better-makefile">
-    <img alt="VS Code Marketplace" src="https://img.shields.io/visual-studio-marketplace/release-date/carlwr.better-makefile?style=for-the-badge&label=VS-Code">
+    <img alt="VS Code Marketplace" src="https://img.shields.io/badge/VS%20Code%20Marketplace-6ea500?style=for-the-badge&logo=visualstudiocode&logoColor=white">
   </a>
   <a href="https://open-vsx.org/extension/carlwr/better-makefile">
-    <img alt="Open VSX" src="https://img.shields.io/open-vsx/release-date/carlwr/vscode-better-makefile?style=for-the-badge&label=open-vsx">
+    <img alt="Open VSX" src="https://img.shields.io/badge/Open%20VSX-6ea500?style=for-the-badge">
   </a>
   <a href="https://github.com/carlwr/vscode-better-makefile/releases">
     <img alt="GitHub" src="https://img.shields.io/github/v/release/carlwr/vscode-better-makefile?style=for-the-badge&logo=github">

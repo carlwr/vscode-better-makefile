@@ -115,4 +115,4 @@ The scopes this extension defines are available in the `makefile.scopes.txt` fil
 
 ## Written by a human
 
-All code and text in this repo is hand-written by me (Carl), a human developer. AI models were occasionally used for questions and discussions; the majority of the work was performed before AI models and agents were strong enough that using them more extensively gave desired results faster than if I hand-coded everything myself.
+All code and text in this repo is hand-written by me (Carl), a human developer. AI models were occasionally used for questions and discussions. Experimentation with autonomous work was done, but these were not fruitful: with models and tools available at the time the majority of work was done (early 2025), I concluded that self-spent time to get desired results favoured hand-coding over directing and reviewing agent work.

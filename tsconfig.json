@@ -15,6 +15,7 @@
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "noErrorTruncation": true,
     "types": ["node"],

@@ -23,74 +23,74 @@ patterns:
 
 # ----------------------- misc. anchors ----------------------- #
 
-  __miscAnchors:
+__miscAnchors:
 
-    patterns:
+  patterns:
 
-    - match: &SCOPE_lineCont >-
-        punctuation.separator.continuation.makefile
-        constant.character.escape.continuation.makefile
-        constant.character.escape.line-continuation.makefile
+  - match: &SCOPE_lineCont >-
+      punctuation.separator.continuation.makefile
+      constant.character.escape.continuation.makefile
+      constant.character.escape.line-continuation.makefile
 
-    - match: &SCOPE_var >-
-        variable.other.makefile
-        variable.other.string.makefile
+  - match: &SCOPE_var >-
+      variable.other.makefile
+      variable.other.string.makefile
 
-    - match: &SCOPE_varAsgn >-
-        variable.other.assignment.makefile
+  - match: &SCOPE_varAsgn >-
+      variable.other.assignment.makefile
 
-    - match: &SCOPE_recipe__ >-
-        meta.scope.recipe.makefile
+  - match: &SCOPE_recipe__ >-
+      meta.scope.recipe.makefile
 
-    - match: &SCOPE_recipeLN >-
-        meta.scope.recipe.line.makefile
+  - match: &SCOPE_recipeLN >-
+      meta.scope.recipe.line.makefile
 
-    - match: &SCOPE_recipeRH >-
-        meta.scope.recipe.rulehead.makefile
+  - match: &SCOPE_recipeRH >-
+      meta.scope.recipe.rulehead.makefile
 
-    - match: &SCOPE_recipeLnPfx >-
-        keyword.control.recipe-lineprefix.makefile
-        keyword.control.recipe-lineprefix.$1.makefile
+  - match: &SCOPE_recipeLnPfx >-
+      keyword.control.recipe-lineprefix.makefile
+      keyword.control.recipe-lineprefix.$1.makefile
 
-    - match: &SCOPE_str >-
-        string.unquoted.makefile
-        meta.string.makefile
+  - match: &SCOPE_str >-
+      string.unquoted.makefile
+      meta.string.makefile
 
-    # substref scopes:
-    - match: &SCOPE_sr_met meta.substref.makefile
-    - match: &SCOPE_sr_col punctuation.separator.substref.colon.makefile
-    - match: &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
-    - match: &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
+  # substref scopes:
+  - match: &SCOPE_sr_met meta.substref.makefile
+  - match: &SCOPE_sr_col punctuation.separator.substref.colon.makefile
+  - match: &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
+  - match: &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
 
-    - match: &__notExp |-
-        (?x)
-        ( [^ $]+
-        | (\$\$)+
-        )+
+  - match: &__notExp |-
+      (?x)
+      ( [^ $]+
+      | (\$\$)+
+      )+
 
-    - match: &__specialTargets |-
-        (?x)
-        (?# special targets: )
-        (?<![^ ])
-        ( \.DEFAULT
-        | \.DELETE_ON_ERROR
-        | \.EXPORT_ALL_VARIABLES
-        | \.IGNORE
-        | \.INTERMEDIATE
-        | \.LOW_RESOLUTION_TIME
-        | \.NOTINTERMEDIATE
-        | \.NOTPARALLEL
-        | \.ONESHELL
-        | \.PHONY
-        | \.POSIX
-        | \.PRECIOUS
-        | \.SECONDARY
-        | \.SECONDEXPANSION
-        | \.SILENT
-        | \.SUFFIXES
-        | \.WAIT
-        )
-        (\z|(?=[ ]))
+  - match: &__specialTargets |-
+      (?x)
+      (?# special targets: )
+      (?<![^ ])
+      ( \.DEFAULT
+      | \.DELETE_ON_ERROR
+      | \.EXPORT_ALL_VARIABLES
+      | \.IGNORE
+      | \.INTERMEDIATE
+      | \.LOW_RESOLUTION_TIME
+      | \.NOTINTERMEDIATE
+      | \.NOTPARALLEL
+      | \.ONESHELL
+      | \.PHONY
+      | \.POSIX
+      | \.PRECIOUS
+      | \.SECONDARY
+      | \.SECONDEXPANSION
+      | \.SILENT
+      | \.SUFFIXES
+      | \.WAIT
+      )
+      (\z|(?=[ ]))
 
 
 repository:

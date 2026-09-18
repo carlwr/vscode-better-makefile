@@ -25,50 +25,48 @@ patterns:
 
 __miscAnchors:
 
-  patterns:
-
-  - match: &SCOPE_lineCont >-
+  - &SCOPE_lineCont >-
       punctuation.separator.continuation.makefile
       constant.character.escape.continuation.makefile
       constant.character.escape.line-continuation.makefile
 
-  - match: &SCOPE_var >-
+  - &SCOPE_var >-
       variable.other.makefile
       variable.other.string.makefile
 
-  - match: &SCOPE_varAsgn >-
+  - &SCOPE_varAsgn >-
       variable.other.assignment.makefile
 
-  - match: &SCOPE_recipe__ >-
+  - &SCOPE_recipe__ >-
       meta.scope.recipe.makefile
 
-  - match: &SCOPE_recipeLN >-
+  - &SCOPE_recipeLN >-
       meta.scope.recipe.line.makefile
 
-  - match: &SCOPE_recipeRH >-
+  - &SCOPE_recipeRH >-
       meta.scope.recipe.rulehead.makefile
 
-  - match: &SCOPE_recipeLnPfx >-
+  - &SCOPE_recipeLnPfx >-
       keyword.control.recipe-lineprefix.makefile
       keyword.control.recipe-lineprefix.$1.makefile
 
-  - match: &SCOPE_str >-
+  - &SCOPE_str >-
       string.unquoted.makefile
       meta.string.makefile
 
   # substref scopes:
-  - match: &SCOPE_sr_met meta.substref.makefile
-  - match: &SCOPE_sr_col punctuation.separator.substref.colon.makefile
-  - match: &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
-  - match: &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
+  - &SCOPE_sr_met meta.substref.makefile
+  - &SCOPE_sr_col punctuation.separator.substref.colon.makefile
+  - &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
+  - &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
 
-  - match: &__notExp |-
+  - &__notExp |-
       (?x)
       ( [^ $]+
       | (\$\$)+
       )+
 
-  - match: &__specialTargets |-
+  - &__specialTargets |-
       (?x)
       (?# special targets: )
       (?<![^ ])

@@ -1,60 +1,44 @@
-# _Better Makefile_ VS Code extension
-
-_Better syntax highlighting for makefiles_
-
-
-## Misc.
+## Print scope names
 
 To print the scope names the grammar defines to stdout, run:
 ```bash
 ./scripts/scopes
 ```
 
-
 ## Development
 
 ### Set-up
 
+Clone and install deps:
 ```bash
-
-# clone the repo:
 git clone carlwr/vscode-better-makefile
 cd vscode-better-makefile
-
-# install dependencies:
 pnpm install
-
 ```
 
-### Building and testing
+### Build
 
 The textMate grammar is defined in _textMate YAML_. A build step converts the YAML file to the JSON textMate format that VS Code understands.
-
-For building, testing and other dev-related tasks, either invoke the scripts in `package.json` or use the makefile. E.g. to build the JSON file, do:
-
 ```bash
 make
-# or
+# -- or --
 pnpm build
 ```
 
-For details, see the mentioned files.
+### Run tests
 
-Format the TypeScript sources with `pnpm format` (biome); `pnpm lint` reports unformatted code.
-
-Run the grammar tests with:
 ```bash
 make test
   # - runs xpass, xfail and parse tests
   # - supports verbosity and output formatting control (see Makefile)
 
-# or
+# -- or --
 
 pnpm test
   # - only runs xpass tests
 ```
-For the grammar tests, some of the files in `doc/dev/` are relevant.
 
+For the grammar tests, some of the files in `doc/dev/` are relevant.
 
 ### Auto-reload window convenience
 

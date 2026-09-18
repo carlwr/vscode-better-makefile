@@ -16,3 +16,16 @@ In the directory of this files, the following files, with filename prefix `_ref_
       - SublimeText grammars do not use the textMate grammar format
       - SublimeText grammars are more expressive than textMate grammars, and hence the SublimeText grammar will be able to identify some Makefile syntax elements that a textMate grammar _cannot_ identify
       - the SublimeText Makefile grammar makes different scope name choices than the textMate grammar of this extension
+
+
+## Provenance of the `_ref_` files
+
+Both are third-party material, kept for reference. They are not part of the extension and not covered by this repository's MIT license. Copyright Sublime HQ Pty Ltd (and contributors).
+
+`_ref_sublime-testing-Makefile-testfile.mk`
+- https://github.com/sublimehq/Packages/blob/master/Makefile/syntax_test_makefile.mak
+- commit: https://github.com/sublimehq/Packages/commit/3b2e548ca24d0a2057819b5832bc515fe97992df
+- only change vs. upstream: "Merge Conflict Markers" section dropped (its raw markers make git and editors treat the file as conflicted)
+
+`_ref_sublime-testing_doc.md`
+- the "Testing" section of https://www.sublimetext.com/docs/syntax.html, as markdown

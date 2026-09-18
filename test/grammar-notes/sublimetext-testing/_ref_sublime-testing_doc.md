@@ -1,3 +1,8 @@
+<!--
+Quoted from the "Testing" section of https://www.sublimetext.com/docs/syntax.html
+Copyright Sublime HQ Pty Ltd. See README.md in this directory.
+-->
+
 ## Testing
 
 When building a syntax definition, rather than manually checking scopes with the `show_scope_name` command, you can define a syntax test file that will do the checking for you:

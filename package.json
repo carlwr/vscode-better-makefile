@@ -74,6 +74,7 @@
     "vscode:publish:major": "npx -y vsce publish major",
     "ovsx:publish": "npx -y ovsx -p $OPEN_VSX_TOKEN publish",
     "lint": "biome check && echo",
+    "format": "biome check --write && echo",
     "typecheck": "tsc --noEmit",
     "qa": "pnpm run typecheck && pnpm run lint && pnpm run test:silent",
     "test": "timeout -t 3s -- vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",

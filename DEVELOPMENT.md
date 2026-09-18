@@ -40,6 +40,8 @@ pnpm build
 
 For details, see the mentioned files.
 
+Format the TypeScript sources with `pnpm format` (biome); `pnpm lint` reports unformatted code.
+
 Run the grammar tests with:
 ```bash
 make test

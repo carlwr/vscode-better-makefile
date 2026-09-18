@@ -8,6 +8,9 @@
       "allowComments": true,
       "allowTrailingCommas": true,
     },
+    "formatter": {
+      "enabled": false,
+    },
   },
   "vcs": {
     "enabled": false,
@@ -43,7 +46,18 @@
     },
   },
   "formatter": {
-    "enabled": false,
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "arrowParentheses": "asNeeded",
+    },
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
 }

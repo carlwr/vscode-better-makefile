@@ -21,9 +21,6 @@ patterns:
 - include: "#recipe-line"
 
 
-repository:
-
-
 # ----------------------- misc. anchors ----------------------- #
 
   __miscAnchors:
@@ -94,6 +91,9 @@ repository:
         | \.WAIT
         )
         (\z|(?=[ ]))
+
+
+repository:
 
 
 # ------------------------ misc. rules ------------------------ #

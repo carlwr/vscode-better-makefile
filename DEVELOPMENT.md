@@ -52,3 +52,13 @@ The consequence of the above taken together is that saving the yaml grammar will
 
 [arw-gh]: https://github.com/carlwr/vscode-auto-reload-window
 [arw-ext]: https://marketplace.visualstudio.com/items?itemName=carlwr.auto-reload-window
+
+
+## Ref's
+
+https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts
+https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts
+
+Possibly useful to print a partial ref on GNU make syntax:
+```bash
+info --node 'quick' make | grep -Po "(?x) (?<=^') .* (?='$)" | less

@@ -1,12 +1,4 @@
-
-Package originally generated with: `npx --package yo --package generator-code -- yo code`
-
-tmLanguage.json based on:
-```
-/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/extensions/make/syntaxes/make.tmLanguage.json
-```
-
-### Scope Names
+# Scope names — notes
 
 * line continuation character
   * matches for Github search `path:/.*\.json/ "semanticTokenColors" <scope>`
@@ -66,9 +58,7 @@ file wildcards
   * `jeff-hykin/better-shell-syntax`
     * `variable.language.special.wildcard`
 
-### Links
+## Links
 
 * https://github.com/tree-sitter-grammars/tree-sitter-make
   * https://github.com/tree-sitter-grammars/tree-sitter-make/blob/main/queries/highlights.scm
-* https://github.com/vsce-toolroom/vscode-textmate-languageservice
-  * adding VS Code language services to an extension with only a textmate grammar + config file

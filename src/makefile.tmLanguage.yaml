@@ -25,70 +25,70 @@ patterns:
 
 __miscAnchors:
 
-  - &SCOPE_lineCont >-
-      punctuation.separator.continuation.makefile
-      constant.character.escape.continuation.makefile
-      constant.character.escape.line-continuation.makefile
+- &SCOPE_lineCont >-
+    punctuation.separator.continuation.makefile
+    constant.character.escape.continuation.makefile
+    constant.character.escape.line-continuation.makefile
 
-  - &SCOPE_var >-
-      variable.other.makefile
-      variable.other.string.makefile
+- &SCOPE_var >-
+    variable.other.makefile
+    variable.other.string.makefile
 
-  - &SCOPE_varAsgn >-
-      variable.other.assignment.makefile
+- &SCOPE_varAsgn >-
+    variable.other.assignment.makefile
 
-  - &SCOPE_recipe__ >-
-      meta.scope.recipe.makefile
+- &SCOPE_recipe__ >-
+    meta.scope.recipe.makefile
 
-  - &SCOPE_recipeLN >-
-      meta.scope.recipe.line.makefile
+- &SCOPE_recipeLN >-
+    meta.scope.recipe.line.makefile
 
-  - &SCOPE_recipeRH >-
-      meta.scope.recipe.rulehead.makefile
+- &SCOPE_recipeRH >-
+    meta.scope.recipe.rulehead.makefile
 
-  - &SCOPE_recipeLnPfx >-
-      keyword.control.recipe-lineprefix.makefile
-      keyword.control.recipe-lineprefix.$1.makefile
+- &SCOPE_recipeLnPfx >-
+    keyword.control.recipe-lineprefix.makefile
+    keyword.control.recipe-lineprefix.$1.makefile
 
-  - &SCOPE_str >-
-      string.unquoted.makefile
-      meta.string.makefile
+- &SCOPE_str >-
+    string.unquoted.makefile
+    meta.string.makefile
 
-  # substref scopes:
-  - &SCOPE_sr_met meta.substref.makefile
-  - &SCOPE_sr_col punctuation.separator.substref.colon.makefile
-  - &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
-  - &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
+# substref scopes:
+- &SCOPE_sr_met meta.substref.makefile
+- &SCOPE_sr_col punctuation.separator.substref.colon.makefile
+- &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
+- &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
 
-  - &__notExp |-
-      (?x)
-      ( [^ $]+
-      | (\$\$)+
-      )+
+- &__notExp |-
+    (?x)
+    ( [^ $]+
+    | (\$\$)+
+    )+
 
-  - &__specialTargets |-
-      (?x)
-      (?# special targets: )
-      (?<![^ ])
-      ( \.DEFAULT
-      | \.DELETE_ON_ERROR
-      | \.EXPORT_ALL_VARIABLES
-      | \.IGNORE
-      | \.INTERMEDIATE
-      | \.LOW_RESOLUTION_TIME
-      | \.NOTINTERMEDIATE
-      | \.NOTPARALLEL
-      | \.ONESHELL
-      | \.PHONY
-      | \.POSIX
-      | \.PRECIOUS
-      | \.SECONDARY
-      | \.SECONDEXPANSION
-      | \.SILENT
-      | \.SUFFIXES
-      | \.WAIT
-      )
-      (\z|(?=[ ]))
+- &__specialTargets |-
+    (?x)
+    (?# special targets: )
+    (?<![^ ])
+    ( \.DEFAULT
+    | \.DELETE_ON_ERROR
+    | \.EXPORT_ALL_VARIABLES
+    | \.IGNORE
+    | \.INTERMEDIATE
+    | \.LOW_RESOLUTION_TIME
+    | \.NOTINTERMEDIATE
+    | \.NOTPARALLEL
+    | \.ONESHELL
+    | \.PHONY
+    | \.POSIX
+    | \.PRECIOUS
+    | \.SECONDARY
+    | \.SECONDEXPANSION
+    | \.SILENT
+    | \.SUFFIXES
+    | \.WAIT
+    )
+    (\z|(?=[ ]))
 
 
 repository:

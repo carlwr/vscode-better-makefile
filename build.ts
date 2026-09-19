@@ -34,7 +34,8 @@ async function build() {
   const jsonObj = yaml.parse(yamlText) as SomeRecord
   const dropped = dropAnchorHolders(jsonObj)
   const sortedJsonObj = sortKeysRecursive(jsonObj)
-  const jsonText = JSON.stringify(sortedJsonObj, null, 2)
+  const orderedJsonObj = hoistKeysToTop(sortedJsonObj)
+  const jsonText = JSON.stringify(orderedJsonObj, null, 2)
   assertUnreferenced(dropped, jsonText)
   const asWritten = JSON.parse(jsonText) as SomeRecord
 
@@ -69,6 +70,13 @@ function dropAnchorHolders(obj: SomeRecord): string[] {
     }
   }
   return dropped
+}
+
+function hoistKeysToTop(obj: SomeRecord): SomeRecord {
+  const first = KEYS_TO_TOP.filter(key => key in obj)
+  const rest = Object.keys(obj).filter(key => !first.includes(key))
+  return Object.fromEntries([...first, ...rest].map(key => [key, obj[key]]))
+  // using the fact that both `JSON.stringify` and the object itself iterate string keys in insertion order
 }
 
 function assertUnreferenced(dropped: string[], jsonText: string) {

@@ -36,12 +36,13 @@ async function build() {
   const sortedJsonObj = sortKeysRecursive(jsonObj)
   const jsonText = JSON.stringify(sortedJsonObj, null, 2)
   assertUnreferenced(dropped, jsonText)
+  const asWritten = JSON.parse(jsonText) as SomeRecord
+
+  await schemaValidate(asWritten)
+  console.log(`DONE: schema OK:  ${cfg.GRAMMAR_JSON}.`)
 
   await fs.writeFile(cfg.GRAMMAR_JSON, jsonText)
   console.log(`DONE: wrote:      ${cfg.GRAMMAR_JSON}.`)
-
-  await schemaValidate(sortedJsonObj)
-  console.log(`DONE: schema OK:  ${cfg.GRAMMAR_JSON}.`)
 
   await tmvValidate(cfg.GRAMMAR_JSON)
   console.log(`DONE: validated:  ${cfg.GRAMMAR_JSON}.`)

@@ -148,17 +148,15 @@ repository:
           "3": { name: meta.escaped-char.makefile }
 
   line-cont:
-    comment: |-
-      handles any sequence of \-s + newline
-
-      no. of \-s   |  line-cont?  consumes newline?
-      -----------  |  ---------   -----------------
-      even         |  n           n
-      odd          |  Y           Y
-      -----------  |  ---------   -----------------
-
-      applies appropriate scopes to all \-s in either case
-
+    # handles any sequence of \-s + newline
+    #
+    # no. of \-s   |  line-cont?  consumes newline?
+    # -----------  |  ---------   -----------------
+    # even         |  n           n
+    # odd          |  Y           Y
+    # -----------  |  ---------   -----------------
+    #
+    # applies appropriate scopes to all \-s in either case
     begin: (?=\\+\n)
     end:   (?!\G)
     applyEndPatternLast: 1
@@ -301,9 +299,8 @@ repository:
           "1": { name: keyword.control.endef.makefile }
         name: meta.scope.define.makefile
         patterns:
-        - comment: |-
-            detect comments in define head
-          begin: \G(?!^)
+        # detect comments in define head
+        - begin: \G(?!^)
           end:   ^
           patterns:
           - include: "#comment"
@@ -416,10 +413,10 @@ repository:
 # --------------------------- rules --------------------------- #
 
   __ruleheadBegin:
+    # We must decide with a single regex whether we have a rulehead or not - make a sensible effort. The key is identifying the rulehead colon + friends reliably.
+    # Posessively eat anything that could be part of the target list before the colon, but importantly, NOT the colon - it must be carefully protected in the eating phase. When this eating is done, we are positioned to attempt to match one of the colon separators - if one matches, we go for a rulehead.
     match: &__ruleheadBegin |-
       (?x)
-      # We must decide with a single regex whether we have a rulehead or not - make a sensible effort. The key is identifying the rulehead colon + friends reliably.
-      # Posessively eat anything that could be part of the target list before the colon, but importantly, NOT the colon - it must be carefully protected in the eating phase. When this eating is done, we are positioned to attempt to match one of the colon separators - if one matches, we go for a rulehead.
       ^(?!\t)    # recipe line - fail the match
       [ ]*       # eat leading whitespace
       ( # "1": name of target(s)
@@ -455,16 +452,15 @@ repository:
         name: meta.scope.targets.makefile
         patterns:
         - match: '[ ]+'
-        - comment: special target
-          match: *__specialTargets
+        - match: *__specialTargets
           captures: { "1": { name: support.function.target.$1.makefile } }
-        - comment: a target, possibly with expansion(s)
-          begin: (?<![^ ])
+        # a target, possibly with expansion(s):
+        - begin: (?<![^ ])
           end:   \z|(?=[ ])
           patterns:
           - include: "#expansions"
           - match: *__notExp
-            comment: need a separate match for non-expansions - we don't want to scope expansions in targets with entity.name.function.target
+            # need a separate match for non-expansions - we don't want to scope expansions in targets with entity.name.function.target
             name: entity.name.function.target.makefile
             captures:
               "0":
@@ -499,7 +495,7 @@ repository:
 
   recipe:
     name: *SCOPE_recipe__
-    comment: do use a general meta scope, for testing (vscode-tmgrammar-test can only test for a complete scope name)
+    # do use a general meta scope, for testing (vscode-tmgrammar-test can only test for a complete scope name)
     begin: (?!\n)
     end:   (?=\n)
     applyEndPatternLast: 1
@@ -528,7 +524,7 @@ repository:
     #   $p_var-builtin_p  <=>  captures <builtin-var> in $(<builtin-var>)
 
   expansions:
-    comment: entry point for all searches for variable expansions
+    # entry point for all searches for variable expansions
     patterns:
     - include: "#expansions-_$c_"
     - include: "#expansions-_$p..p_"
@@ -669,13 +665,12 @@ repository:
     patterns:
     - include: "#expansions--func-builtin-NESTED-pp"
     - include: "#expansions--func-builtin-NESTED-bb"
-    comment: |-
-      the "*NESTED*" rules:
-      * intended to track nested (..)s and {..}s in function arguments
-      * example:
-          `$(info a(b)c)` -> GNU make prints "a(b)c"
-          i.e. ")" after "b" does _not_ end the argument to `info`
-      * previously had names "*interpolation*"
+    # the "*NESTED*" rules:
+    # * intended to track nested (..)s and {..}s in function arguments
+    # * example:
+    #     `$(info a(b)c)` -> GNU make prints "a(b)c"
+    #     i.e. ")" after "b" does _not_ end the argument to `info`
+    # * previously had names "*interpolation*"
     repository:
       expansions--func-builtin-NESTED-pp:
         begin: (?x) \(
@@ -727,8 +722,8 @@ repository:
 
   varname-specialVar:
     patterns:
-    - comment: special variable -> mutable
-      match: |-
+    # special variable -> mutable:
+    - match: |-
         (?x)
         \G
         ( COMSPEC
@@ -753,8 +748,8 @@ repository:
         )
         (?= [:)}] )
       name: variable.language.readwrite.makefile
-    - comment: special variable -> immutable
-      match: |-
+    # special variable -> immutable:
+    - match: |-
         (?x)
         \G
         ( CURDIR

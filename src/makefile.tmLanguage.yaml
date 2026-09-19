@@ -581,8 +581,8 @@ repository:
       - include: "#varname-segment"
       - { match: '\)', name: *SCOPE_var }
 
-  ___builtInFuncBegin:
-    match: &.__builtInFuncBegin |-
+  __builtInFuncBegin:
+    match: &__builtInFuncBegin |-
       (?x)
       \G
       (?# built-in functions -> )
@@ -629,7 +629,7 @@ repository:
 
   expansions-$p_func-builtin_..p:
     patterns:
-    - begin: *.__builtInFuncBegin
+    - begin: *__builtInFuncBegin
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end: (?x) (?= \)) | (?=\n)
@@ -646,7 +646,7 @@ repository:
 
   expansions-$b_func-builtin_..b:
     patterns:
-    - begin: *.__builtInFuncBegin
+    - begin: *__builtInFuncBegin
       beginCaptures:
         "1": { name: support.function.$1.makefile }
       end: (?x) (?= \}) | (?=\n)

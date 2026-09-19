@@ -11,6 +11,9 @@ const args = arg({ '--watch': Boolean }, { permissive: true })
 
 type SomeRecord = Record<string, unknown>
 
+const ANCHOR_PREFIX = '__'
+const KEYS_TO_TOP = ['name', 'scopeName']
+
 run().catch((err: unknown) => {
   console.error('Unhandled error:', err)
   process.exit(1)
@@ -29,8 +32,10 @@ async function run() {
 async function build() {
   const yamlText = await fs.readFile(cfg.GRAMMAR_YAML, 'utf8')
   const jsonObj = yaml.parse(yamlText) as SomeRecord
+  const dropped = dropAnchorHolders(jsonObj)
   const sortedJsonObj = sortKeysRecursive(jsonObj)
   const jsonText = JSON.stringify(sortedJsonObj, null, 2)
+  assertUnreferenced(dropped, jsonText)
 
   await fs.writeFile(cfg.GRAMMAR_JSON, jsonText)
   console.log(`DONE: wrote:      ${cfg.GRAMMAR_JSON}.`)
@@ -46,6 +51,30 @@ async function build() {
 
 function watch(cb: () => void) {
   chokidar.watch(cfg.GRAMMAR_YAML, { persistent: true }).on('change', cb)
+}
+
+/**
+ * Drop YAML anchors; no reason to keep them in the generated json.
+ */
+function dropAnchorHolders(obj: SomeRecord): string[] {
+  const repository = (obj.repository ?? {}) as SomeRecord
+  const dropped: string[] = []
+  for (const map of [obj, repository]) {
+    for (const key of Object.keys(map)) {
+      if (key.startsWith(ANCHOR_PREFIX)) {
+        delete map[key]
+        dropped.push(key)
+      }
+    }
+  }
+  return dropped
+}
+
+function assertUnreferenced(dropped: string[], jsonText: string) {
+  const stillIncluded = dropped.filter(key => jsonText.includes(`"#${key}"`))
+  if (stillIncluded.length > 0) {
+    throw new Error(`dropped, but still included: ${stillIncluded.join(', ')}`)
+  }
 }
 
 async function schemaValidate(jsonObj: SomeRecord) {

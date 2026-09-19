@@ -49,7 +49,7 @@ Improvements vs. the default VS Code treatment of Makefile files include:
   - escape and escaped characters, depending on syntax context
 - does not highlight invalid syntax as valid in some cases where the default VS Code grammar incorrectly does, making errors easier to spot
   - e.g. `$(SHELL )`, `$((SHELL))` (invalid GNU make syntax, yet highlighted as valid by the default VS Code grammar)
-- avoids a number of bugs in the default grammar, e.g.
+- avoids a number of bugs in the default grammar — for example, this grammar:
   - correctly scopes rules and variable assignments that start with an expansion (`$(objs): common.h`)
   - correctly scopes ruleheads with line continuation before the rulehead separator
   - `:`s and `=`s in substitution references are not mistaken for rulehead separators or assignment operators
@@ -91,6 +91,8 @@ Note however that the default VS Code themes are rather limited in what scopes t
 - no support for custom `.RECIPEPREFIX`, i.e. for makefiles that don't use `<tab>` (the default) as the recipe prefix
   - since it's hard or impossible to detect and react to (given the limitations of the textMate grammar format that VS Code uses)
   - since treating e.g. `whitespace` as a recipe prefix for all makefiles would make the scoping/highlighting less robust
+- does not scope anything as syntax errors
+  - since that would require assuming a specific make version or flavour, like _GNU make_ - it would cause e.g. Makefiles for BSD-flavoured `make`s to highlight valid syntax as invalid
 
 &nbsp;
 

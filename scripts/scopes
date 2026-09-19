@@ -6,7 +6,7 @@ del(.name)
 | [
   (
     .scopeName,
-    (.. | .name? | select(. != null and . != "makefile"))
+    (.. | objects | (.name?, .contentName?) | select(. != null))
   )
   | scan("\\S+")
 ]

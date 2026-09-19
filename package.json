@@ -40,7 +40,7 @@
           "makefile"
         ],
         "extensions": [
-          "*.mak",
+          ".mak",
           ".mk"
         ],
         "filenames": [

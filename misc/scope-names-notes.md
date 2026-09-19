@@ -66,6 +66,11 @@ file wildcards
   * `variable.language.special.wildcard`
 
 
+`meta.scope.target.makefile`
+* use singular `.target.` rather than plural `.targets.`
+  * since: `meta.scope.target.makefile` has prescedent in fadeevab/make.tmbundle
+
+
 ## Links
 
 * https://github.com/tree-sitter-grammars/tree-sitter-make

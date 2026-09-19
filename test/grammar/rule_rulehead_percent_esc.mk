@@ -5,7 +5,7 @@
 # -----------
 
 tt____\\_: p    ## /tt_*( )?[\\][\\]_: p/
-#^^^^^^^^          meta.scope.targets.makefile
+#^^^^^^^^          meta.scope.target.makefile
 #          ^       meta.scope.prerequisites.makefile
 #     ^          - constant.character.escape.backslash.makefile
 #      ^         - meta.escaped-char.makefile

@@ -74,8 +74,8 @@ and4  &  and-4: and_pre  ## /(?x)^      &       :\ and_pre/
 
 # test scopes:
 and1__&__and-1: and_pre
-#^^^^^^^^^^^^^           meta.scope.targets.makefile
+#^^^^^^^^^^^^^           meta.scope.target.makefile
 #             ^          punctuation.separator.key-value.rulehead.makefile
 and4  &  and-4: and_pre
-#^^^^^^^^^^^^^           meta.scope.targets.makefile
+#^^^^^^^^^^^^^           meta.scope.target.makefile
 #             ^          punctuation.separator.key-value.rulehead.makefile

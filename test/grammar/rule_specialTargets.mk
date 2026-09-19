@@ -10,7 +10,7 @@
 #^^^^^             support.function.target.PHONY.makefile
 #     ^^^^^^^^   - support.function.target.PHONY.makefile
 __targ .PHONY:p
-#^^^^^^^^^^^^      meta.scope.targets.makefile
+#^^^^^^^^^^^^      meta.scope.target.makefile
 #^^^^^             entity.name.function.target.makefile
 #      ^^^^^^      support.function.target.PHONY.makefile
 .PHONY .PHONY:

@@ -3,7 +3,7 @@
 
 tg_:_pr_;_recp
 #^^^^^^^^^^^^^   meta.scope.rulehead.makefile
-#^^              meta.scope.targets.makefile
+#^^              meta.scope.target.makefile
 #^^              entity.name.function.target.makefile
 #  ^             punctuation.separator.key-value.rulehead.makefile
 #   ^^^^         meta.scope.prerequisites.makefile
@@ -30,12 +30,12 @@ tg : pr ; r#cp
 
 
 $(a;b):$(a;);rc
-#^^^^^           meta.scope.targets.makefile
+#^^^^^           meta.scope.target.makefile
 #      ^^^^^     meta.scope.prerequisites.makefile
 #            ^^  meta.scope.recipe.makefile
 
 all:;rec
-#^^              meta.scope.targets.makefile
+#^^              meta.scope.target.makefile
 #    ^^^         meta.scope.recipe.makefile
 
 all:;rec

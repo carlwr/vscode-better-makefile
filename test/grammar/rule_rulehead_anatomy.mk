@@ -2,7 +2,7 @@
 
 __tt  ss : dd  ee
 # ^^  ^^            entity.name.function.target.makefile
-# ^^^^^^^           meta.scope.targets.makefile
+# ^^^^^^^           meta.scope.target.makefile
 #          ^^^^^^^  meta.scope.prerequisites.makefile
 
 

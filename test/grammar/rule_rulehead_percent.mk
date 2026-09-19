@@ -3,13 +3,13 @@
 %tgt: %pre
 #<-   ^        constant.other.placeholder.percent.makefile
 # ^^           entity.name.function.target.makefile
-# ^^           meta.scope.targets.makefile
+# ^^           meta.scope.target.makefile
 #     ^^^^     meta.scope.prerequisites.makefile
 
 tgt%: pre%
 #  ^     ^     constant.other.placeholder.percent.makefile
 #^^            entity.name.function.target.makefile
-# ^^           meta.scope.targets.makefile
+# ^^           meta.scope.target.makefile
 #     ^^^^     meta.scope.prerequisites.makefile
 
 %:
@@ -18,20 +18,20 @@ tgt%: pre%
 
 %: p
 #<-            constant.other.placeholder.percent.makefile
-#<-            meta.scope.targets.makefile
+#<-            meta.scope.target.makefile
 
 $(v)_%: p
-#^^^^^         meta.scope.targets.makefile
+#^^^^^         meta.scope.target.makefile
 #   ^          entity.name.function.target.makefile
 #    ^         constant.other.placeholder.percent.makefile
 
 $(v)% $(v)%: p
-#^^^^^^^^^^    meta.scope.targets.makefile
+#^^^^^^^^^^    meta.scope.target.makefile
 #   ^     ^    constant.other.placeholder.percent.makefile
 
 __%_$c$c _%: p
 #^ ^     ^     entity.name.function.target.makefile
-#^^^^^^^^^^    meta.scope.targets.makefile
+#^^^^^^^^^^    meta.scope.target.makefile
 # ^       ^    constant.other.placeholder.percent.makefile
 #    ^ ^       variable.other.makefile
 
@@ -49,6 +49,6 @@ w:A_%   B_%
 %tg%: %pr%
 #<-   ^        constant.other.placeholder.percent.makefile
 #^^            entity.name.function.target.makefile
-#^^^           meta.scope.targets.makefile
+#^^^           meta.scope.target.makefile
 #     ^^^^     meta.scope.prerequisites.makefile
 

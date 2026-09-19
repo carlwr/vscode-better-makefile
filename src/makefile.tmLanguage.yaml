@@ -462,7 +462,7 @@ repository:
     begin: *__ruleheadBegin
     beginCaptures:
       "1":
-        name: meta.scope.targets.makefile
+        name: meta.scope.target.makefile
         patterns:
         - match: '[ ]+'
         - match: *__specialTargets

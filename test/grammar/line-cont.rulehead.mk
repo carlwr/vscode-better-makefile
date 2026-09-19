@@ -9,12 +9,12 @@ _______targ_B: pre
 #   can't test -> check manually
 #   should be scoped as:
 #     entity.name.function.target.makefile
-#     meta.scope.targets.makefile
+#     meta.scope.target.makefile
 
 targ0_A \
 targ0_B: pre
 #^^^^^^       entity.name.function.target.makefile
-#^^^^^^       meta.scope.targets.makefile
+#^^^^^^       meta.scope.target.makefile
 #        ^^^  meta.scope.prerequisites.makefile
 #
 ## /targ0_A: pre/

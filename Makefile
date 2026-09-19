@@ -1,3 +1,8 @@
+ifeq ($(filter notintermediate,$(.FEATURES)),)
+  $(error requires GNU make >= 4.4; running: $(MAKE) $(MAKE_VERSION))
+endif
+  # use the "notintermediate" as a proxy; it entered GNU make at v4.4
+
 .SHELLFLAGS +=  -eu -o pipefail
 MAKEFLAGS   +=  --no-builtin-rules          \
                 --warn-undefined-variables  \

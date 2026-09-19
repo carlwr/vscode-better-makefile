@@ -156,6 +156,20 @@ br2___  : p2(_     ## /^\Qbr2___: p2(_/
 #         ^^^^     meta.scope.prerequisites.makefile
 
 
+# escapes in prereqs
+# ------------------
+
+_esc1_  : a\bc     ## /\Q_esc1_: a\b/
+#           ^    - meta.escaped-char.makefile
+#^^^^^             meta.scope.target.makefile
+#         ^^^^     meta.scope.prerequisites.makefile
+
+_esc2_  : a\\b     ## /\Q_esc2_: a\\b/
+#          ^     - constant.character.escape.backslash.makefile
+#^^^^^             meta.scope.target.makefile
+#         ^^^^     meta.scope.prerequisites.makefile
+
+
 # not misinterpreted
 # ------------------
 

@@ -15,3 +15,17 @@ var2 =st#c
 #       ^^  - string.unquoted
 #     ^^      meta.string
 #       ^^  - meta.string
+
+
+# escapes
+# -------
+
+a0_ = aa \ b
+#     ^^^^^^  string.unquoted
+#     ^^^^^^  meta.string
+a1_ = a \c b
+#     ^^^^^^  string.unquoted
+#     ^^^^^^  meta.string
+a2_ = a \\ b
+#     ^^^^^^  string.unquoted
+#     ^^^^^^  meta.string

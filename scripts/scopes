@@ -2,7 +2,8 @@
 # Print all scope names in a JSON grammar.
 # The grammar may specify scopes with $ placeholders; these appear unexpanded.
 
-[
+del(.name)
+| [
   (
     .scopeName,
     (.. | .name? | select(. != null and . != "makefile"))

@@ -62,7 +62,7 @@
     ]
   },
   "scripts": {
-    "build": "tsx build.ts && ./scripts/scopes >./syntaxes/makefile.scopes.txt",
+    "build": "tsx build.ts && ./scripts/scopes ./syntaxes/makefile.tmLanguage.json >./syntaxes/makefile.scopes.txt",
     "watch:build": "tsx build.ts --watch",
     "prebuild": "pnpm run typecheck && pnpm run lint",
     "vsix": "npx -y vsce package --out ./better-makefile.vsix",

@@ -2,7 +2,7 @@
 
 To print the scope names the grammar defines to stdout, run:
 ```bash
-./scripts/scopes
+./scripts/scopes syntaxes/makefile.tmLanguage.json
 ```
 
 ## Development

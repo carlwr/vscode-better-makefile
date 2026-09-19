@@ -1,11 +1,13 @@
-#!/bin/sh
-# print all scope names in JSON grammar to stdout
-# invoke from repo root dir
-# note: the grammar may specify scopes with $ placeholders - such scopes appear unexpanded in the output, i.e. with the literal $ placeholders/variable references in the output
+#!/usr/bin/env -S jq -r -f
+# Print all scope names in a JSON grammar.
+# The grammar may specify scopes with $ placeholders; these appear unexpanded.
 
-file="syntaxes/makefile.tmLanguage.json"
-{ jq -r '.scopeName' "$file"
-  jq -r '..|.name? | select(. != null and . != "makefile")' "$file" \
-  | xargs -n1 echo
-}\
-| sort -u
+[
+  (
+    .scopeName,
+    (.. | .name? | select(. != null and . != "makefile"))
+  )
+  | scan("\\S+")
+]
+| unique
+| sort_by(ascii_downcase)[]

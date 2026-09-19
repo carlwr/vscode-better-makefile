@@ -183,7 +183,7 @@ repository:
         - match: '%'
           name: constant.other.placeholder.percent.makefile
         - match: .*
-          name: _error_
+          name: *SCOPE_str  # not expected to be assigned
 
   wildcard:
     match: \\*[*?\[\]]
@@ -199,7 +199,7 @@ repository:
         - match: '[*?\[\]]'
           name: variable.language.special.wildcard.makefile
         - match: .*
-          name: _error_
+          name: *SCOPE_str  # not expected to be assigned
 
 
 # ------------------------- directives ------------------------ #

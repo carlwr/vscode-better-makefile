@@ -4,6 +4,19 @@
 name: make
 scopeName: source.makefile
 
+information_for_contributors:
+
+- >-
+  Canonical source:
+  https://github.com/carlwr/vscode-better-makefile/blob/main/src/makefile.tmLanguage.yaml
+
+- >-
+  Please propose fixes and improvements in the upstream repository.
+
+comment: >-
+  Originally authored by Carl Wernhoff.
+  SPDX-License-Identifier: MIT
+
 patterns:
 
 - include: "#comment"

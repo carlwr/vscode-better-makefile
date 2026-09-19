@@ -12,7 +12,13 @@ const args = arg({ '--watch': Boolean }, { permissive: true })
 type SomeRecord = Record<string, unknown>
 
 const ANCHOR_PREFIX = '__'
-const KEYS_TO_TOP = ['name', 'scopeName']
+
+const KEYS_TO_TOP = [
+  'name',
+  'scopeName',
+  'comment',
+  'information_for_contributors',
+]
 
 run().catch((err: unknown) => {
   console.error('Unhandled error:', err)

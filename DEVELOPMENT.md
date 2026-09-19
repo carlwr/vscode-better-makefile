@@ -56,8 +56,11 @@ The consequence of the above taken together is that saving the yaml grammar will
 
 ## Ref's
 
-https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts
-https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts
+* https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts
+* https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts
+* https://github.com/microsoft/vscode-grammar-updater
+* https://github.com/fadeevab/make.tmbundle
+  * fork of https://github.com/textmate/make.tmbundle
 
 Possibly useful to print a partial ref on GNU make syntax:
 ```bash

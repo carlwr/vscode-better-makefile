@@ -1,0 +1,50 @@
+#!/usr/bin/env zsh
+emulate -L zsh
+set -eu -o pipefail
+
+
+# help
+# ---
+
+case ${1:-} in (-h|--help)
+print "
+print a diff of the scopes in the generated JSON vs. VS Code's stock grammar
+
+Enhanced diff output with \`delta\`:
+
+    ${0:t} | delta --hunk-header-style omit
+
+
+Environment: see 'parameters' section
+"
+exit 0
+;; esac
+
+
+# parameters (overrideable)
+# ---
+
+DS_REF=${DS_REF:-main}
+DS_URL=${DS_URL:-"https://raw.githubusercontent.com/microsoft/vscode/$DS_REF/extensions/make/syntaxes/make.tmLanguage.json"}
+
+
+# implementation
+# ---
+
+root=${0:A:h:h}
+tmLocal=$root/syntaxes/makefile.tmLanguage.json
+tmp=$(mktemp -d)
+
+trap 'rm -rf -- "$tmp"' EXIT
+curl -fsSLo $tmp/stock.json $DS_URL
+
+$root/scripts/scopes $tmp/stock.json >$tmp/stock.scopes
+$root/scripts/scopes $tmLocal        >$tmp/local.scopes
+
+diff \
+  -U 0 \
+  --label vscode/$DS_REF \
+  --label better-makefile \
+  $tmp/stock.scopes \
+  $tmp/local.scopes \
+  || (( $? == 1 ))

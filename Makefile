@@ -18,7 +18,7 @@ BAKSUFX ?=
 
 json    :=  makefile.tmLanguage.json
 scopes  :=  makefile.scopes.txt
-testdir :=      test/grammar
+testdir :=  test/grammar
 bakdir  :=  ../.backup/vscode-better-makefile
 
 outs         :=  syntaxes/$(json)  syntaxes/$(scopes)

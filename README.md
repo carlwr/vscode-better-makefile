@@ -113,7 +113,7 @@ Grammar bugs can be reported in the [GitHub issues](https://github.com/carlwr/vs
 
 ## For theme authors
 
-The scopes this extension defines are available in the `makefile.scopes.txt` file which is generated and included with each [release](https://github.com/carlwr/vscode-better-makefile/releases).
+The scopes this extension defines are listed in [`syntaxes/makefile.scopes.txt`](syntaxes/makefile.scopes.txt), also included with each [release](https://github.com/carlwr/vscode-better-makefile/releases).
 
 ## Written by a human
 

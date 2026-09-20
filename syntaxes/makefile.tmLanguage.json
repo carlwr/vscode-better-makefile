@@ -1,0 +1,1041 @@
+{
+  "name": "Makefile",
+  "scopeName": "source.makefile",
+  "comment": "Originally authored by Carl Wernhoff. SPDX-License-Identifier: MIT",
+  "information_for_contributors": [
+    "Canonical source: https://github.com/carlwr/vscode-better-makefile/blob/main/src/makefile.tmLanguage.yaml",
+    "Please propose fixes and improvements in the upstream repository."
+  ],
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#directives"
+    },
+    {
+      "include": "#variable-assignment"
+    },
+    {
+      "include": "#rulehead"
+    },
+    {
+      "include": "#doubleDollar"
+    },
+    {
+      "include": "#expansions"
+    },
+    {
+      "include": "#recipe-line"
+    }
+  ],
+  "repository": {
+    "comma": {
+      "match": ",",
+      "name": "punctuation.separator.delimeter.comma.makefile"
+    },
+    "comment": {
+      "patterns": [
+        {
+          "include": "#quoted-hash"
+        },
+        {
+          "include": "#comment-actual"
+        }
+      ],
+      "repository": {
+        "comment-actual": {
+          "begin": "(?x)\n(     ^[ ]+        )?  # \"1\": if at BOL: any leading whitespace\n(?<!  \\\\           )   # otherwise unreliable \\ count -> don't match\n(     (?: \\\\{2} )* )   # \"2\": any even no. of \\-s -> quoting \\-es\n(?=   \\#           )   # an (unquoted) # on next position",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.makefile"
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#esc-backslashes"
+                }
+              ]
+            }
+          },
+          "end": "(?!\\G)",
+          "patterns": [
+            {
+              "begin": "\\#",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.makefile"
+                }
+              },
+              "end": "(?=\\n)",
+              "applyEndPatternLast": 1,
+              "name": "comment.line.number-sign.makefile",
+              "patterns": [
+                {
+                  "include": "#line-cont"
+                }
+              ]
+            }
+          ]
+        },
+        "quoted-hash": {
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#esc-backslashes"
+                }
+              ]
+            },
+            "2": {
+              "name": "constant.character.escape.backslash.makefile"
+            },
+            "3": {
+              "name": "meta.escaped-char.makefile"
+            }
+          },
+          "match": "(?x)\n(?<!    \\\\        )   # otherwise unreliable \\ count -> don't match\n(   (?: \\\\{2} )*  )   # \"1\": any even no. of \\-s -> quoting \\-es\n       (\\\\)(\\#)       #    : the quoted #"
+        }
+      }
+    },
+    "directives": {
+      "patterns": [
+        {
+          "include": "#include-directive"
+        },
+        {
+          "include": "#load"
+        },
+        {
+          "include": "#vpath"
+        },
+        {
+          "include": "#define"
+        },
+        {
+          "include": "#export"
+        },
+        {
+          "include": "#override_private"
+        },
+        {
+          "include": "#unexport_undefine"
+        },
+        {
+          "include": "#conditional"
+        }
+      ],
+      "repository": {
+        "conditional": {
+          "begin": "^\\s*(ifeq|ifneq|ifdef|ifndef)(?=\\s)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.$1.makefile"
+            }
+          },
+          "end": "^\\s*(endif)\\b",
+          "name": "meta.scope.conditional.makefile",
+          "patterns": [
+            {
+              "begin": "\\G",
+              "end": "^",
+              "name": "meta.scope.condition.makefile",
+              "patterns": [
+                {
+                  "include": "#comma"
+                },
+                {
+                  "include": "#doubleDollar"
+                },
+                {
+                  "include": "#expansions"
+                },
+                {
+                  "include": "#comment"
+                }
+              ]
+            },
+            {
+              "begin": "^\\s*else(?=\\s)\\s*(ifeq|ifneq|ifdef|ifndef)*(?=\\s)",
+              "beginCaptures": {
+                "0": {
+                  "name": "keyword.control.else.makefile"
+                }
+              },
+              "end": "^",
+              "patterns": [
+                {
+                  "include": "#comma"
+                },
+                {
+                  "include": "#doubleDollar"
+                },
+                {
+                  "include": "#expansions"
+                },
+                {
+                  "include": "#comment"
+                }
+              ]
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        },
+        "define": {
+          "begin": "(?x)\n^\n\\s* \\b(override\\b)?        # \"1\", optional\n\\s* \\b(define  \\b)         # \"2\", required\n\\s*   (                    # \"3\", required\n        (?: [^\\s#=!+?:]+     # >=1 of the subsequences\n        |   ! (?!    =)\n        |  \\+ (?!    =)\n        |  \\? (?!    =)\n        |   : (?!:?:?=)\n        )+\n      )\n\\s*   (                    # \"4\", optional\n        (                    # optional prefix...\n        |   !\n        |  \\+\n        |  \\?\n        |   :?:?:?\n        )?\n        =                    # ...and \"=\"\n      )?",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.override.makefile"
+            },
+            "2": {
+              "name": "keyword.control.define.makefile"
+            },
+            "3": {
+              "name": "variable.other.assignment.makefile"
+            },
+            "4": {
+              "name": "keyword.operator.assignment.makefile"
+            }
+          },
+          "end": "^\\s*(endef)\\b",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.endef.makefile"
+            }
+          },
+          "name": "meta.scope.define.makefile",
+          "patterns": [
+            {
+              "begin": "\\G(?!^)",
+              "end": "^",
+              "patterns": [
+                {
+                  "include": "#comment"
+                }
+              ]
+            },
+            {
+              "include": "#define"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            }
+          ]
+        },
+        "export": {
+          "begin": "^[ ]*(export)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.$1.makefile"
+            }
+          },
+          "end": "^",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#variable-assignment"
+            },
+            {
+              "match": "\\S+",
+              "name": "variable.other.makefile variable.other.string.makefile"
+            }
+          ]
+        },
+        "include-directive": {
+          "begin": "^[ ]*([s\\-]?include)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.include.makefile"
+            }
+          },
+          "end": "^",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#percent"
+            }
+          ]
+        },
+        "load": {
+          "patterns": [
+            {
+              "begin": "^[ ]*([-]?load)\\b",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.control.load.makefile"
+                }
+              },
+              "end": "^",
+              "patterns": [
+                {
+                  "include": "#comment"
+                },
+                {
+                  "include": "#load-symbolname"
+                },
+                {
+                  "include": "#doubleDollar"
+                },
+                {
+                  "include": "#expansions"
+                }
+              ]
+            }
+          ],
+          "repository": {
+            "load-symbolname": {
+              "applyEndPatternLast": 1,
+              "begin": "(?x) \\(",
+              "captures": {
+                "0": {
+                  "name": "punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile"
+                }
+              },
+              "contentName": "meta.scope.load-symbolname.makefile",
+              "end": "(?x) \\) | (?=\\n)",
+              "patterns": [
+                {
+                  "include": "#doubleDollar"
+                },
+                {
+                  "include": "#expansions"
+                },
+                {
+                  "include": "#line-cont"
+                }
+              ]
+            }
+          }
+        },
+        "override_private": {
+          "begin": "^[ ]*(override|private)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.$1.makefile"
+            }
+          },
+          "end": "^",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#variable-assignment"
+            }
+          ]
+        },
+        "unexport_undefine": {
+          "begin": "^[ ]*(unexport|undefine)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.$1.makefile"
+            }
+          },
+          "end": "^",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "match": "\\S+",
+              "name": "variable.other.makefile variable.other.string.makefile"
+            }
+          ]
+        },
+        "vpath": {
+          "begin": "^[ ]*(vpath)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.vpath.makefile"
+            }
+          },
+          "end": "^",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#percent"
+            },
+            {
+              "match": ":",
+              "name": "punctuation.separator.paths.vpath.makefile"
+            }
+          ]
+        }
+      }
+    },
+    "doubleDollar": {
+      "match": "(\\$\\$)+",
+      "name": "constant.character.escape.dollar.makefile"
+    },
+    "esc-backslashes": {
+      "patterns": [
+        {
+          "match": "(\\\\)(\\\\)",
+          "captures": {
+            "1": {
+              "name": "constant.character.escape.backslash.makefile"
+            },
+            "2": {
+              "name": "meta.escaped-char.makefile"
+            }
+          }
+        }
+      ]
+    },
+    "expansions": {
+      "patterns": [
+        {
+          "include": "#expansions-_$c_"
+        },
+        {
+          "include": "#expansions-_$p..p_"
+        },
+        {
+          "include": "#expansions-_$b..b_"
+        }
+      ]
+    },
+    "expansions-$b_func-builtin_..b": {
+      "patterns": [
+        {
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "end": "(?x) (?= \\}) | (?=\\n)",
+          "name": "meta.scope.function-call.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#comma"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#percent"
+            },
+            {
+              "include": "#wildcard"
+            },
+            {
+              "include": "#line-cont"
+            }
+          ]
+        }
+      ]
+    },
+    "expansions-$b_func-builtin_flavor.._b": {
+      "patterns": [
+        {
+          "begin": "(?<={)(origin|flavor)\\s(?=[^\\s}]+\\s*})",
+          "contentName": "variable.other.makefile variable.other.string.makefile",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "end": "(?=})",
+          "name": "meta.scope.function-call.makefile",
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            }
+          ]
+        }
+      ]
+    },
+    "expansions-$p_func-builtin_..p": {
+      "patterns": [
+        {
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "end": "(?x) (?= \\)) | (?=\\n)",
+          "name": "meta.scope.function-call.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#comma"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#percent"
+            },
+            {
+              "include": "#wildcard"
+            },
+            {
+              "include": "#line-cont"
+            }
+          ]
+        }
+      ]
+    },
+    "expansions-$p_func-builtin_flavor.._p": {
+      "patterns": [
+        {
+          "begin": "(?<=\\()(origin|flavor)\\s(?=[^\\s)]+\\s*\\))",
+          "contentName": "variable.other.makefile variable.other.string.makefile",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "end": "(?=\\))",
+          "name": "meta.scope.function-call.makefile",
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            }
+          ]
+        }
+      ]
+    },
+    "expansions--func-builtin-NESTED": {
+      "patterns": [
+        {
+          "include": "#expansions--func-builtin-NESTED-pp"
+        },
+        {
+          "include": "#expansions--func-builtin-NESTED-bb"
+        }
+      ],
+      "repository": {
+        "expansions--func-builtin-NESTED-bb": {
+          "applyEndPatternLast": 1,
+          "begin": "(?x) \\{",
+          "end": "(?x) \\} | (?=\\n)",
+          "name": "meta.scope.function-call.braces-group.makefile",
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#line-cont"
+            }
+          ]
+        },
+        "expansions--func-builtin-NESTED-pp": {
+          "applyEndPatternLast": 1,
+          "begin": "(?x) \\(",
+          "end": "(?x) \\) | (?=\\n)",
+          "name": "meta.scope.function-call.parens-group.makefile",
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#line-cont"
+            }
+          ]
+        }
+      }
+    },
+    "expansions-_$b..b_": {
+      "patterns": [
+        {
+          "begin": "(?x) \\$\\{",
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.variable.makefile"
+            }
+          },
+          "end": "(?x)   \\} | (?=\\n)",
+          "contentName": "meta.scope.expansion.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#line-cont"
+            },
+            {
+              "include": "#expansions-$b_func-builtin_..b"
+            },
+            {
+              "include": "#expansions-$b_func-builtin_flavor.._b"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#varname-specialVar"
+            },
+            {
+              "include": "#varname-automatic"
+            },
+            {
+              "include": "#varname-positional"
+            },
+            {
+              "include": "#substref-segment"
+            },
+            {
+              "include": "#varname-segment"
+            },
+            {
+              "match": "\\)",
+              "name": "variable.other.makefile variable.other.string.makefile"
+            }
+          ]
+        }
+      ]
+    },
+    "expansions-_$c_": {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.variable.makefile"
+        },
+        "2": {
+          "name": "meta.scope.expansion.makefile",
+          "patterns": [
+            {
+              "include": "#varname-automatic"
+            },
+            {
+              "include": "#varname-positional"
+            },
+            {
+              "match": ".",
+              "name": "variable.other.makefile variable.other.string.makefile"
+            }
+          ]
+        }
+      },
+      "match": "(\\$)([^({$#\\n ])"
+    },
+    "expansions-_$p..p_": {
+      "patterns": [
+        {
+          "begin": "(?x) \\$\\(",
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.variable.makefile"
+            }
+          },
+          "end": "(?x)   \\) | (?=\\n)",
+          "contentName": "meta.scope.expansion.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#line-cont"
+            },
+            {
+              "include": "#expansions-$p_func-builtin_..p"
+            },
+            {
+              "include": "#expansions-$p_func-builtin_flavor.._p"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#varname-specialVar"
+            },
+            {
+              "include": "#varname-automatic"
+            },
+            {
+              "include": "#varname-positional"
+            },
+            {
+              "include": "#substref-segment"
+            },
+            {
+              "include": "#varname-segment"
+            },
+            {
+              "match": "\\}",
+              "name": "variable.other.makefile variable.other.string.makefile"
+            }
+          ]
+        }
+      ]
+    },
+    "line-cont": {
+      "applyEndPatternLast": 1,
+      "begin": "(?=\\\\+\\n)",
+      "end": "(?!\\G)",
+      "patterns": [
+        {
+          "include": "#esc-backslashes"
+        },
+        {
+          "begin": "\\\\$",
+          "end": "^",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.separator.continuation.makefile constant.character.escape.continuation.makefile constant.character.escape.line-continuation.makefile"
+            }
+          }
+        }
+      ]
+    },
+    "percent": {
+      "captures": {
+        "0": {
+          "patterns": [
+            {
+              "include": "#esc-backslashes"
+            },
+            {
+              "match": "(\\\\)(%)",
+              "captures": {
+                "1": {
+                  "name": "constant.character.escape.backslash.makefile"
+                },
+                "2": {
+                  "name": "meta.escaped-char.makefile"
+                }
+              }
+            },
+            {
+              "match": "%",
+              "name": "constant.other.placeholder.percent.makefile"
+            },
+            {
+              "match": ".*",
+              "name": "string.unquoted.makefile meta.string.makefile"
+            }
+          ]
+        }
+      },
+      "match": "\\\\*%"
+    },
+    "recipe": {
+      "applyEndPatternLast": 1,
+      "begin": "(?!\\n)",
+      "end": "(?=\\n)",
+      "name": "meta.scope.recipe.makefile",
+      "patterns": [
+        {
+          "match": "\\G[\\t @+\\-]+",
+          "captures": {
+            "0": {
+              "patterns": [
+                {
+                  "match": "[@+\\-]+",
+                  "name": "keyword.control.recipe-lineprefix.makefile keyword.control.recipe-lineprefix.$1.makefile"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "include": "#line-cont"
+        },
+        {
+          "include": "#doubleDollar"
+        },
+        {
+          "include": "#expansions"
+        }
+      ]
+    },
+    "recipe-line": {
+      "applyEndPatternLast": 1,
+      "begin": "^[\\t](?!\\n)",
+      "end": "(?=\\n)",
+      "name": "meta.scope.recipe.line.makefile",
+      "patterns": [
+        {
+          "include": "#recipe"
+        }
+      ]
+    },
+    "rulehead": {
+      "applyEndPatternLast": 1,
+      "begin": "(?x)\n^(?!\\t)    # recipe line - fail the match\n[ ]*       # eat leading whitespace\n( # \"1\": name of target(s)\n  (?:\n    (?:[^$&:#\\\\])++ # chars we can eat carelessly\n  | \\\\    [:#\\\\]    # eat escaped variants of these\n  | \\\\              # after the above, we can eat any backslash\n  | \\g<exp>         # expansions (important: includes $(substref:colons))\n  | \\$(?! [({] )    # eat $<char> expansions\n  | &(?!:)          # an `&` not followed by colon - eat!\n                    # (note: with `\\&`, make does NOT treat & as escaped)\n                    # (importantly, we never eat unescaped #-s)\n  )++\n)\n( # \"2\": the separator after the target(s)\n   ::\n|  :\n| &::\n| &:\n)\n(?!\\=)     # the : was part of ':=' -> assignment -> fail the match!\n\n# define named groups for recursive expansion detection:\n(?<_ch>  (?~| [(){}] | .+ )                                      ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)* \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)* \\) )++ )  ){0}",
+      "beginCaptures": {
+        "1": {
+          "name": "meta.scope.target.makefile",
+          "patterns": [
+            {
+              "match": "[ ]+"
+            },
+            {
+              "match": "(?x)\n(?# special targets: )\n(?<![^ ])\n( \\.DEFAULT\n| \\.DELETE_ON_ERROR\n| \\.EXPORT_ALL_VARIABLES\n| \\.IGNORE\n| \\.INTERMEDIATE\n| \\.LOW_RESOLUTION_TIME\n| \\.NOTINTERMEDIATE\n| \\.NOTPARALLEL\n| \\.ONESHELL\n| \\.PHONY\n| \\.POSIX\n| \\.PRECIOUS\n| \\.SECONDARY\n| \\.SECONDEXPANSION\n| \\.SILENT\n| \\.SUFFIXES\n| \\.WAIT\n)\n(\\z|(?=[ ]))",
+              "captures": {
+                "1": {
+                  "name": "support.function.target.$1.makefile"
+                }
+              }
+            },
+            {
+              "begin": "(?<![^ ])",
+              "end": "\\z|(?=[ ])",
+              "patterns": [
+                {
+                  "include": "#expansions"
+                },
+                {
+                  "match": "(?x)\n( [^ $]+\n| (\\$\\$)+\n)+",
+                  "name": "entity.name.function.target.makefile",
+                  "captures": {
+                    "0": {
+                      "patterns": [
+                        {
+                          "include": "#doubleDollar"
+                        },
+                        {
+                          "include": "#percent"
+                        },
+                        {
+                          "include": "#wildcard"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "2": {
+          "name": "punctuation.separator.key-value.rulehead.makefile"
+        }
+      },
+      "end": "(?=\\n)",
+      "name": "meta.scope.rulehead.makefile",
+      "patterns": [
+        {
+          "begin": "\\G(?!\\n|;)",
+          "end": "(?=\\n|;)",
+          "applyEndPatternLast": 1,
+          "contentName": "meta.scope.prerequisites.makefile",
+          "patterns": [
+            {
+              "match": "[ ]+"
+            },
+            {
+              "include": "#line-cont"
+            },
+            {
+              "include": "#wildcard"
+            },
+            {
+              "include": "#percent"
+            },
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            }
+          ]
+        },
+        {
+          "begin": ";",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.separator.key-value.rulehead.recipe.makefile"
+            }
+          },
+          "end": "(?=\\n)",
+          "contentName": "meta.scope.recipe.rulehead.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#recipe"
+            }
+          ]
+        }
+      ]
+    },
+    "substref-segment": {
+      "begin": ":",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.separator.substref.colon.makefile"
+        }
+      },
+      "end": "(?x) (?= \\)|\\} ) | (?=\\n)",
+      "name": "meta.substref.makefile",
+      "patterns": [
+        {
+          "include": "#doubleDollar"
+        },
+        {
+          "include": "#expansions"
+        },
+        {
+          "include": "#line-cont"
+        },
+        {
+          "match": "%",
+          "name": "constant.other.placeholder.substref.percent.makefile"
+        },
+        {
+          "match": "=",
+          "name": "punctuation.separator.substref.equal.makefile"
+        },
+        {
+          "match": "[^%=\\s]",
+          "name": "string.unquoted.makefile meta.string.makefile"
+        }
+      ]
+    },
+    "variable-assignment": {
+      "applyEndPatternLast": 1,
+      "begin": "(?x)\n(?:  ^[\\ ]*|\\G\\s*  )  # discard leading whitespace\n( (?:        [^!+?=\\s$:#\\\\]++\n  |   (?<!\\\\) [!+?] (?!=)\n  |   \\\\\n  |   \\g<exp>\n  |   \\$(?! [({] )\n  )++\n)  # group 1; the variable name\n\\s*                   # any space between name and assignment operator\n                      # assignment operators:\n( (?<![?:+!])   =     #    =\n|              !=     #   !=\n|             \\+=     #   +=\n|             \\?=     #   ?=\n|              :=     #   :=\n|             ::=     #  ::=\n|            :::=     # :::=\n)\n# define named groups for recursive expansion detection:\n(?<_ch>  (?~| [(){}] | .+ )                                      ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)* \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)* \\) )++ )  ){0}",
+      "beginCaptures": {
+        "1": {
+          "name": "variable.other.assignment.makefile",
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            }
+          ]
+        },
+        "2": {
+          "name": "keyword.operator.assignment.makefile"
+        }
+      },
+      "end": "(?=\\n)",
+      "name": "meta.expression.assignment.makefile",
+      "patterns": [
+        {
+          "include": "#line-cont"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#doubleDollar"
+        },
+        {
+          "include": "#expansions"
+        }
+      ]
+    },
+    "varname-automatic": {
+      "match": "(?x)\n[@%<?^+|*]\n(?: (?<= \\$[({]. ) [FD] (?= [)}:\\\\] )  # $(@F)\n|   (?<= \\$[({]. )      (?= [)}:\\\\] )  # $(@)\n|   (?<= \\$    . )                     # $@\n)",
+      "name": "variable.parameter.automatic.makefile"
+    },
+    "varname-positional": {
+      "match": "(?x)\n[0-9]\n(?: (?<= \\$[({]. )      (?= [)}:\\\\] )  # $(1)\n|   (?<= \\$    . )                     # $1\n)",
+      "name": "variable.parameter.positional.makefile"
+    },
+    "varname-segment": {
+      "captures": {
+        "0": {
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            }
+          ]
+        }
+      },
+      "match": "(?x)\n(?: [^$\\\\:)}\\n]+\n|   (\\$\\$)+\n|   \\\\ (?! \\\\* \\n)   # eat if not appearing to be part of line-cont.\n                     # (in varnames, \\-s escapes nothing but \\n)\n)+",
+      "name": "variable.other.makefile variable.other.string.makefile"
+    },
+    "varname-specialVar": {
+      "patterns": [
+        {
+          "match": "(?x)\n\\G\n( COMSPEC\n| GNUMAKEFLAGS\n| GPATH\n| MAKE\n| MAKEFILES\n| MAKEFLAGS\n| MAKEOVERRIDES\n| MAKESHELL\n| MAKE_TERMERR\n| MAKE_TERMOUT\n| MFLAGS\n| SHELL\n| SUFFIXES\n| VPATH\n| \\.DEFAULT_GOAL\n| \\.EXTRA_PREREQS\n| \\.LIBPATTERNS\n| \\.RECIPEPREFIX\n| \\.SHELLFLAGS\n)\n(?= [:)}] )",
+          "name": "variable.language.readwrite.makefile"
+        },
+        {
+          "match": "(?x)\n\\G\n( CURDIR\n| MAKECMDGOALS\n| MAKEFILE_LIST\n| MAKELEVEL\n| MAKE_HOST\n| MAKE_RESTARTS\n| MAKE_TMPDIR\n| MAKE_VERSION\n| \\.FEATURES\n| \\.INCLUDE_DIRS\n| \\.LOADED\n| \\.SHELLSTATUS\n| \\.VARIABLES\n| -\\*-eval-flags-\\*-\n| -\\*-command-variables-\\*-\n)\n(?= [:)}] )",
+          "name": "variable.language.constant.makefile"
+        }
+      ]
+    },
+    "wildcard": {
+      "captures": {
+        "0": {
+          "patterns": [
+            {
+              "include": "#esc-backslashes"
+            },
+            {
+              "match": "(\\\\)([*?\\[\\]])",
+              "captures": {
+                "1": {
+                  "name": "constant.character.escape.backslash.makefile"
+                },
+                "2": {
+                  "name": "meta.escaped-char.makefile"
+                }
+              }
+            },
+            {
+              "match": "[*?\\[\\]]",
+              "name": "variable.language.special.wildcard.makefile"
+            },
+            {
+              "match": ".*",
+              "name": "string.unquoted.makefile meta.string.makefile"
+            }
+          ]
+        }
+      },
+      "match": "\\\\*[*?\\[\\]]"
+    }
+  }
+}

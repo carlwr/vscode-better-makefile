@@ -44,6 +44,23 @@ brew install make jq pcre2
 sudo apt-get install make zsh jq pcre2-utils
 ```
 
+### Generated files
+
+Files under `syntaxes/`:
+- are generated from `src/makefile.tmLanguage.yaml`
+- are committed
+- should match the source; this is:
+  - verified locally with `make check`
+
+```bash
+make gen && git add syntaxes      # re-generate on conflicts under `syntaxes/`
+git rebase -x 'make check' <base> # verify a range
+git diff -- ':!syntaxes/'         # diff, excluding the generated files
+
+# to bisect:
+git bisect run sh -c 'grep -q ^check: Makefile || exit 125; make check'
+```
+
 ### Run tests
 
 ```bash

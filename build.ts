@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import * as tmv from '@carlwr/textmate-validate'
 import * as yaml from '@eemeli/yaml'
 import Ajv from 'ajv'
@@ -7,7 +8,10 @@ import chokidar from 'chokidar'
 import sortKeysRecursive from 'sort-keys-recursive'
 import * as cfg from './src/cfg.js'
 
-const args = arg({ '--watch': Boolean }, { permissive: true })
+const args = arg(
+  { '--watch': Boolean, '--out-dir': String },
+  { permissive: true },
+)
 
 type SomeRecord = Record<string, unknown>
 
@@ -36,6 +40,8 @@ async function run() {
 }
 
 async function build() {
+  const outDir = args['--out-dir'] ?? path.dirname(cfg.GRAMMAR_JSON)
+  const jsonPath = path.join(outDir, path.basename(cfg.GRAMMAR_JSON))
   const yamlText = await fs.readFile(cfg.GRAMMAR_YAML, 'utf8')
   const jsonObj = yaml.parse(yamlText) as SomeRecord
   const dropped = dropAnchorHolders(jsonObj)
@@ -46,13 +52,14 @@ async function build() {
   const asWritten = JSON.parse(jsonText) as SomeRecord
 
   await schemaValidate(asWritten)
-  console.log(`DONE: schema OK:  ${cfg.GRAMMAR_JSON}.`)
+  console.log(`DONE: schema OK:  ${jsonPath}.`)
 
-  await fs.writeFile(cfg.GRAMMAR_JSON, jsonText)
-  console.log(`DONE: wrote:      ${cfg.GRAMMAR_JSON}.`)
+  await fs.mkdir(outDir, { recursive: true })
+  await fs.writeFile(jsonPath, jsonText)
+  console.log(`DONE: wrote:      ${jsonPath}.`)
 
-  await tmvValidate(cfg.GRAMMAR_JSON)
-  console.log(`DONE: validated:  ${cfg.GRAMMAR_JSON}.`)
+  await tmvValidate(jsonPath)
+  console.log(`DONE: validated:  ${jsonPath}.`)
 
   console.log('')
 }

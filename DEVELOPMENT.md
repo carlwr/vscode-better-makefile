@@ -25,6 +25,21 @@ make
 pnpm build
 ```
 
+System tools required by `make` (any target - but not by `pnpm install` or `pnpm test`):
+- GNU make 4.4+
+- zsh
+- jq
+- pcre2grep
+
+To install what is missing or too old on:
+```bash
+# macOS (GNU make is installed as `gmake`):
+brew install make jq pcre2
+
+# Ubuntu (26.04+; the `make` of earlier releases is too old):
+sudo apt-get install make zsh jq pcre2-utils
+```
+
 ### Run tests
 
 ```bash

@@ -127,7 +127,7 @@ prnt() {
 
   case $1 in
      (red   ) print -rn -- "$(tput setaf   1; )"
-  ;; (red_it) print -rn -- "$(tput setaf   1; tput sitm     ; )"
+  ;; (red_it) print -rn -- "$(tput setaf   1; tput sitm; )"
   ;; (regx  ) print -rn -- "$(tput setaf 105; )"
   ;; (dark  ) print -rn -- "$(tput setaf   0; )"
   ;; (yellow) print -rn -- "$(tput setaf   3; )"

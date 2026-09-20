@@ -21,11 +21,12 @@ pnpm install
 The textMate grammar is defined in _textMate YAML_. A build step converts the YAML file to the JSON textMate format that VS Code understands.
 ```bash
 make
+  # - typecheck + lint, then `make gen` (regenerates `syntaxes/`)
 # -- or --
 pnpm build
 ```
 
-System tools required by `make` (any target - but not by `pnpm install` or `pnpm test`):
+System tools required by `make` (any target; hence also by `pnpm build` - but not by `pnpm install` or `pnpm test`):
 - GNU make 4.4+
 - zsh
 - jq

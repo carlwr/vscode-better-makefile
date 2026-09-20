@@ -33,6 +33,8 @@ outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
   backup        \
   test          \
   clean         \
+  typecheck     \
+  lint          \
   gen           \
   FORCE         \
   inspect.%
@@ -43,7 +45,7 @@ FORCE:
 # dependencies
 # ------------
 
-build    : gen
+build    : typecheck lint gen
 gen      : $(outs)
 test     : \
   test-parse .WAIT \
@@ -53,6 +55,12 @@ test     : \
 
 # recipes
 # -------
+
+typecheck:
+	$(pnpm) run typecheck
+
+lint:
+	$(pnpm) run lint
 
 # build both json and scopes to any dir:
 %/$(json) %/$(scopes) &: FORCE
@@ -165,6 +173,7 @@ endif
 
 ifdef HUMAN
   tsx        := FORCE_COLOR=3 node_modules/.bin/tsx
+  pnpm       := FORCE_COLOR=3 pnpm
   test        = FORCE_COLOR=3 $(testCmd) $1|awk '! /run success/'
   color_FAIL := '$(shell tput setaf 1)'
   color_WARN := '$(shell tput setaf 3)'
@@ -175,6 +184,7 @@ ifdef HUMAN
   color_rst  := '$(shell tput sgr 0)'
 else
   tsx        := FORCE_COLOR=0 node_modules/.bin/tsx
+  pnpm       := FORCE_COLOR=0 pnpm
   test        = FORCE_COLOR=0 $(testCmd) --compact $1|awk '! /run success/'
   color_FAIL := ''
   color_WARN := ''

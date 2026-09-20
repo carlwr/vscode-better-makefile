@@ -104,6 +104,9 @@ parseTest   := test/grammar/scripts/parseTest
 xpass_files := $(call findTests,-not -name '*XFAIL*')
 xfail_files := $(call findTests,     -name '*XFAIL*')
 parse_files != $(parseTest) --files-with-tests $(xpass_files) $(xfail_files)
+ifneq ($(.SHELLSTATUS),0)
+  $(error $(parseTest): exit status $(.SHELLSTATUS))
+endif
 
 # lists of test targets:
 xpass       := $(addprefix T_xpass_,$(xpass_files))

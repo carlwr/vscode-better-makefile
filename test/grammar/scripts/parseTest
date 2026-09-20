@@ -49,15 +49,35 @@ directiveRE='##\s*/\K.*(?=/)'
 # ------------------------------------------------------------- #
 
 p2g() {
-  command -v pcre2grep &>/dev/null \
-  || { wrn_no-p2g; exit 0; }
   pcre2grep --utf $@
+  }
+
+p2g-matches() {  # succeed iff regex $1 matches in file $2; errors are fatal
+  local re=$1 f=$2
+  local p2g_stderr
+  integer haveMatch
+
+  p2g_stderr=$(p2g -q --regex=$re $f 2>&1) \
+  && haveMatch=1 \
+  || haveMatch=0
+
+  (($#p2g_stderr == 0)) || die_p2g $re $p2g_stderr
+  ((haveMatch))         || return 1
+  return 0
+  }
+
+require-p2g() {
+  command -v pcre2grep &>/dev/null || die_no-p2g
   }
 
 files-with-tests() {
   dbg '%s(), args: %s' $0 "$@"
-  (($#@)) || exit 0
-  p2g --files-with-matches --regex=$directiveRE "$@" || true
+  local f
+  foreach f ( $@ ) {
+    if p2g-matches $directiveRE $f
+    then print -r -- $f
+    fi
+    }
   }
 
 get-assertREs() {
@@ -76,22 +96,17 @@ run-test() {
 
     local lines_mkDB=$(wc -l < $f_mkDB)
     dbg 'make db: %d lines' $lines_mkDB
-    ((lines_mkDB>10)) || wrn_mkDB-lines $f_test $lines_mkDB
+    ((lines_mkDB>10)) || die_mkDB-lines $f_test $lines_mkDB
 
     local assertREs
     get-assertREs $f_test assertREs
-    (($#assertREs)) || wrn_noAssertRE $f_test
+    (($#assertREs)) || die_noAssertRE $f_test
     dbgv assertREs
 
-    local re p2g_stderr
+    local re
     foreach re ( $assertREs ) {
-      { if p2g_stderr=$(p2g --regex=$re $f_mkDB 2>&1 >/dev/null)
-        then  dbg 'regex matched: /%s/' $re
-        else  failtrace $f_test $re
-              exit 1
-        fi
-      }\
-      always { (($#p2g_stderr==0)) || wrn_p2g-stderr $re $p2g_stderr; }
+      p2g-matches $re $f_mkDB || { failtrace $f_test $re; exit 1 }
+      dbg 'regex matched: /%s/' $re
       }
 
     } =(cat)  # capture stdin
@@ -130,20 +145,18 @@ prnt() {
   ;; (red_it) print -rn -- "$(tput setaf   1; tput sitm; )"
   ;; (regx  ) print -rn -- "$(tput setaf 105; )"
   ;; (dark  ) print -rn -- "$(tput setaf   0; )"
-  ;; (yellow) print -rn -- "$(tput setaf   3; )"
+  ;; (*     ) die 'internal error'
   ;;
-  # TODO error if not recognized?
   esac
   print -rn -- "$2"
   print -rn -- "$(tput sgr0)"
 }
 
-wrn_() {
-  print -n '[' && prnt yellow $me && print -n '] '
-  prnt  yellow 'warning: '
+die() {
+  print -n '[' && prnt red $me && print -n '] '
+  prnt  red    'error: '
   prnt  dark   "$1"$'\n'
-  # TODO
-  # prnt - '[' -yelw $me - ']' -yelw 'warning: ' -dark "$1"$'\n'
+  exit 1
   } >&2
 
 dbg_(){
@@ -154,10 +167,10 @@ dbg_(){
 dbg (){ dbg_ "$(printf $1 ${@:2})"; }
 dbgv(){ dbg_ "$(echo \`"$@"\`:; typeset -p1 -- $@|sed 's/^/    /')"$'\n' ; }
 
-wrn_no-p2g    () { wrn_ "no pcre2grep; won't run parse tests"  ; }
-wrn_mkDB-lines() { wrn_ "$1: only $2 lines in make database"   ; }
-wrn_noAssertRE() { wrn_ "$1: unexpected: no assert REs found"  ; }
-wrn_p2g-stderr() { wrn_ "pcre2grep stderr for regex /$1/: '$2'"; }
+die_no-p2g    () { die "no pcre2grep; can't run parse tests"; }
+die_mkDB-lines() { die "$1: only $2 lines in make database" ; }
+die_noAssertRE() { die "$1: unexpected: no assert REs found"; }
+die_p2g       () { die "pcre2grep failed, regex /$1/: $2"   ; }
 
 
 # ------------------------------------------------------------- #
@@ -167,7 +180,7 @@ wrn_p2g-stderr() { wrn_ "pcre2grep stderr for regex /$1/: '$2'"; }
 case ${1-} in
    ( --help|-h          ) print "${(@F)help}"
 ;; ( ''                 ) print "${(@F)help}" >&2
-;; ( --files-with-tests ) shift     && files-with-tests $@
-;; ( *                  ) f_test=$1 && run-test ${f_test:?}
+;; ( --files-with-tests ) require-p2g && shift     && files-with-tests $@
+;; ( *                  ) require-p2g && f_test=$1 && run-test ${f_test:?}
 ;;
 esac

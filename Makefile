@@ -16,10 +16,12 @@ NOTRACE ?=
 VERBOSE ?= 1
 BAKSUFX ?=
 
-json    :=  syntaxes/makefile.tmLanguage.json
-yaml    :=       src/makefile.tmLanguage.yaml
+json    :=  makefile.tmLanguage.json
+scopes  :=  makefile.scopes.txt
 testdir :=      test/grammar
 bakdir  :=  ../.backup/vscode-better-makefile
+
+outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
 
 
 # ------------------------------------------------------------- #
@@ -31,14 +33,18 @@ bakdir  :=  ../.backup/vscode-better-makefile
   backup        \
   test          \
   clean         \
+  gen           \
+  FORCE         \
   inspect.%
+
+FORCE:
 
 
 # dependencies
 # ------------
 
-build    : $(json)
-$(json)  : $(yaml)
+build    : gen
+gen      : $(outs)
 test     : \
   test-parse .WAIT \
   test-xfail .WAIT \
@@ -48,8 +54,10 @@ test     : \
 # recipes
 # -------
 
-$(json):
-	$(build)
+# build both json and scopes to any dir:
+%/$(json) %/$(scopes) &: FORCE
+	$(tsx) build.ts --out-dir $*
+	scripts/scopes $*/$(json) >$*/$(scopes)
 
 backup: curdir != basename "$$PWD"
 backup: suffix := $(if $(value BAKSUFX),_$(BAKSUFX),)
@@ -60,7 +68,7 @@ backup:
 	@echo '\ncreated archive:' && ls -lh "$(bakdir)/$f"
 
 clean:
-	rm -f $(json)
+	rm -rf $(outs)
 
 inspect.%:
 	@printf 'unevaluated: %s\n' '$(value $*)'
@@ -105,9 +113,9 @@ test-parse    : test-parse_do
 test-xpass_do : $(xpass)
 test-xfail_do : $(xfail)
 test-parse_do : $(parse)
-$(xpass)      : $(json)
-$(xfail)      : $(json)
-$(parse)      : $(json)
+$(xpass)      : build
+$(xfail)      : build
+$(parse)      : build
 
 
 # recipes
@@ -156,7 +164,7 @@ else
 endif
 
 ifdef HUMAN
-  build       = FORCE_COLOR=3 pnpm build
+  tsx        := FORCE_COLOR=3 node_modules/.bin/tsx
   test        = FORCE_COLOR=3 $(testCmd) $1|awk '! /run success/'
   color_FAIL := '$(shell tput setaf 1)'
   color_WARN := '$(shell tput setaf 3)'
@@ -166,7 +174,7 @@ ifdef HUMAN
   color_file := '$(shell tput setaf 0; tput sitm)'
   color_rst  := '$(shell tput sgr 0)'
 else
-  build       = FORCE_COLOR=0 pnpm build
+  tsx        := FORCE_COLOR=0 node_modules/.bin/tsx
   test        = FORCE_COLOR=0 $(testCmd) --compact $1|awk '! /run success/'
   color_FAIL := ''
   color_WARN := ''

@@ -56,6 +56,7 @@ Files under `syntaxes/`:
 - are committed
 - should match the source; this is:
   - verified locally with `make check`
+  - enforced on `main` by CI
 
 ```bash
 git commit                        # git hooks are run

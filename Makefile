@@ -3,6 +3,7 @@ ifeq ($(filter notintermediate,$(.FEATURES)),)
 endif
   # use the "notintermediate" as a proxy; it entered GNU make at v4.4
 
+SHELL       :=  bash
 .SHELLFLAGS +=  -eu -o pipefail
 MAKEFLAGS   +=  --no-builtin-rules          \
                 --warn-undefined-variables  \
@@ -54,7 +55,7 @@ backup: curdir != basename "$$PWD"
 backup: suffix := $(if $(value BAKSUFX),_$(BAKSUFX),)
 backup: f      := $(shell date "+%Y-%m-%d_%H.%M.%S")$(suffix).tgz
 backup:
-	@[ -d "$(bakdir)" ] || { echo no dir "$(bakdir)"; exit 1; }
+	@[[ -d "$(bakdir)" ]] || { echo no dir "$(bakdir)"; exit 1; }
 	gtar czf "$(bakdir)/$f" --exclude-ignore=.backupignore -C .. "$(curdir)"
 	@echo '\ncreated archive:' && ls -lh "$(bakdir)/$f"
 
@@ -180,7 +181,7 @@ msg = \
   $(strip \
     $(let s type note file,$1 $2 $3 $4,\
       $(if $(filter-out FAIL WARN ok exp done,$s),$(error msg: invalid)) \
-      if [ "$s" != ok -a "$s" != exp ] || [ -n "$(VERBOSE)" ]; \
+      if [[ "$s" != ok && "$s" != exp ]] || [[ -n "$(VERBOSE)" ]]; \
       then \
         { printf '[%s%-4s%s %-5s] %-7s  %s%s%s\n%s' \
           $(color_$s) $s $(color_rst) \

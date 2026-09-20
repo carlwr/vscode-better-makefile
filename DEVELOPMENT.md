@@ -24,6 +24,9 @@ make
   # - typecheck + lint, then `make gen` (regenerates `syntaxes/`)
 # -- or --
 pnpm build
+
+make check
+  # - verifies that `syntaxes/` is up to date; never writes to it
 ```
 
 System tools required by `make` (any target; hence also by `pnpm build` - but not by `pnpm install` or `pnpm test`):

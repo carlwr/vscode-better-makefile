@@ -22,6 +22,10 @@ testdir :=  test/grammar
 bakdir  :=  ../.backup/vscode-better-makefile
 
 outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
+outs-checks  := out/check/$(json) out/check/$(scopes)
+
+diff-jsons   := diff -u syntaxes/$(json)   out/check/$(json)
+diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
 
 
 # ------------------------------------------------------------- #
@@ -36,6 +40,7 @@ outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
   typecheck     \
   lint          \
   gen           \
+  check         \
   FORCE         \
   inspect.%
 
@@ -47,6 +52,7 @@ FORCE:
 
 build    : typecheck lint gen
 gen      : $(outs)
+check    : $(outs-checks)  # should _not_ build $(outs)
 test     : \
   test-parse .WAIT \
   test-xfail .WAIT \
@@ -67,6 +73,10 @@ lint:
 	$(tsx) build.ts --out-dir $*
 	scripts/scopes $*/$(json) >$*/$(scopes)
 
+check:
+	$(diff-scopes)
+	$(diff-jsons)
+
 backup: curdir != basename "$$PWD"
 backup: suffix := $(if $(value BAKSUFX),_$(BAKSUFX),)
 backup: f      := $(shell date "+%Y-%m-%d_%H.%M.%S")$(suffix).tgz
@@ -76,7 +86,7 @@ backup:
 	@echo '\ncreated archive:' && ls -lh "$(bakdir)/$f"
 
 clean:
-	rm -rf $(outs)
+	rm -rf $(outs) $(outs-checks)
 
 inspect.%:
 	@printf 'unevaluated: %s\n' '$(value $*)'

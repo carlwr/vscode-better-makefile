@@ -62,6 +62,7 @@
     ]
   },
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "build": "make build",
     "watch:build": "tsx build.ts --watch",
     "vsix": "npx -y vsce package --out ./better-makefile.vsix",

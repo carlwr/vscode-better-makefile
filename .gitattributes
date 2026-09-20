@@ -1,5 +1,7 @@
 *                  text=auto
 *.json             text eol=lf
+.githooks/*        text eol=lf
+scripts/*          text eol=lf
 syntaxes/*         text eol=lf
 syntaxes/*.json    linguist-generated
 scripts/*          linguist-detectable

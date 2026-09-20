@@ -13,7 +13,12 @@ Clone and install deps:
 ```bash
 git clone carlwr/vscode-better-makefile
 cd vscode-better-makefile
-pnpm install
+pnpm install  # also enables the repo's git hooks
+```
+
+To set up git hooks for an existing checkout:
+```bash
+pnpm run prepare
 ```
 
 ### Build
@@ -29,7 +34,7 @@ make check
   # - verifies that `syntaxes/` is up to date; never writes to it
 ```
 
-System tools required by `make` (any target; hence also by `pnpm build` - but not by `pnpm install` or `pnpm test`):
+System tools required by `make` (any target; hence also by `pnpm build` and by the commit hook - but not by `pnpm install` or `pnpm test`):
 - GNU make 4.4+
 - zsh
 - jq
@@ -53,6 +58,8 @@ Files under `syntaxes/`:
   - verified locally with `make check`
 
 ```bash
+git commit                        # git hooks are run
+git commit -n                     # git hooks are bypassed
 make gen && git add syntaxes      # re-generate on conflicts under `syntaxes/`
 git rebase -x 'make check' <base> # verify a range
 git diff -- ':!syntaxes/'         # diff, excluding the generated files

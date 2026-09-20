@@ -53,6 +53,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: sudo apt-get install -y zsh pcre2-utils
+
       - name: Build + package extension
         run: pnpm run vsix
 

@@ -49,6 +49,8 @@ brew install make jq pcre2
 sudo apt-get install make zsh jq pcre2-utils
 ```
 
+`pnpm build` and the commit hook run GNU make as `gmake` if available, else as `make`.
+
 ### Generated files
 
 Files under `syntaxes/`:

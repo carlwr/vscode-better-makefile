@@ -4,13 +4,12 @@
 emulate -L zsh
 set -eu -o pipefail
 
-make=${commands[gmake]:-make}
 tmp=$(mktemp -d)
 trap 'rm -rf -- $tmp' EXIT
 
 git checkout-index -a --prefix=$tmp/
 ln -s $PWD/node_modules $tmp/node_modules
-$make -s -C $tmp gen >$tmp/gen.log 2>&1 || { cat $tmp/gen.log >&2; exit 1 }
+scripts/make -s -C $tmp gen >$tmp/gen.log 2>&1 || { cat $tmp/gen.log >&2; exit 1 }
 
 for f in $tmp/syntaxes/*(.); do
   cp -- $f syntaxes/ && git add -- syntaxes/${f:t}

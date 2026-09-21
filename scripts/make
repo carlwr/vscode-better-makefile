@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+# run GNU make: Homebrew installs it as `gmake`; elsewhere it is `make`
+emulate -L zsh
+exec ${commands[gmake]:-make} $@

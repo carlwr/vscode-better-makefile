@@ -395,7 +395,7 @@ repository:
       |            :::=     # :::=
       )
       # define named groups for recursive expansion detection:
-      (?<_ch>  (?~| [(){}] | .+ )                                      ){0}
+      (?<_ch>  [^(){}\n]+                                              ){0}
       (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)* \} )++
                            |   (?: \$\( (?:\g<exp>|\g<_ch>)* \) )++ )  ){0}
 
@@ -448,7 +448,7 @@ repository:
       (?!\=)     # the : was part of ':=' -> assignment -> fail the match!
 
       # define named groups for recursive expansion detection:
-      (?<_ch>  (?~| [(){}] | .+ )                                      ){0}
+      (?<_ch>  [^(){}\n]+                                              ){0}
       (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)* \} )++
                            |   (?: \$\( (?:\g<exp>|\g<_ch>)* \) )++ )  ){0}
 

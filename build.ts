@@ -17,12 +17,7 @@ type SomeRecord = Record<string, unknown>
 
 const ANCHOR_PREFIX = '__'
 
-const KEYS_TO_TOP = [
-  'name',
-  'scopeName',
-  'comment',
-  'information_for_contributors',
-]
+const KEYS_TO_TOP = ['name', 'scopeName', 'comment']
 
 run().catch((err: unknown) => {
   console.error('Unhandled error:', err)

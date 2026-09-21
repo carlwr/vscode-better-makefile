@@ -122,7 +122,7 @@ repository:
 
   comma:
     match: ","
-    name: punctuation.separator.delimeter.comma.makefile
+    name: punctuation.separator.delimiter.comma.makefile
 
   comment:
     patterns:

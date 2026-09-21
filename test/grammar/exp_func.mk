@@ -93,29 +93,29 @@ RULE:
 # --------------------------- commas -------------------------- #
 
 vA= $(if t,y,n)
-#         ^ ^         punctuation.separator.delimeter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.makefile
 vA= $(if t,y,)
-#         ^ ^         punctuation.separator.delimeter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.makefile
 vE= $(myVar a,b)
-#            ^      - punctuation.separator.delimeter.comma.makefile
+#            ^      - punctuation.separator.delimiter.comma.makefile
 
 
 # ------------------------- line-cont. ------------------------ #
 
 vC= $(if t\
           ,y,n)
-#         ^ ^         punctuation.separator.delimeter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.makefile
 #         ^^^^        meta.scope.expansion.makefile
 
 vD= $(if \
          t,y,n)
-#         ^ ^         punctuation.separator.delimeter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.makefile
 #         ^^^^        meta.scope.expansion.makefile
 
 
 vE= $(if t\
 ,y,n)
-#<-                   punctuation.separator.delimeter.comma.makefile
+#<-                   punctuation.separator.delimiter.comma.makefile
 
 # ---------------------------- misc --------------------------- #
 

@@ -40,7 +40,7 @@ punctuation.definition.parameters.load-symbolname.makefile
 punctuation.definition.variable.makefile
 punctuation.section.load-symbolname.makefile
 punctuation.separator.continuation.makefile
-punctuation.separator.delimeter.comma.makefile
+punctuation.separator.delimiter.comma.makefile
 punctuation.separator.key-value.rulehead.makefile
 punctuation.separator.key-value.rulehead.recipe.makefile
 punctuation.separator.paths.vpath.makefile

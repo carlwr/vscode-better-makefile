@@ -128,6 +128,9 @@ The JSON grammar:
 - uses only regexes that:
   - are valid [_Oniguruma_][oniguruma] regexes
     - as per [vscode-oniguruma], verified with [@carlwr/textmate-validate]
+  - are valid [_PCRE2_][pcre2] regexes (allows use in tools interpreting TextMate grammar regexes with a PCRE regex engine)
+    - verified with [an official pcre2 tool][pcre2grep]
+    - _note:_ this is a design decision about the grammar, unrelated to the use of the grammar within this extension
 
 The above is verified at build time and in CI.
 
@@ -153,9 +156,11 @@ Post the 1.0 release (spring 2026) agentic tooling might be used for improvement
 [gh-issues]: https://github.com/carlwr/vscode-better-makefile/issues
 [@carlwr/textmate-validate]: https://www.npmjs.com/package/@carlwr/textmate-validate
 [gh-textmate-validate]: https://github.com/carlwr/textmate-validate
+[pcre2grep]: https://www.pcre.org/current/doc/html/pcre2grep.html
 [tm-schema]: https://json.schemastore.org/tmlanguage.json
 [vscode-oniguruma]: https://github.com/microsoft/vscode-oniguruma
 [posix-make]: https://pubs.opengroup.org/onlinepubs/9799919799/utilities/make.html
+[pcre2]: https://www.pcre.org/current/doc/html/pcre2syntax.html
 [oniguruma]: https://github.com/kkos/oniguruma
 
 <!-- note: relative repo links should be fine; `vsce` re-writes them to absolute using the `repository` field; and Open VSX receives that re-written README -->

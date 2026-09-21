@@ -7,6 +7,7 @@ import arg from 'arg'
 import chokidar from 'chokidar'
 import sortKeysRecursive from 'sort-keys-recursive'
 import * as cfg from './src/cfg.js'
+import { validateGrammarPcre2 } from './src/validatePcre2.js'
 
 const args = arg(
   { '--watch': Boolean, '--out-dir': String },
@@ -113,6 +114,7 @@ async function schemaValidate(jsonObj: SomeRecord) {
 
 async function validateRegexes(jsonPath: string) {
   assertPassed('oniguruma', await tmv.validateGrammar(jsonPath))
+  assertPassed('pcre2', await validateGrammarPcre2(jsonPath))
 }
 
 function assertPassed(engine: string, result: tmv.GrammarResult) {

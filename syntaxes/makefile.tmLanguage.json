@@ -774,7 +774,7 @@
               "patterns": [
                 {
                   "match": "[@+\\-]+",
-                  "name": "keyword.control.recipe-lineprefix.makefile keyword.control.recipe-lineprefix.$1.makefile"
+                  "name": "keyword.control.recipe-lineprefix.makefile"
                 }
               ]
             }

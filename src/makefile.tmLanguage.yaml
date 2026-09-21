@@ -61,7 +61,6 @@ __miscAnchors:
 
 - &SCOPE_recipeLnPfx >-
     keyword.control.recipe-lineprefix.makefile
-    keyword.control.recipe-lineprefix.$1.makefile
 
 - &SCOPE_str >-
     string.unquoted.makefile

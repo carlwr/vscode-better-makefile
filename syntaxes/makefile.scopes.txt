@@ -13,7 +13,6 @@ keyword.control.endef.makefile
 keyword.control.include.makefile
 keyword.control.load.makefile
 keyword.control.override.makefile
-keyword.control.recipe-lineprefix.$1.makefile
 keyword.control.recipe-lineprefix.makefile
 keyword.control.vpath.makefile
 keyword.operator.assignment.makefile

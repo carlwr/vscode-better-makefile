@@ -60,7 +60,16 @@ lp1:;	 +	 @ +@ cmd
 #      ^  ^ ^^   keyword.control.recipe-lineprefix.makefile
 #    ^^^^^^^^^^^ meta.scope.recipe.makefile
 
-lp1:; -cmd\
+lp2:; -cmd\
 	+cmd
 #^             - keyword.control.recipe-lineprefix.makefile
 
+lp3:
+	+cmd
+#^               keyword.control.recipe-lineprefix.makefile
+
+lp3:
+	+@cmd
+#^^              keyword.control.recipe-lineprefix.makefile
+#<-            - keyword.control.recipe-lineprefix.makefile
+#  ^^^         - keyword.control.recipe-lineprefix.makefile

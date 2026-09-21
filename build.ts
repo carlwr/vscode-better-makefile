@@ -39,13 +39,13 @@ async function build() {
   const jsonPath = path.join(outDir, path.basename(cfg.GRAMMAR_JSON))
   const yamlText = await fs.readFile(cfg.GRAMMAR_YAML, 'utf8')
   const jsonObj = yaml.parse(yamlText) as SomeRecord
-  const dropped = dropAnchorHolders(jsonObj)
+  dropAnchorHolders(jsonObj)
   const sortedJsonObj = sortKeysRecursive(jsonObj)
   const orderedJsonObj = hoistKeysToTop(sortedJsonObj)
   const jsonText = JSON.stringify(orderedJsonObj, null, 2)
-  assertUnreferenced(dropped, jsonText)
   const asWritten = JSON.parse(jsonText) as SomeRecord
 
+  assertAnchorHoldersNotIncluded(asWritten)
   await schemaValidate(asWritten)
   console.log(`DONE: schema OK:  ${jsonPath}.`)
 
@@ -66,18 +66,13 @@ function watch(cb: () => void) {
 /**
  * Drop YAML anchors; no reason to keep them in the generated json.
  */
-function dropAnchorHolders(obj: SomeRecord): string[] {
+function dropAnchorHolders(obj: SomeRecord) {
   const repository = (obj.repository ?? {}) as SomeRecord
-  const dropped: string[] = []
   for (const map of [obj, repository]) {
     for (const key of Object.keys(map)) {
-      if (key.startsWith(ANCHOR_PREFIX)) {
-        delete map[key]
-        dropped.push(key)
-      }
+      if (key.startsWith(ANCHOR_PREFIX)) delete map[key]
     }
   }
-  return dropped
 }
 
 function hoistKeysToTop(obj: SomeRecord): SomeRecord {
@@ -87,11 +82,24 @@ function hoistKeysToTop(obj: SomeRecord): SomeRecord {
   // using the fact that both `JSON.stringify` and the object itself iterate string keys in insertion order
 }
 
-function assertUnreferenced(dropped: string[], jsonText: string) {
-  const stillIncluded = dropped.filter(key => jsonText.includes(`"#${key}"`))
-  if (stillIncluded.length > 0) {
-    throw new Error(`dropped, but still included: ${stillIncluded.join(', ')}`)
+/**
+ * Anchor holders are for YAML aliases only; a textMate `include` of one would
+ * dangle once the holder is dropped.
+ */
+function assertAnchorHoldersNotIncluded(obj: SomeRecord) {
+  const bad = includes(obj).filter(ref => ref.startsWith(`#${ANCHOR_PREFIX}`))
+  if (bad.length > 0) {
+    throw new Error(`anchor holders must not be included: ${bad.join(', ')}`)
   }
+}
+
+/** all `include` values in a grammar, at any depth */
+function includes(obj: unknown): string[] {
+  if (Array.isArray(obj)) return obj.flatMap(includes)
+  if (typeof obj !== 'object' || obj === null) return []
+  return Object.entries(obj).flatMap(([key, value]) =>
+    key === 'include' && typeof value === 'string' ? [value] : includes(value),
+  )
 }
 
 async function schemaValidate(jsonObj: SomeRecord) {

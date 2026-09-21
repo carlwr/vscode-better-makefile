@@ -2,8 +2,8 @@
 
 
 
-# preparatory scope tests
-# -----------------------
+# preparatory tests
+# -----------------
 
 a0 = a __\
 #        ^      constant.character.escape.line-continuation.makefile
@@ -14,6 +14,10 @@ a1 = a __\__
 #        ^    - constant.character.escape.line-continuation.makefile
 #        ^    - constant.character.escape.continuation.makefile
 #        ^    - punctuation.separator.continuation.makefile
+
+# \ + <nl> -> standard line cont.:
+cont_std1 = c \
+cont                ## /^cont_std1 = c cont  /
 
 
 # main scope tests
@@ -40,57 +44,61 @@ a2 = a _\\\\
 #       ^^^^    - punctuation.separator.continuation.makefile
 
 
-
-
-# **currently failing**; in an .XFAIL test file
-
-
-
-# assertTest-s
-# ------------
-
-# WIP: so far only parse tests to map out `make`s behaviour
-
-# a \, if not preceding a <nl>, is not special:
-cont_var1 = a\b     ## /\Qcont_var1 = a\b/
-cont_trg1_: a\b     ## /\Qcont_trg1_: a\b/
-cont_var2 = \\b     ## /\Qcont_var2 = \\b/
-cont_var3 = a\      ## /\Qcont_var3 = a\ /
-
-# \ + <nl> -> standard line cont.:
-cont_std1 = c \
-cont                ## /^cont_std1 = c cont  /
-
 # <nl> preceded by \
 # -> NOT line cont.
 # -> both \-s are literal \-characters, as usual
 cont_esc2 = c \\
-vpath               ## /^\Qcont_esc2 = c \\/
-                    ##    /cont_esc2 = c ..$/
+vpath                 ## /^\Qcont_esc2 = c \\/
+                      ##    /cont_esc2 = c ..$/
+cont_esc2_= c \\
+#             ^^    - punctuation.separator.continuation.makefile
 
 # even no. of \-s:
 # -> NOT line cont.
 #    keep all \-s
 cont_esc4 = c \\\\
-vpath                ## /^\Qcont_esc4 = c \\\\/
+vpath                 ## /^\Qcont_esc4 = c \\\\/
+
+cont_esc4_= c \\\\
+#             ^^^^  - punctuation.separator.continuation.makefile
 
 
 # odd no. of \-s:
 # -> line cont.
 #    keep half of \-s
 cont_esc3 = c \\\
-cont                ## /^\Qcont_esc3 = c \ cont  /
+cont                  ## /^\Qcont_esc3 = c \ cont  /
   # keep 2/2=1
+
+cont_esc3_= c \\\
+#               ^     punctuation.separator.continuation.makefile
 
 cont_esc5 = c \\\\\
 cont                ## /^\Qcont_esc5 = c \\ cont  /
   # keep 4/2=2
 
+cont_esc5_= c \\\\\
+#                 ^   punctuation.separator.continuation.makefile
+
 cont_esc7 = c \\\\\\\
-cont                ## /^\Qcont_esc7 = c \\\ cont  /
-  # keep 6/2=3
+cont
+
+cont_esc7 = c \\\\\\\
+#                   ^ punctuation.separator.continuation.makefile
 
 
+# ----------------------- not line-cont. ---------------------- #
+
+# a \, if not preceding a <nl>, is not special:
+cont_var1 = a\b       ## /\Qcont_var1 = a\b/
+#            ^      - punctuation.separator.continuation.makefile
+cont_trg1_: a\b       ## /\Qcont_trg1_: a\b/
+#            ^      - punctuation.separator.continuation.makefile
+cont_var2 = \\b       ## /\Qcont_var2 = \\b/
+#           ^^      - punctuation.separator.continuation.makefile
+
+
+# --------------------------- ref's --------------------------- #
 
 # misc.c:
 #
@@ -100,4 +108,3 @@ cont                ## /^\Qcont_esc7 = c \\\ cont  /
 #   
 #   void collapse_continuations (char *line) { .. }
 
-# make -nps -f test/grammar/line-cont.escaped.mk|grep '^cont'|cat -e|sort

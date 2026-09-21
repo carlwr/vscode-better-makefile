@@ -117,6 +117,24 @@ vE= $(if t\
 ,y,n)
 #<-                   punctuation.separator.delimiter.comma.makefile
 
+
+# --------------------------- hashes -------------------------- #
+
+func0 := $(if ,,a #b  )     ## /\Qfunc0 := a #b  /
+#                 ^       - comment.line.number-sign.makefile
+#        ^^           ^     punctuation.definition.variable.makefile
+#          ^^^^^^^^^^^      meta.scope.function-call.makefile
+#          ^^^^^^^^^^^      meta.scope.expansion.makefile
+
+func1 := $(if ,,a\#b  )     ## /\Qfunc1 := a\#b  /
+#                ^        - constant.character.escape.backslash.makefile
+#                 ^       - meta.escaped-char.makefile
+#                 ^       - comment.line.number-sign.makefile
+#        ^^           ^     punctuation.definition.variable.makefile
+#          ^^^^^^^^^^^      meta.scope.function-call.makefile
+#          ^^^^^^^^^^^      meta.scope.expansion.makefile
+
+
 # ---------------------------- misc --------------------------- #
 
 # NOT in $(dir cmt)

@@ -13,6 +13,17 @@ xfail test files:
   * -> if needed, divide xfail tests into separate files; use a suitable qualifying name (e.g. `assign.doubleColon.XFAIL.mk`) or even just a running counter (`assign.01.XFAIL.mk`)
 
 
+## useful command recipes
+
+```bash
+# run tests for test files matching /.*nested.*/:
+make test --keep-going TESTS=nested HUMAN=1 NOTRACE= VERBOSE=
+
+# query the make database for lines that include `myVar`:
+make -nps -f <file>.mk|grep myVar|cat -e|sort|less
+```
+
+
 # test file syntax
 
 example test file with comments on the test file syntax in `<angle brackets>`:
@@ -23,7 +34,7 @@ example test file with comments on the test file syntax in `<angle brackets>`:
 include $(inc)
 #^^^^^^          keyword.control.include.makefile
 
-# <above: there are ^-s at columns 2-7, followed by an arbitrary amount of whitespace, followed by the name of a scope: this test will pass if that scope is indeed the grammar-specified scope at columns 2-7 on the line `include foo.mk`.>
+# <above: there are ^-s at columns 2-7, followed by an arbitrary amount of whitespace, followed by the name of a scope: this test will pass if that scope is indeed the grammar-specified scope at columns 2-7 on the line `include $(inc)`.>
 
 #         ^^^    variable.other.makefile
 
@@ -42,8 +53,8 @@ $(SHELL): lessBadBash.c
 
 # the following tests that both "%" characters are scoped correctly:
 %.c: %.o
-#<-      constant.other.placeholder.makefile
-#    ^   constant.other.placeholder.makefile
+#<-      constant.other.placeholder.percent.makefile
+#    ^   constant.other.placeholder.percent.makefile
 
 ```
 
@@ -64,8 +75,14 @@ target:
 All files in the repo, including test files, should have a final newline.
 
 
+# parse tests
+
+details: see the `./scripts/parseTest` script itself
+
+
 # test file style guide
 
+* a "notebook-style" character to test files is OK
 * at most one scope name per line
 * vertically-align scope names (possibly not for the full file, but for subsections of the test file)
 * keep active lines _short_
@@ -86,9 +103,9 @@ b =  $(bbb)
 c = _$(ccc)_
 #      ^^^     variable.other.makefile
 
-#              |<scopes veritcally-aligned with this column!>
+#              |<scopes vertically-aligned with this column!>
 #
-#      xxx <syntax lines are padded so all three scope specs are for these three same column indicies - allows for three identical scope spec lines, and improves readability!>
+#      xxx <syntax lines are padded so all three scope specs are for these three same column indices - allows for three identical scope spec lines, and improves readability!>
 ```
 
 [1]: since: that provides better anchoring of the text for diffs and merges with `git`
@@ -97,4 +114,5 @@ c = _$(ccc)_
 # about `vscode-tmgrammar-test`
 
 * may hang indefinitely with malformed scope specs
+  * (reason: the package seems they use an unfortunate regex that on mal-formed scope names gives a n^2 or x^n complexity on the computation)
   * -> run with a timeout

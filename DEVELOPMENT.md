@@ -1,17 +1,10 @@
-## Print scope names
-
-To print the scope names the grammar defines to stdout, run:
-```bash
-./scripts/scopes syntaxes/makefile.tmLanguage.json
-```
-
 ## Development
 
 ### Set-up
 
 Clone and install deps:
 ```bash
-git clone carlwr/vscode-better-makefile
+git clone https://github.com/carlwr/vscode-better-makefile
 cd vscode-better-makefile
 pnpm install  # also enables the repo's git hooks
 ```
@@ -40,13 +33,10 @@ System tools required by `make` (any target; hence also by `pnpm build` and by t
 - jq
 - pcre2grep
 
-To install what is missing or too old on:
+To install what is missing or too old:
 ```bash
-# macOS (GNU make is installed as `gmake`):
-brew install make jq pcre2
-
-# Ubuntu (26.04+; the `make` of earlier releases is too old):
-sudo apt-get install make zsh jq pcre2-utils
+brew install make jq pcre2                     # macOS
+sudo apt-get install make zsh jq pcre2-utils   # Ubuntu
 ```
 
 `pnpm build` and the commit hook run GNU make as `gmake` if available, else as `make`.
@@ -84,14 +74,19 @@ pnpm test
   # - only runs xpass tests
 ```
 
-For the grammar tests, some of the files in `doc/dev/` are relevant.
+### Print scope names
+
+To print the scope names the grammar defines to stdout, run:
+```bash
+./scripts/scopes syntaxes/makefile.tmLanguage.json
+```
 
 ### Auto-reload window convenience
 
 With the [`auto-reload-window` extension][arw-ext], it is possible to see updated highlighting immediately and automatically when the yaml grammar file is saved:
 * run the background _watch_ task in `.vscode/tasks.json` to automatically trigger the yaml to json conversion on save
 * use the launch task in `.vscode/launch.json` to open a _development host_ window running this (=the language grammar) extension
-  * this launch tasks also sets environment variables for `auto-reload-window`
+  * this launch task also sets environment variables for `auto-reload-window`
 * if `auto-reload-window` is installed, it will pick up the settings in `.vscode/settings.json`
 
 The consequence of the above taken together is that saving the yaml grammar will immediately show files in the _development host window_ with updated highlighting, whereas other windows will not be affected or automatically reloaded.

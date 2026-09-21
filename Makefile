@@ -14,12 +14,10 @@ TESTS   ?=
 HUMAN   ?=
 NOTRACE ?=
 VERBOSE ?= 1
-BAKSUFX ?=
 
 json    :=  makefile.tmLanguage.json
 scopes  :=  makefile.scopes.txt
 testdir :=  test/grammar
-bakdir  :=  ../.backup/vscode-better-makefile
 
 outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
 outs-checks  := out/check/$(json) out/check/$(scopes)
@@ -38,7 +36,6 @@ diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
 
 .PHONY:         \
   build         \
-  backup        \
   test          \
   clean         \
   typecheck     \
@@ -82,14 +79,6 @@ lint:
 check:
 	$(diff-scopes)
 	$(diff-jsons)
-
-backup: curdir != basename "$$PWD"
-backup: suffix := $(if $(value BAKSUFX),_$(BAKSUFX),)
-backup: f      := $(shell date "+%Y-%m-%d_%H.%M.%S")$(suffix).tgz
-backup:
-	@[[ -d "$(bakdir)" ]] || { echo no dir "$(bakdir)"; exit 1; }
-	gtar czf "$(bakdir)/$f" --exclude-ignore=.backupignore -C .. "$(curdir)"
-	@echo '\ncreated archive:' && ls -lh "$(bakdir)/$f"
 
 clean:
 	rm -rf $(outs) $(outs-checks)

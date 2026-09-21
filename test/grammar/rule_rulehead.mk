@@ -7,6 +7,12 @@ $$ := dollar
 # basics
 # ------
 
+__tt  ss : dd  ee
+# ^^  ^^           entity.name.function.target.makefile
+# ^^^^^^^          meta.scope.target.makefile
+#          ^^^^^^  meta.scope.prerequisites.makefile
+# ^^^^^^^^^^^^^^^  meta.scope.rulehead.makefile
+
 __target       : p
 #^^^^^^^^^^^^^^^^^ meta.scope.rulehead.makefile
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
@@ -45,6 +51,12 @@ $(v)rget  $(v)B: p
 $(v)$(w)  $(v)B: p
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
 # ^   ^     ^      variable.other.makefile
+
+$(b$(w)c)_targt: p
+#^^^^^^^^^^^^^^^^^ meta.scope.rulehead.makefile
+#^^^^^^^^^^^^^^    meta.scope.target.makefile
+#                ^ meta.scope.prerequisites.makefile
+# ^  ^ ^           variable.other.makefile
 
 $(eval a:=b)t  : p
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
@@ -202,17 +214,3 @@ $(v:r)$(v:r)str
 #^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
 $(v:r)${v:r}str
 #^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
-
-
-# missed rules
-# ------------
-
-# current grammar handles only one level of nesting in the target list and will miss this rule:
-$(b$(w)c)_targ: pre
-
-
-
-
-
-
-

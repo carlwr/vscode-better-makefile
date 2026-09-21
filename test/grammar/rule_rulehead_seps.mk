@@ -26,13 +26,8 @@ targF_ : dep
 #      ^       punctuation.separator.key-value.rulehead.makefile
 
 
-
-# DOING
-# -----
-
-
-
 # double-colon :: (only static rules)
+# -----------------------------------
 
 dc1:: dc1a
 #  ^^       punctuation.separator.key-value.rulehead.makefile
@@ -41,13 +36,12 @@ dc1:: dc1a
 %:: s.%
 #^^       punctuation.separator.key-value.rulehead.makefile
 
+
 # grouped target &:, &::
+# ----------------------
 
 gt1 &: gt1a; rec
 #   ^^       punctuation.separator.key-value.rulehead.makefile
-
-#gt2X_gt2Y := val
-
 
 gt_dc1 &:: gt_dc1a; rec
 #      ^^^      punctuation.separator.key-value.rulehead.makefile

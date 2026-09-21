@@ -1,6 +1,11 @@
 # SYNTAX TEST "source.makefile"
 
 
+# this file:
+# - notes/idea on how _static pattern rules_ should be scoped, ideally
+# - not tested - notes/ideas in the form of a test file
+
+
 # ------------------------------------------------------------- #
 #                     background, motivation                    #
 # ------------------------------------------------------------- #

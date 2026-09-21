@@ -53,8 +53,8 @@ async function build() {
   await fs.writeFile(jsonPath, jsonText)
   console.log(`DONE: wrote:      ${jsonPath}.`)
 
-  await tmvValidate(jsonPath)
-  console.log(`DONE: validated:  ${jsonPath}.`)
+  await validateRegexes(jsonPath)
+  console.log(`DONE: regexes OK: ${jsonPath}.`)
 
   console.log('')
 }
@@ -111,12 +111,14 @@ async function schemaValidate(jsonObj: SomeRecord) {
   }
 }
 
-async function tmvValidate(jsonPath: string) {
-  const result = await tmv.validateGrammar(jsonPath)
-  if (!tmv.passed(result)) {
-    const verbosity = 2
-    const compact = false
-    tmv.printResult(result, verbosity, compact)
-    throw new Error('FAILED: textmate-validate')
-  }
+async function validateRegexes(jsonPath: string) {
+  assertPassed('oniguruma', await tmv.validateGrammar(jsonPath))
+}
+
+function assertPassed(engine: string, result: tmv.GrammarResult) {
+  if (tmv.passed(result)) return
+  const verbosity = 2
+  const compact = false
+  tmv.printResult(result, verbosity, compact)
+  throw new Error(`FAILED: ${engine} validation`)
 }

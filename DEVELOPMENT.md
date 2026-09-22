@@ -73,6 +73,7 @@ make test
 
 pnpm test
   # - runs xpass tests and the language configuration test
+  # - WARNING: does not regenerate `syntaxes/`; may test a stale grammar
 ```
 
 ### Print scope names

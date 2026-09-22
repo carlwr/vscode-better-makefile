@@ -71,7 +71,7 @@ make test
 # -- or --
 
 pnpm test
-  # - only runs xpass tests
+  # - runs xpass tests and the language configuration test
 ```
 
 ### Print scope names

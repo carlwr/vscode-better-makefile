@@ -40,6 +40,9 @@ jobs:
       - name: Run tests
         run: make test NOTRACE=1
 
+      - name: Test language configuration
+        run: pnpm run test:langConfig
+
   release:
     needs: check
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')

@@ -352,8 +352,25 @@ repository:
         - include: "#comment"
         - include: "#directive-varname"
 
+      condition-varname:
+        # \G is the position just after the keyword
+        match: |-
+          (?x)
+          \G (?<= ifdef|ifndef )
+          [ \t]+
+          ( (?: [^\s#\\]
+            |   \\ (?!\n)   # a \ ending the line continues it
+            )+
+          )
+        captures:
+          "1":
+            name: *SCOPE_var
+            patterns:
+            - include: "#varname-parts"
+
       condition-body:
         patterns:
+        - include: "#condition-varname"
         - include: "#comma"
         - include: "#doubleDollar"
         - include: "#expansions"

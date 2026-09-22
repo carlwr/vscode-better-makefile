@@ -125,6 +125,9 @@
         "condition-body": {
           "patterns": [
             {
+              "include": "#condition-varname"
+            },
+            {
               "include": "#comma"
             },
             {
@@ -137,6 +140,19 @@
               "include": "#comment"
             }
           ]
+        },
+        "condition-varname": {
+          "captures": {
+            "1": {
+              "name": "variable.other.makefile variable.other.string.makefile",
+              "patterns": [
+                {
+                  "include": "#varname-parts"
+                }
+              ]
+            }
+          },
+          "match": "(?x)\n\\G (?<= ifdef|ifndef )\n[ \\t]+\n( (?: [^\\s#\\\\]\n  |   \\\\ (?!\\n)   # a \\ ending the line continues it\n  )+\n)"
         },
         "conditional": {
           "begin": "^\\s*(ifeq|ifneq|ifdef|ifndef)(?=\\s)",

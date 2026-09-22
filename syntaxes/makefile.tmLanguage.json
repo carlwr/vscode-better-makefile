@@ -189,7 +189,12 @@
               "name": "keyword.control.define.makefile"
             },
             "3": {
-              "name": "variable.other.assignment.makefile"
+              "name": "variable.other.assignment.makefile",
+              "patterns": [
+                {
+                  "include": "#varname-specialVar"
+                }
+              ]
             },
             "4": {
               "name": "keyword.operator.assignment.makefile"
@@ -223,6 +228,19 @@
             }
           ]
         },
+        "directive-varname": {
+          "captures": {
+            "0": {
+              "patterns": [
+                {
+                  "include": "#varname-specialVar"
+                }
+              ]
+            }
+          },
+          "match": "\\S+",
+          "name": "variable.other.makefile variable.other.string.makefile"
+        },
         "export": {
           "begin": "^[ ]*(export)\\b",
           "beginCaptures": {
@@ -239,8 +257,7 @@
               "include": "#variable-assignment"
             },
             {
-              "match": "\\S+",
-              "name": "variable.other.makefile variable.other.string.makefile"
+              "include": "#directive-varname"
             }
           ]
         },
@@ -348,8 +365,7 @@
               "include": "#comment"
             },
             {
-              "match": "\\S+",
-              "name": "variable.other.makefile variable.other.string.makefile"
+              "include": "#directive-varname"
             }
           ]
         },
@@ -941,10 +957,7 @@
           "name": "variable.other.assignment.makefile",
           "patterns": [
             {
-              "include": "#doubleDollar"
-            },
-            {
-              "include": "#expansions"
+              "include": "#varname-parts"
             }
           ]
         },
@@ -973,6 +986,19 @@
       "match": "(?x)\n[@%<?^+|*]\n(?: (?<= \\$[({]. ) [FD] (?= [)}:\\\\] )  # $(@F)\n|   (?<= \\$[({]. )      (?= [)}:\\\\] )  # $(@)\n|   (?<= \\$    . )                     # $@\n)",
       "name": "variable.parameter.automatic.makefile"
     },
+    "varname-parts": {
+      "patterns": [
+        {
+          "include": "#doubleDollar"
+        },
+        {
+          "include": "#expansions"
+        },
+        {
+          "include": "#varname-specialVar"
+        }
+      ]
+    },
     "varname-positional": {
       "match": "(?x)\n[0-9]\n(?: (?<= \\$[({]. )      (?= [)}:\\\\] )  # $(1)\n|   (?<= \\$    . )                     # $1\n)",
       "name": "variable.parameter.positional.makefile"
@@ -993,11 +1019,11 @@
     "varname-specialVar": {
       "patterns": [
         {
-          "match": "(?x)\n\\G \\g<varname> (?= [:)}] )\n(?<varname>\n  COMSPEC\n| GNUMAKEFLAGS\n| GPATH\n| MAKE\n| MAKEFILES\n| MAKEFLAGS\n| MAKEOVERRIDES\n| MAKESHELL\n| MAKE_TERMERR\n| MAKE_TERMOUT\n| MFLAGS\n| SHELL\n| SUFFIXES\n| VPATH\n| \\.DEFAULT_GOAL\n| \\.EXTRA_PREREQS\n| \\.LIBPATTERNS\n| \\.RECIPEPREFIX\n| \\.SHELLFLAGS\n){0}",
+          "match": "(?x)\n(?: \\G         \\g<varname> (?= [:)}] )  # an expansion's name slot\n|   (?<![^\\s]) \\g<varname> (?= \\z    )  # a captured name, in full\n)\n(?<varname>\n  COMSPEC\n| GNUMAKEFLAGS\n| GPATH\n| MAKE\n| MAKEFILES\n| MAKEFLAGS\n| MAKEOVERRIDES\n| MAKESHELL\n| MAKE_TERMERR\n| MAKE_TERMOUT\n| MFLAGS\n| SHELL\n| SUFFIXES\n| VPATH\n| \\.DEFAULT_GOAL\n| \\.EXTRA_PREREQS\n| \\.LIBPATTERNS\n| \\.RECIPEPREFIX\n| \\.SHELLFLAGS\n){0}",
           "name": "variable.language.readwrite.makefile"
         },
         {
-          "match": "(?x)\n\\G \\g<varname> (?= [:)}] )\n(?<varname>\n  CURDIR\n| MAKECMDGOALS\n| MAKEFILE_LIST\n| MAKELEVEL\n| MAKE_HOST\n| MAKE_RESTARTS\n| MAKE_TMPDIR\n| MAKE_VERSION\n| \\.FEATURES\n| \\.INCLUDE_DIRS\n| \\.LOADED\n| \\.SHELLSTATUS\n| \\.VARIABLES\n| -\\*-eval-flags-\\*-\n| -\\*-command-variables-\\*-\n){0}",
+          "match": "(?x)\n(?: \\G         \\g<varname> (?= [:)}] )  # an expansion's name slot\n|   (?<![^\\s]) \\g<varname> (?= \\z    )  # a captured name, in full\n)\n(?<varname>\n  CURDIR\n| MAKECMDGOALS\n| MAKEFILE_LIST\n| MAKELEVEL\n| MAKE_HOST\n| MAKE_RESTARTS\n| MAKE_TMPDIR\n| MAKE_VERSION\n| \\.FEATURES\n| \\.INCLUDE_DIRS\n| \\.LOADED\n| \\.SHELLSTATUS\n| \\.VARIABLES\n| -\\*-eval-flags-\\*-\n| -\\*-command-variables-\\*-\n){0}",
           "name": "variable.language.constant.makefile"
         }
       ]

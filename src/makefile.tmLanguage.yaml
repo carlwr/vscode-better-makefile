@@ -300,7 +300,10 @@ repository:
         beginCaptures:
           "1": { name: keyword.control.override.makefile }
           "2": { name: keyword.control.define.makefile }
-          "3": { name: *SCOPE_varAsgn }
+          "3":
+            name: *SCOPE_varAsgn
+            patterns:
+            - include: "#varname-specialVar"
           "4": { name: keyword.operator.assignment.makefile }
         end: ^\s*(endef)\b
         endCaptures:
@@ -316,6 +319,11 @@ repository:
         - include: "#doubleDollar"
         - include: "#expansions"
 
+      directive-varname:
+        match: \S+
+        name: *SCOPE_var
+        captures: { "0": { patterns: [include: "#varname-specialVar"] } }
+
       export:
         begin: ^[ ]*(export)\b
         beginCaptures:
@@ -324,7 +332,7 @@ repository:
         patterns:
         - include: "#comment"
         - include: "#variable-assignment"
-        - { match: \S+, name: *SCOPE_var }
+        - include: "#directive-varname"
 
       override_private:
         begin: ^[ ]*(override|private)\b
@@ -342,7 +350,7 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
-        - { match: \S+, name: *SCOPE_var }
+        - include: "#directive-varname"
 
       conditional:
         begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
@@ -405,8 +413,7 @@ repository:
       "1":
         name: *SCOPE_varAsgn
         patterns:
-        - include: "#doubleDollar"
-        - include: "#expansions"
+        - include: "#varname-parts"
       "2": { name: keyword.operator.assignment.makefile }
     end: (?=\n)
     applyEndPatternLast: 1
@@ -728,12 +735,22 @@ repository:
 
 # ----------------------- variable names ---------------------- #
 
+  varname-parts:
+    patterns:
+    - include: "#doubleDollar"
+    - include: "#expansions"
+    - include: "#varname-specialVar"
+
   varname-specialVar:
+    # the two anchorings must stay paired: \G is inert at the start of a
+    # re-tokenized capture, \z outside one (the tokenized line ends with \n)
     patterns:
     # special variable -> mutable:
     - match: |-
         (?x)
-        \G \g<varname> (?= [:)}] )
+        (?: \G         \g<varname> (?= [:)}] )  # an expansion's name slot
+        |   (?<![^\s]) \g<varname> (?= \z    )  # a captured name, in full
+        )
         (?<varname>
           COMSPEC
         | GNUMAKEFLAGS
@@ -759,7 +776,9 @@ repository:
     # special variable -> immutable:
     - match: |-
         (?x)
-        \G \g<varname> (?= [:)}] )
+        (?: \G         \g<varname> (?= [:)}] )  # an expansion's name slot
+        |   (?<![^\s]) \g<varname> (?= \z    )  # a captured name, in full
+        )
         (?<varname>
           CURDIR
         | MAKECMDGOALS

@@ -46,6 +46,8 @@ diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
 
 FORCE:
 
+.DEFAULT_GOAL := build
+
 
 # dependencies
 # ------------

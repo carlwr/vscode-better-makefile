@@ -1,5 +1,8 @@
 # SYNTAX TEST "source.makefile"
 
+
+# ------------------------ conditional ------------------------ #
+
 ifeq (a,b)
 var = val
 #^^^^^^^^        meta.scope.conditional.makefile
@@ -12,3 +15,14 @@ VAR = VAL
 endif
 xxx = yyy
 #^^^^^^^^      - meta.scope.conditional.makefile
+
+
+# ------------------------- condition ------------------------- #
+
+ifeq (a,b)
+#    ^^^^^      meta.scope.condition.makefile
+endif
+
+ifdef  d
+#    ^^^        meta.scope.condition.makefile
+endif

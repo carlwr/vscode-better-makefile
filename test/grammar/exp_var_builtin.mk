@@ -39,6 +39,13 @@ v = $(VPATH )
 #     ^^^^^^  - variable.language.readwrite.makefile
 #     ^^^^^^    variable.other.makefile
 
+z = $(a$(b)SHELL)
+#          ^^^^^  - variable.language.readwrite.makefile
+
+t = $(foo \
+SHELL)
+#^^^^             - variable.language.readwrite.makefile
+
 
 # ------------------------- immutable ------------------------- #
 

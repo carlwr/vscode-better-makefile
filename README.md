@@ -53,14 +53,17 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
   - `:`s and `=`s in substitution references are not mistaken for rulehead separators or assignment operators
   - a `:` in a comment does not mistake the line for a rulehead (`not  # a : rulehead`)
 
-**Robustness:**
-- unconditionally ends scopes on non-escaped newlines which avoids runaway highlighting for makefiles with incorrect syntax (and in case of bugs in the grammar of this extension)
+**Word highlighting and brackets:**
+- word highlighting for words like `my-target: .myPrereqs` and `my-var := value` is done correctly
+- defines `$(...)` and `${...}` as bracket pairs so _VS Code_ can match and highlight them properly
+
+**Grammar robustness:**
+- unconditionally ends scopes on non-escaped newlines which avoids runaway highlighting for makefiles with incorrect syntax (and in case of bugs in the grammar itself)
 - provides _multiple_ scopes to syntax elements where appropriate, increasing the likelihood that themes provide appropriate highlighting
 - thorough automatic tests, including verification against _GNU `make`_'s parsing of the test file to ensure the grammar and _GNU `make`_ agree
 
 **General:**
 - is updated with the latest _GNU `make`_ 4.4.1 syntax (e.g. available special targets, special variables, built-in functions)
-- defines `$(...)` and `${...}` as bracket pairs so _VS Code_ can match and highlight them properly
 
 &nbsp;
 

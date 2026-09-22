@@ -733,8 +733,9 @@ repository:
     # special variable -> mutable:
     - match: |-
         (?x)
-        \G
-        ( COMSPEC
+        \G \g<varname> (?= [:)}] )
+        (?<varname>
+          COMSPEC
         | GNUMAKEFLAGS
         | GPATH
         | MAKE
@@ -753,14 +754,14 @@ repository:
         | \.LIBPATTERNS
         | \.RECIPEPREFIX
         | \.SHELLFLAGS
-        )
-        (?= [:)}] )
+        ){0}
       name: variable.language.readwrite.makefile
     # special variable -> immutable:
     - match: |-
         (?x)
-        \G
-        ( CURDIR
+        \G \g<varname> (?= [:)}] )
+        (?<varname>
+          CURDIR
         | MAKECMDGOALS
         | MAKEFILE_LIST
         | MAKELEVEL
@@ -775,8 +776,7 @@ repository:
         | \.VARIABLES
         | -\*-eval-flags-\*-
         | -\*-command-variables-\*-
-        )
-        (?= [:)}] )
+        ){0}
       name: variable.language.constant.makefile
 
   varname-automatic:

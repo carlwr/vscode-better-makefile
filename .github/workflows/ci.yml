@@ -38,7 +38,7 @@ jobs:
         run: make check
 
       - name: Run tests
-        run: make test NOTRACE=1
+        run: make test --keep-going
 
       - name: Test language configuration
         run: pnpm run test:langConfig

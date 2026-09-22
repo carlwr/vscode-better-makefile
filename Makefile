@@ -35,11 +35,8 @@ diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
 # ------------------------------------------------------------- #
 
 .PHONY:         \
-  build         \
   test          \
   clean         \
-  typecheck     \
-  lint          \
   gen           \
   check         \
   FORCE         \
@@ -47,13 +44,12 @@ diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
 
 FORCE:
 
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := gen
 
 
 # dependencies
 # ------------
 
-build    : typecheck lint gen
 gen      : $(outs)
 check    : $(outs-checks)  # should _not_ build $(outs)
 test     : \
@@ -64,12 +60,6 @@ test     : \
 
 # recipes
 # -------
-
-typecheck:
-	pnpm run typecheck
-
-lint:
-	pnpm run lint
 
 # build both json and scopes to any dir:
 %/$(json) %/$(scopes) &: FORCE
@@ -128,9 +118,9 @@ test-parse    : test-parse_do
 test-xpass_do : $(xpass)
 test-xfail_do : $(xfail)
 test-parse_do : $(parse)
-$(xpass)      : build
-$(xfail)      : build
-$(parse)      : build
+$(xpass)      : gen
+$(xfail)      : gen
+$(parse)      : gen
 
 
 # recipes

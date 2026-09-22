@@ -43,6 +43,10 @@ jobs:
       - name: Test language configuration
         run: pnpm run test:langConfig
 
+      - run: pnpm run typecheck
+
+      - run: pnpm run lint
+
   release:
     needs: check
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')

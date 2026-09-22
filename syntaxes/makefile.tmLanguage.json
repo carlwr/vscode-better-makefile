@@ -122,6 +122,22 @@
         }
       ],
       "repository": {
+        "condition-body": {
+          "patterns": [
+            {
+              "include": "#comma"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#comment"
+            }
+          ]
+        },
         "conditional": {
           "begin": "^\\s*(ifeq|ifneq|ifdef|ifndef)(?=\\s)",
           "captures": {
@@ -138,16 +154,7 @@
               "name": "meta.scope.condition.makefile",
               "patterns": [
                 {
-                  "include": "#comma"
-                },
-                {
-                  "include": "#doubleDollar"
-                },
-                {
-                  "include": "#expansions"
-                },
-                {
-                  "include": "#comment"
+                  "include": "#condition-body"
                 }
               ]
             },
@@ -161,16 +168,7 @@
               "end": "^",
               "patterns": [
                 {
-                  "include": "#comma"
-                },
-                {
-                  "include": "#doubleDollar"
-                },
-                {
-                  "include": "#expansions"
-                },
-                {
-                  "include": "#comment"
+                  "include": "#condition-body"
                 }
               ]
             },

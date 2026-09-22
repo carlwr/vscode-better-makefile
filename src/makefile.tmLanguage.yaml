@@ -352,6 +352,13 @@ repository:
         - include: "#comment"
         - include: "#directive-varname"
 
+      condition-body:
+        patterns:
+        - include: "#comma"
+        - include: "#doubleDollar"
+        - include: "#expansions"
+        - include: "#comment"
+
       conditional:
         begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
         captures:
@@ -362,20 +369,12 @@ repository:
         - begin: \G
           end:   ^
           name: meta.scope.condition.makefile
-          patterns:
-          - include: "#comma"
-          - include: "#doubleDollar"
-          - include: "#expansions"
-          - include: "#comment"
+          patterns: [include: "#condition-body"]
         - begin: ^\s*else(?=\s)\s*(ifeq|ifneq|ifdef|ifndef)*(?=\s)
           beginCaptures:
             "0": { name: keyword.control.else.makefile }
           end:   ^
-          patterns:
-          - include: "#comma"
-          - include: "#doubleDollar"
-          - include: "#expansions"
-          - include: "#comment"
+          patterns: [include: "#condition-body"]
         - include: $self
 
 

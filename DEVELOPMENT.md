@@ -32,10 +32,11 @@ System tools required by `make` (any target; hence also by `pnpm build` and by t
 - zsh
 - jq
 - pcre2grep
+- GNU timeout
 
 To install what is missing or too old:
 ```bash
-brew install make jq pcre2                     # macOS
+brew install make jq pcre2 coreutils           # macOS
 sudo apt-get install make zsh jq pcre2-utils   # Ubuntu
 ```
 

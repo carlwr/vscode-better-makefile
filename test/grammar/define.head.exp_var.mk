@@ -1,7 +1,5 @@
 # SYNTAX TEST "source.makefile"
 
-# currently, expansions are not performed for the var name in the define head - this grammar deficiency is accepted for the moment.
-
 nmeA := varA
 define $(nmeA)
 #        ^^^^     variable.other.makefile
@@ -15,3 +13,15 @@ define $(nmeB) =
 #      ^^    ^    punctuation.definition.variable.makefile
 endef
 ## /^(define )?varB(?(1)$|( =))/
+
+nmeC := varC
+define ${nmeC}
+#        ^^^^     variable.other.makefile
+endef
+## /^(define )?varC(?(1)$|( =))/
+
+d := varD
+define $d
+#       ^         variable.other.makefile
+endef
+## /^(define )?varD(?(1)$|( =))/

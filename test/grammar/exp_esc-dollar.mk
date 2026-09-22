@@ -42,6 +42,13 @@ $$   : DEF
 #^               constant.character.escape.dollar.makefile
 
 
+
+# ------------------------ define head ------------------------ #
+
+define a$$b      ## /^(define )?a\$b(?(1)$|( =))/
+#       ^^       constant.character.escape.dollar.makefile
+endef
+
 # ------------------- surrounding expansions ------------------ #
 
 xx=    $$$(X)

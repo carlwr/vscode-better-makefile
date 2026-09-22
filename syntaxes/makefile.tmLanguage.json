@@ -206,7 +206,7 @@
               "name": "variable.other.assignment.makefile",
               "patterns": [
                 {
-                  "include": "#varname-specialVar"
+                  "include": "#varname-parts"
                 }
               ]
             },

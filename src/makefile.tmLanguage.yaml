@@ -303,7 +303,7 @@ repository:
           "3":
             name: *SCOPE_varAsgn
             patterns:
-            - include: "#varname-specialVar"
+            - include: "#varname-parts"
           "4": { name: keyword.operator.assignment.makefile }
         end: ^\s*(endef)\b
         endCaptures:

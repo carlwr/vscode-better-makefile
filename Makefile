@@ -24,6 +24,10 @@ bakdir  :=  ../.backup/vscode-better-makefile
 outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
 outs-checks  := out/check/$(json) out/check/$(scopes)
 
+parseTest    := test/grammar/scripts/parseTest
+tsx-bin      := node_modules/.bin/tsx
+tmtest-bin   := node_modules/.bin/vscode-tmgrammar-test
+
 diff-jsons   := diff -u syntaxes/$(json)   out/check/$(json)
 diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
 
@@ -65,10 +69,10 @@ test     : \
 # -------
 
 typecheck:
-	$(pnpm) run typecheck
+	pnpm run typecheck
 
 lint:
-	$(pnpm) run lint
+	pnpm run lint
 
 # build both json and scopes to any dir:
 %/$(json) %/$(scopes) &: FORCE
@@ -100,7 +104,6 @@ inspect.%:
 # ------------------------------------------------------------- #
 
 findTests    = $(shell find $(testdir) -ipath '*$(TESTS)*' -path '*.mk' $1)
-parseTest   := test/grammar/scripts/parseTest
 
 # lists of files:
 xpass_files := $(call findTests,-not -name '*XFAIL*')
@@ -176,8 +179,8 @@ print-make-db = { $(MAKE) -nsp --always-make -f $1 2>/dev/null || true; }
 testCmd := \
   $(strip \
     $(let gotTimeout,$(shell timeout --version 2>/dev/null|grep -o GNU), \
-      $(if $(gotTimeout), timeout -v 6s pnpm exec vscode-tmgrammar-test  \
-                        ,               pnpm exec vscode-tmgrammar-test   )))
+      $(if $(gotTimeout), timeout -v 6s $(tmtest-bin)  \
+                        ,               $(tmtest-bin)   )))
   # for Makefile test invocations, don't use timeout-cli, since formatted terminal output from vscode-tmgrammar-test is then lost
 
 ifdef NOTRACE
@@ -187,8 +190,7 @@ else
 endif
 
 ifdef HUMAN
-  tsx        := FORCE_COLOR=3 node_modules/.bin/tsx
-  pnpm       := FORCE_COLOR=3 pnpm
+  tsx        := FORCE_COLOR=3 $(tsx-bin)
   test        = FORCE_COLOR=3 $(testCmd) $1|awk '! /run success/'
   color_FAIL := '$(shell tput setaf 1)'
   color_WARN := '$(shell tput setaf 3)'
@@ -198,8 +200,7 @@ ifdef HUMAN
   color_file := '$(shell tput setaf 0; tput sitm)'
   color_rst  := '$(shell tput sgr 0)'
 else
-  tsx        := FORCE_COLOR=0 node_modules/.bin/tsx
-  pnpm       := FORCE_COLOR=0 pnpm
+  tsx        := FORCE_COLOR=0 $(tsx-bin)
   test        = FORCE_COLOR=0 $(testCmd) --compact $1|awk '! /run success/'
   color_FAIL := ''
   color_WARN := ''

@@ -5,3 +5,4 @@ node_modules/
 **/.claude/settings.local.json
 syntaxes/make.tmLanguage.json
 out/
+.non-vcs/

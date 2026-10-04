@@ -25,6 +25,8 @@ built-in variables (= special variables)
 * user may read and set
   * e.g. `CURDIR`
   * `variable.language.readwrite`
+* what some themes color
+  * catppuccin: `variable.constant` (not `variable.language.constant`)
 * ref's
   * https://www.sublimetext.com/docs/scope_naming.html#variable
 
@@ -73,5 +75,10 @@ file wildcards
 
 ## Links
 
+VS Code stock themes scoping
+* https://github.com/microsoft/vscode/blob/main/extensions/theme-defaults/themes/
+  * inheritance: Dark 2026 -> Dark Modern -> Plus -> dark_vs
+
+misc.
 * https://github.com/tree-sitter-grammars/tree-sitter-make
   * https://github.com/tree-sitter-grammars/tree-sitter-make/blob/main/queries/highlights.scm

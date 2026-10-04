@@ -496,7 +496,12 @@ repository:
         patterns:
         - match: '[ ]+'
         - match: *__specialTargets
-          captures: { "1": { name: support.function.target.$1.makefile } }
+          captures:
+            "1":
+              name: >-
+                support.function.target.$1.makefile
+                variable.language.constant.makefile
+                constant.language.makefile
         # a target, possibly with expansion(s):
         - begin: (?<![^ ])
           end:   \z|(?=[ ])
@@ -819,7 +824,10 @@ repository:
         | \.RECIPEPREFIX
         | \.SHELLFLAGS
         ){0}
-      name: variable.language.readwrite.makefile
+      name: >-
+        variable.language.readwrite.makefile
+        variable.other.constant.makefile
+
     # special variable -> immutable:
     - match: |-
         (?x)
@@ -843,7 +851,9 @@ repository:
         | -\*-eval-flags-\*-
         | -\*-command-variables-\*-
         ){0}
-      name: variable.language.constant.makefile
+      name: >-
+        variable.language.constant.makefile
+        constant.language.makefile
 
   varname-automatic:
     match: |-

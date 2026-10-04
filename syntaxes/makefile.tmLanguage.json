@@ -852,7 +852,7 @@
               "match": "(?x)\n(?# special targets: )\n(?<![^ ])\n( \\.DEFAULT\n| \\.DELETE_ON_ERROR\n| \\.EXPORT_ALL_VARIABLES\n| \\.IGNORE\n| \\.INTERMEDIATE\n| \\.LOW_RESOLUTION_TIME\n| \\.NOTINTERMEDIATE\n| \\.NOTPARALLEL\n| \\.ONESHELL\n| \\.PHONY\n| \\.POSIX\n| \\.PRECIOUS\n| \\.SECONDARY\n| \\.SECONDEXPANSION\n| \\.SILENT\n| \\.SUFFIXES\n| \\.WAIT\n)\n(\\z|(?=[ ]))",
               "captures": {
                 "1": {
-                  "name": "support.function.target.$1.makefile"
+                  "name": "support.function.target.$1.makefile variable.language.constant.makefile constant.language.makefile"
                 }
               }
             },
@@ -1044,11 +1044,11 @@
       "patterns": [
         {
           "match": "(?x)\n(?: \\G         \\g<varname> (?= [:)}] )  # an expansion's name slot\n|   (?<![^\\s]) \\g<varname> (?= \\z    )  # a captured name, in full\n)\n(?<varname>\n  COMSPEC\n| GNUMAKEFLAGS\n| GPATH\n| MAKE\n| MAKEFILES\n| MAKEFLAGS\n| MAKEOVERRIDES\n| MAKESHELL\n| MAKE_TERMERR\n| MAKE_TERMOUT\n| MFLAGS\n| SHELL\n| SUFFIXES\n| VPATH\n| \\.DEFAULT_GOAL\n| \\.EXTRA_PREREQS\n| \\.LIBPATTERNS\n| \\.RECIPEPREFIX\n| \\.SHELLFLAGS\n){0}",
-          "name": "variable.language.readwrite.makefile"
+          "name": "variable.language.readwrite.makefile variable.other.constant.makefile"
         },
         {
           "match": "(?x)\n(?: \\G         \\g<varname> (?= [:)}] )  # an expansion's name slot\n|   (?<![^\\s]) \\g<varname> (?= \\z    )  # a captured name, in full\n)\n(?<varname>\n  CURDIR\n| MAKECMDGOALS\n| MAKEFILE_LIST\n| MAKELEVEL\n| MAKE_HOST\n| MAKE_RESTARTS\n| MAKE_TMPDIR\n| MAKE_VERSION\n| \\.FEATURES\n| \\.INCLUDE_DIRS\n| \\.LOADED\n| \\.SHELLSTATUS\n| \\.VARIABLES\n| -\\*-eval-flags-\\*-\n| -\\*-command-variables-\\*-\n){0}",
-          "name": "variable.language.constant.makefile"
+          "name": "variable.language.constant.makefile constant.language.makefile"
         }
       ]
     },

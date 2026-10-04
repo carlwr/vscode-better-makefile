@@ -3,6 +3,7 @@ constant.character.escape.backslash.makefile
 constant.character.escape.continuation.makefile
 constant.character.escape.dollar.makefile
 constant.character.escape.line-continuation.makefile
+constant.language.makefile
 constant.other.placeholder.percent.makefile
 constant.other.placeholder.substref.percent.makefile
 entity.name.function.target.makefile
@@ -63,6 +64,7 @@ variable.language.constant.makefile
 variable.language.readwrite.makefile
 variable.language.special.wildcard.makefile
 variable.other.assignment.makefile
+variable.other.constant.makefile
 variable.other.constant.percent.makefile
 variable.other.constant.substref.percent.makefile
 variable.other.makefile

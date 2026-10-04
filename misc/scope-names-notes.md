@@ -17,18 +17,29 @@ variable name in variable assignment
 
 
 built-in variables (= special variables)
-* `variable.language`
-* user may read, not set
-  * e.g. `MAKEFLAGS`
-  * `variable.other.constant`, since an immutable variable
-  * `variable.language.constant`, since immutable variables should get scope `variable.[*.]constant`
-* user may read and set
-  * e.g. `CURDIR`
-  * `variable.language.readwrite`
-* what some themes color
-  * catppuccin: `variable.constant` (not `variable.language.constant`)
-* ref's
+* user may read and set (e.g. `MAKEFLAGS`)
+  * -> decide to scope:
+    * `variable.language.readwrite`
+    * `variable.other.constant` (since styled peach by Catppuccin)
+* user may read, not set (e.g. `CURDIR`)
+  * -> decide to scope:
+    * `variable.language.constant`
+    * `constant.language` (since styled red by Catppuccin)
+* themes
+  * Catppuccin
+    * `variable.other.constant` (peach)
+    * `constant.language` (red)
+  * VS Code Modern
+    * `keyword.other.operator` (pink)
+    * `variable.other.constant` (teal)
+* guidelines
   * https://www.sublimetext.com/docs/scope_naming.html#variable
+
+
+special targets (e.g. `.PHONY`)
+* -> decide to scope:
+  * `support.function.target.$1.makefile`
+  * _and_ with the scopes used for built-in constants (that the user may only read, not set)
 
 
 prereqs in rule head?

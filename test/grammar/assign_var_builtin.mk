@@ -7,9 +7,11 @@ SHELL := v
 #<-                variable.language.readwrite.makefile
 #^^^^              variable.language.readwrite.makefile
 #^^^^              variable.other.assignment.makefile
+#^^^^              variable.other.constant.makefile
 
 CURDIR = v
 #^^^^^             variable.language.constant.makefile
+#^^^^^             constant.language.makefile
 
 .RECIPEPREFIX := v
 #^^^^^^^^^^^^      variable.language.readwrite.makefile

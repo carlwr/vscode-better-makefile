@@ -76,8 +76,9 @@ substitution references (`$(file:%.c=%.o)` etc.)
 
 
 file wildcards
-* `jeff-hykin/better-shell-syntax`
-  * `variable.language.special.wildcard`
+* -> decide to scope:
+  * `variable.language.special.wildcard` (since: precedent with `better-shell-syntax`)
+  * VS Code Modern: `string.regexp` (since: is a scope that VS Code styles distinctively)
 
 
 `meta.scope.target.makefile`

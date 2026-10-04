@@ -1072,7 +1072,7 @@
             },
             {
               "match": "[*?\\[\\]]",
-              "name": "variable.language.special.wildcard.makefile"
+              "name": "variable.language.special.wildcard.makefile string.regexp.makefile"
             },
             {
               "match": ".*",

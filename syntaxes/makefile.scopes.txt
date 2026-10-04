@@ -55,6 +55,7 @@ punctuation.separator.substref.colon.makefile
 punctuation.separator.substref.equal.makefile
 punctuation.whitespace.comment.leading.makefile
 source.makefile
+string.regexp.makefile
 string.unquoted.makefile
 support.function.$1.makefile
 support.function.substref.colon.makefile

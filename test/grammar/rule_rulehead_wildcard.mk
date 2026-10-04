@@ -4,6 +4,7 @@
 *: p
 #<-        variable.language.special.wildcard.makefile
 #<-        meta.scope.target.makefile
+#<-        string.regexp.makefile
 #  ^       meta.scope.prerequisites.makefile
 
 
@@ -11,7 +12,7 @@ targ: *
 #     ^    variable.language.special.wildcard.makefile
 #^^^       meta.scope.target.makefile
 #     ^    meta.scope.prerequisites.makefile
-
+#     ^    string.regexp.makefile
 
 _?_*: [ _]
 #^ ^  ^  ^ variable.language.special.wildcard.makefile

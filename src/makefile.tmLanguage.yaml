@@ -66,7 +66,10 @@ __miscAnchors:
 - &SCOPE_sr_met meta.substref.makefile
 - &SCOPE_sr_col punctuation.separator.substref.colon.makefile
 - &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
-- &SCOPE_sr_per constant.other.placeholder.substref.percent.makefile
+- &SCOPE_sr_per >-
+    constant.other.placeholder.substref.percent.makefile
+    keyword.other.operator.substref.percent.makefile
+    variable.other.constant.substref.percent.makefile
 
 - &__notExp |-
     (?x)
@@ -189,7 +192,10 @@ repository:
             "1": { name: constant.character.escape.backslash.makefile }
             "2": { name: meta.escaped-char.makefile }
         - match: '%'
-          name: constant.other.placeholder.percent.makefile
+          name: >-
+            constant.other.placeholder.percent.makefile
+            keyword.other.operator.percent.makefile
+            variable.other.constant.percent.makefile
         - match: .*
           name: *SCOPE_str  # not expected to be assigned
 

@@ -2,6 +2,8 @@
 
 %tgt: %pre
 #<-   ^        constant.other.placeholder.percent.makefile
+#<-   ^        keyword.other.operator.percent.makefile
+#<-   ^        variable.other.constant.percent.makefile
 # ^^           entity.name.function.target.makefile
 # ^^           meta.scope.target.makefile
 #     ^^^^     meta.scope.prerequisites.makefile

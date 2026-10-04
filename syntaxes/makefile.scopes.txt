@@ -16,6 +16,8 @@ keyword.control.override.makefile
 keyword.control.recipe-lineprefix.makefile
 keyword.control.vpath.makefile
 keyword.operator.assignment.makefile
+keyword.other.operator.percent.makefile
+keyword.other.operator.substref.percent.makefile
 meta.escaped-char.makefile
 meta.expression.assignment.makefile
 meta.scope.condition.makefile
@@ -57,6 +59,8 @@ variable.language.constant.makefile
 variable.language.readwrite.makefile
 variable.language.special.wildcard.makefile
 variable.other.assignment.makefile
+variable.other.constant.percent.makefile
+variable.other.constant.substref.percent.makefile
 variable.other.makefile
 variable.other.string.makefile
 variable.parameter.automatic.makefile

@@ -46,12 +46,11 @@ prereqs in rule head?
   * pattern rules
   * substitution references
   * more?
-* scope how?
-  * -> should scope the way e.g. `%s` in printf format strings are usually scoped
-    * -> `constant.other.placeholder`
-      * ref.: https://www.sublimetext.com/docs/scope_naming.html#constant
-* escaped %-s
-  * `\%`
+* -> decide to scope:
+  * `constant.other.placeholder`
+    * since: is how e.g. `%s` in printf format strings should be scoped, per https://www.sublimetext.com/docs/scope_naming.html#constant
+  * `keyword.other.operator`, for VS Code
+  * `variable.other.constant`, for Catppuccin (peach)
 
 
 substitution references (`$(file:%.c=%.o)` etc.)

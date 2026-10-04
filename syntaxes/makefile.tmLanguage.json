@@ -786,7 +786,7 @@
             },
             {
               "match": "%",
-              "name": "constant.other.placeholder.percent.makefile"
+              "name": "constant.other.placeholder.percent.makefile keyword.other.operator.percent.makefile variable.other.constant.percent.makefile"
             },
             {
               "match": ".*",
@@ -961,7 +961,7 @@
         },
         {
           "match": "%",
-          "name": "constant.other.placeholder.substref.percent.makefile"
+          "name": "constant.other.placeholder.substref.percent.makefile keyword.other.operator.substref.percent.makefile variable.other.constant.substref.percent.makefile"
         },
         {
           "match": "=",

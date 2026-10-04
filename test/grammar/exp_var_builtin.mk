@@ -6,7 +6,6 @@
 
 a =    $(VPATH)
 #        ^^^^^      variable.language.readwrite.makefile
-#        ^^^^^      meta.scope.expansion.makefile
 #^^^^^^^^     ^   - variable.language.readwrite.makefile
 #^^^^^^^^^^^^^^     meta.expression.assignment.makefile
 
@@ -36,8 +35,8 @@ y = $($GPATH)
 #     ^^^^^^      - variable.language.readwrite.makefile
 
 v = $(VPATH )
-#     ^^^^^^  - variable.language.readwrite.makefile
-#     ^^^^^^    variable.other.makefile
+#     ^^^^^^      - variable.language.readwrite.makefile
+#     ^^^^^^        variable.other.makefile
 
 z = $(a$(b)SHELL)
 #          ^^^^^  - variable.language.readwrite.makefile

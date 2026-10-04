@@ -6,28 +6,22 @@
 
 name = $(nme)
 #        ^^^        variable.other.makefile
-#        ^^^        meta.scope.expansion.makefile
-#      ^^   ^       punctuation.definition.variable.makefile
 #^^^^^^^^   ^     - variable.other.makefile
-#^^^^^^^^   ^     - meta.scope.expansion.makefile
 #<-               - variable.other.makefile
 
 targt: $(tgt)
 #        ^^^        variable.other.makefile
-#      ^^   ^       punctuation.definition.variable.makefile
 #^^^^^^^^   ^     - variable.other.makefile
 #<-               - variable.other.makefile
 
 
 tight_=$(tig)
 #        ^^^        variable.other.makefile
-#      ^^   ^       punctuation.definition.variable.makefile
 #^^^^^^^^   ^     - variable.other.makefile
 #<-               - variable.other.makefile
 
 TIGHT_:$(TIG)
 #        ^^^        variable.other.makefile
-#      ^^   ^       punctuation.definition.variable.makefile
 #^^^^^^^^   ^     - variable.other.makefile
 #<-               - variable.other.makefile
 
@@ -37,8 +31,6 @@ spc = $(sp ace)     ## /\Qspc = $(sp ace)/
 
 $(e) = $(exp)
 # ^      ^^^        variable.other.makefile
-#^ ^   ^^   ^       punctuation.definition.variable.makefile
-#<-                 punctuation.definition.variable.makefile
 
 ddd = $(v$$r)
 #       ^  ^        variable.other.makefile
@@ -47,9 +39,6 @@ ddd = $(v$$r)
 
 $(E) : $(EXP)
 # ^      ^^^        variable.other.makefile
-#^ ^   ^^   ^       punctuation.definition.variable.makefile
-#<-                 punctuation.definition.variable.makefile
-
 
 
 # --------------------------- nested -------------------------- #
@@ -106,13 +95,11 @@ rule:
 	cmd $(aaa)
 #^^^^^^^^^^             meta.scope.recipe.makefile
 #      ^^^              variable.other.makefile
-#    ^^   ^             punctuation.definition.variable.makefile
 
 RULE:
 	$(bbb)
 #^^^^^^                 meta.scope.recipe.makefile
 #  ^^^                  variable.other.makefile
-#^^   ^                 punctuation.definition.variable.makefile
 
 
 # ---------------------------- misc --------------------------- #

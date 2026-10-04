@@ -7,28 +7,22 @@
 varnme0 = $(dir str)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^    meta.scope.function-call.makefile
-#           ^^^^^^^    meta.scope.expansion.makefile
-#         ^^       ^   punctuation.definition.variable.makefile
 
 varnme1 = $(dir  str)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^^   meta.scope.function-call.makefile
-#         ^^        ^  punctuation.definition.variable.makefile
 
 varnme2 = $(dir str )
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^^   meta.scope.function-call.makefile
-#         ^^        ^  punctuation.definition.variable.makefile
 
 target__: $(dir str)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^    meta.scope.function-call.makefile
-#         ^^       ^   punctuation.definition.variable.makefile
 
 $(dir a)= $(dir asg)
 # ^^^       ^^^        support.function.dir.makefile
 # ^^^^^     ^^^^^^^    meta.scope.function-call.makefile
-#^     ^  ^^       ^   punctuation.definition.variable.makefile
 
 $(dir r): $(dir rle)
 # ^^^       ^^^        support.function.dir.makefile

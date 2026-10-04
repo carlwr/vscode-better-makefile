@@ -5,32 +5,29 @@
 
 aaaa = $@a
 #       ^      variable.parameter.automatic.makefile
-#       ^      meta.scope.expansion.makefile
 #^^^^^^^ ^   - variable.parameter.automatic.makefile
-#^^^^^^^ ^   - meta.scope.expansion.makefile
-#      ^       punctuation.definition.variable.makefile
 
 
 tight_=$@t
 #       ^      variable.parameter.automatic.makefile
 #^^^^^^^ ^   - variable.parameter.automatic.makefile
-#^^^^^^^ ^   - meta.scope.expansion.makefile
-#      ^       punctuation.definition.variable.makefile
 
 nme = $(@)a
 #       ^      variable.parameter.automatic.makefile
 #^^^^^^^ ^   - variable.parameter.automatic.makefile
-#     ^^ ^     punctuation.definition.variable.makefile
+
 nme = ${@}a
 #       ^      variable.parameter.automatic.makefile
 #^^^^^^^ ^   - variable.parameter.automatic.makefile
-#     ^^ ^     punctuation.definition.variable.makefile
+
 usr = $(u)A
 #       ^    - variable.parameter.automatic.makefile
+
 nme = $(@D)n
 #       ^^     variable.parameter.automatic.makefile
 #^^^^^^^  ^  - variable.parameter.automatic.makefile
 #     ^^  ^    punctuation.definition.variable.makefile
+
 NME = ${@D}N
 #       ^^     variable.parameter.automatic.makefile
 #^^^^^^^  ^  - variable.parameter.automatic.makefile
@@ -41,13 +38,15 @@ NME = ${@D}N
 
 user = $uU
 #       ^    - variable.parameter.automatic.makefile
-#       ^      meta.scope.expansion.makefile
+
 usr = $(uD)U
 #       ^^   - variable.parameter.automatic.makefile
 #       ^^     meta.scope.expansion.makefile
+
 usr = $(@x)
 #       ^^   - variable.parameter.automatic.makefile
 #       ^^     meta.scope.expansion.makefile
+
 usr = $(x@)
 #       ^^   - variable.parameter.automatic.makefile
 #       ^^     meta.scope.expansion.makefile

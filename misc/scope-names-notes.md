@@ -55,9 +55,11 @@ prereqs in rule head?
 
 substitution references (`$(file:%.c=%.o)` etc.)
 * :, =
-  * -> scope the way shell expansions such as `${var##repl}` typ. scope `##`
-    * better-shellsyntax uses `keyword.operator.expansion.shell`
-  * -> `keyword.operator.substref`
+  * -> decide to scope:
+    * `keyword.operator.substref`
+      * since: follows how `better-shell-syntax` scopes `##` in `${var##repl}` (scopes with `keyword.operator.expansion.shell`
+    * `support.function.*` (styled well by VS Code)
+    * `keyword.operator.*` (styled well by Catppuccin)
 * %-s
   * -> see other bullet about `%` in general
 

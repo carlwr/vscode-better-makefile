@@ -64,8 +64,14 @@ __miscAnchors:
 
 # substref scopes:
 - &SCOPE_sr_met meta.substref.makefile
-- &SCOPE_sr_col punctuation.separator.substref.colon.makefile
-- &SCOPE_sr_eql punctuation.separator.substref.equal.makefile
+- &SCOPE_sr_col >-
+    punctuation.separator.substref.colon.makefile
+    support.function.substref.colon.makefile
+    keyword.operator.substref.colon.makefile
+- &SCOPE_sr_eql >-
+    punctuation.separator.substref.equal.makefile
+    support.function.substref.equal.makefile
+    keyword.operator.substref.equal.makefile
 - &SCOPE_sr_per >-
     constant.other.placeholder.substref.percent.makefile
     keyword.other.operator.substref.percent.makefile

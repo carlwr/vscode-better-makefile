@@ -16,6 +16,8 @@ keyword.control.override.makefile
 keyword.control.recipe-lineprefix.makefile
 keyword.control.vpath.makefile
 keyword.operator.assignment.makefile
+keyword.operator.substref.colon.makefile
+keyword.operator.substref.equal.makefile
 keyword.other.operator.percent.makefile
 keyword.other.operator.substref.percent.makefile
 meta.escaped-char.makefile
@@ -54,6 +56,8 @@ punctuation.whitespace.comment.leading.makefile
 source.makefile
 string.unquoted.makefile
 support.function.$1.makefile
+support.function.substref.colon.makefile
+support.function.substref.equal.makefile
 support.function.target.$1.makefile
 variable.language.constant.makefile
 variable.language.readwrite.makefile

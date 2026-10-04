@@ -3,7 +3,11 @@
 
 v = $(s____:f____%=r$(v)%)
 #          ^              punctuation.separator.substref.colon.makefile
+#          ^              keyword.operator.substref.colon.makefile
+#          ^              support.function.substref.colon.makefile
 #                 ^       punctuation.separator.substref.equal.makefile
+#                 ^       keyword.operator.substref.equal.makefile
+#                 ^       support.function.substref.equal.makefile
 #                ^      ^ constant.other.placeholder.substref.percent.makefile
 #                ^      ^ keyword.other.operator.substref.percent.makefile
 #                ^      ^ variable.other.constant.substref.percent.makefile

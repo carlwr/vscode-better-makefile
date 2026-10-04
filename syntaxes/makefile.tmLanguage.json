@@ -944,7 +944,7 @@
       "begin": ":",
       "beginCaptures": {
         "0": {
-          "name": "punctuation.separator.substref.colon.makefile"
+          "name": "punctuation.separator.substref.colon.makefile support.function.substref.colon.makefile keyword.operator.substref.colon.makefile"
         }
       },
       "end": "(?x) (?= \\)|\\} ) | (?=\\n)",
@@ -965,7 +965,7 @@
         },
         {
           "match": "=",
-          "name": "punctuation.separator.substref.equal.makefile"
+          "name": "punctuation.separator.substref.equal.makefile support.function.substref.equal.makefile keyword.operator.substref.equal.makefile"
         },
         {
           "match": "[^%=\\s]",

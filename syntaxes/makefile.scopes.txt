@@ -36,7 +36,10 @@ meta.string.makefile
 meta.substref.makefile
 punctuation.definition.comment.makefile
 punctuation.definition.parameters.load-symbolname.makefile
+punctuation.definition.template-expression.begin.makefile
+punctuation.definition.template-expression.end.makefile
 punctuation.definition.variable.makefile
+punctuation.section.embedded.makefile
 punctuation.section.load-symbolname.makefile
 punctuation.separator.continuation.makefile
 punctuation.separator.delimiter.comma.makefile

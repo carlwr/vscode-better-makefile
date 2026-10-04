@@ -73,6 +73,45 @@ file wildcards
   * since: `meta.scope.target.makefile` has prescedent in fadeevab/make.tmbundle
 
 
+`$c`, `$(` + `)`
+* -> decide to scope:
+  * `$` in `$c` with `punctuation.section.embedded`
+  * `$(` + `)` with `punctuation.definition.template-expression.{begin,end}`
+  * since: presedence in several other grammars + styled by VS Code themes
+  * (also scope all these with `punctuation.definition.variable`)
+* other grammars
+  * `jeff-hykin/better-shell-syntax`
+    * scopes the whole `$v`, but just `var` in `$(var)`, with a `variable.*` scope
+      * -> has consequences for how VS Code Modern styles these
+  * Python
+    * scopes brackets within string interpolation with `constant.character.format.placeholder.other`
+      * VS Code Modern then styles due to `constant.character`
+  * Ruby (and some other)
+    * scopes `${` + `}`, or corresponding, in string interpolation with (Ruby:) `punctuation.section.embedded.begin.ruby`
+      * -> VS Code modern styles this due to `punctuation.section.embedded`
+  * TS
+    * scopes `${` + `}` in interpolated strings with `punctuation.definition.template-expression.begin.ts` + `*.end.ts`
+    * -> VS Code styles those scopes
+* themes
+  * VS Code `dark_vs.json`:
+    ```json
+    "name": "String interpolation",
+    "scope": [
+      "punctuation.definition.template-expression.begin",
+      "punctuation.definition.template-expression.end",
+      "punctuation.section.embedded"
+    ],
+    ```
+  * Catppuccin
+    * `punctuation` with `overlay2`
+      * (no `punctuation.*` that is immediately applicable, and != text)
+    * `punctuation.definition.variable` with `text`
+      * -> I can't override this with some other scope that will win in specificity; accept that standard carppuccin will style this as text
+    * `variable.parameter` with `maroon`
+      * * (no `variable.*` that is immediately applicable, and != text)
+    * `string.template variable` with `text`
+
+
 ## Links
 
 VS Code stock themes scoping

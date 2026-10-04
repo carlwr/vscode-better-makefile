@@ -622,12 +622,17 @@
       "patterns": [
         {
           "begin": "(?x) \\$\\{",
-          "captures": {
+          "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.variable.makefile"
+              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.begin.makefile"
             }
           },
           "end": "(?x)   \\} | (?=\\n)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.end.makefile"
+            }
+          },
           "contentName": "meta.scope.expansion.makefile",
           "applyEndPatternLast": 1,
           "patterns": [
@@ -669,7 +674,7 @@
     "expansions-_$c_": {
       "captures": {
         "1": {
-          "name": "punctuation.definition.variable.makefile"
+          "name": "punctuation.definition.variable.makefile punctuation.section.embedded.makefile"
         },
         "2": {
           "name": "meta.scope.expansion.makefile",
@@ -693,12 +698,17 @@
       "patterns": [
         {
           "begin": "(?x) \\$\\(",
-          "captures": {
+          "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.variable.makefile"
+              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.begin.makefile"
             }
           },
           "end": "(?x)   \\) | (?=\\n)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.end.makefile"
+            }
+          },
           "contentName": "meta.scope.expansion.makefile",
           "applyEndPatternLast": 1,
           "patterns": [

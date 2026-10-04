@@ -564,7 +564,10 @@ repository:
   expansions-_$c_:
     match: (\$)([^({$#\n ])
     captures:
-      "1": { name: punctuation.definition.variable.makefile }
+      "1":
+        name: >-
+          punctuation.definition.variable.makefile
+          punctuation.section.embedded.makefile
       "2":
         name: meta.scope.expansion.makefile
         patterns:
@@ -575,9 +578,17 @@ repository:
   expansions-_$p..p_:
     patterns:
     - begin: (?x) \$\(
-      captures:
-        "0": { name: punctuation.definition.variable.makefile }
+      beginCaptures:
+        "0":
+          name: >-
+            punctuation.definition.variable.makefile
+            punctuation.definition.template-expression.begin.makefile
       end:   (?x)   \) | (?=\n)
+      endCaptures:
+        "0":
+          name: >-
+            punctuation.definition.variable.makefile
+            punctuation.definition.template-expression.end.makefile
       contentName: meta.scope.expansion.makefile
       applyEndPatternLast: 1
       patterns:
@@ -595,9 +606,17 @@ repository:
   expansions-_$b..b_:
     patterns:
     - begin: (?x) \$\{
-      captures:
-        "0": { name: punctuation.definition.variable.makefile }
+      beginCaptures:
+        "0":
+          name: >-
+            punctuation.definition.variable.makefile
+            punctuation.definition.template-expression.begin.makefile
       end:   (?x)   \} | (?=\n)
+      endCaptures:
+        "0":
+          name: >-
+            punctuation.definition.variable.makefile
+            punctuation.definition.template-expression.end.makefile
       contentName: meta.scope.expansion.makefile
       applyEndPatternLast: 1
       patterns:

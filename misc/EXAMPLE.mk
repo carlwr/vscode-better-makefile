@@ -1,7 +1,8 @@
 v = ${v__a_r}str  # cmt
 
 targ: prereq
-  echo $@
+	echo $@
+	echo $c
 
 # setting built-in vars:
 SHELL          = /bin/sh
@@ -155,8 +156,8 @@ files  =  *
 tight__=var
 empty  =
 empty  =#
-var  ::= val  # grammar bug (is valid assignment)
-var :::= val  # grammar bug (is valid assignment)
+var  ::= val  # make.tmbundle bug (is valid assignment)
+var :::= val  # make.tmbundle bug (is valid assignment)
 
 # substitution references:
 v = $(v:x=y)      # equivalent to $(v:%x=%y)
@@ -182,12 +183,12 @@ var = $#
 
 var = $(SHELL)
 var = $(SHELL )
-  # grammar bug:
+  # make.tmbundle bug:
   #   GNU make: not var SHELL, but some var 'SHELL '
-  #   grammar : built-in var SHELL
+  #   make.tmbundle : built-in var SHELL
 
 # ---
-v = $    # grammar bug: make sets v to char '$'
+v = $    # make.tmbundle bug: make sets v to char '$'
 # ---
 
 cont   = pre_\
@@ -201,8 +202,8 @@ here
 lastLine_$${fpath}
 endef
 
-define v= # grammar bug; = shouldnt be part of name
-strings
+define v= # make.tmbundle bug; = shouldnt be part of name
+strings # comment
 endef
 
 define v =
@@ -232,7 +233,7 @@ name$(expansion) := value
 name$(MAKEFLAGS) := value
 name$a           := value
 
-# grammar bug: not recognized as assignments:
+# make.tmbundle bug: not recognized as assignments:
 $(expansion)     := value
 $(MAKEFLAGS)     := value
 $a               := value
@@ -317,7 +318,7 @@ v = $(origin var var2)  # `origin` not scoped as a built-in
 
 # single argument, but a nested expansion contains a space:
 v = $(origin var$(sort STR)) # `origin` not scoped as a built-in
-  # -> grammar bug
+  # -> make.tmbundle bug
 
 
 # comments
@@ -385,7 +386,7 @@ load     $(name).o
 -load    f.o g.o
 sload    f.o    # "sload" is _not_ special, i.e. different from include
 # "load" is a valid target name (ref: read.c)
-load: prereq  # grammar bug
+load: prereq  # make.tmbundle bug
 	gcc
 
 
@@ -396,7 +397,14 @@ load: prereq  # grammar bug
 
 .DEFAULT: all
 .PHONY: all
-all: targ
+
+all: main.o feat.o
+
+all: main.o .WAIT feat0.o .WAIT feat1.o
+
+main.o: CFLAGS += --opt
+main.o: main.c
+	$(GCC) $@ $<
 
 .PHONY: interpolate_$(SHELL)
 
@@ -439,7 +447,7 @@ t: p\=p      # prereqs with "=" in filename
 t0 t1: p0 p1
 	gcc --switch
 
-# currently a grammar bug:
+# currently a make.tmbundle bug:
 t0\
 	this: is tab-indented
 	tab-indented
@@ -492,7 +500,7 @@ test.o db.o: \
 %.o: %.c
 	$(GCC) -C $(@D) $@ $<
 
-# grammar bug: * not constant.other.placeholder:
+# make.tmbundle bug: * not constant.other.placeholder:
 *.pdf: f.tex
 	latex
 

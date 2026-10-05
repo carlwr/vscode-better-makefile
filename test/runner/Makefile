@@ -57,7 +57,7 @@ endif
 #                             rules                             #
 # ------------------------------------------------------------- #
 
-findTests = $(shell find $(testdir) -ipath '*$(TESTS)*' -path '*.mk' $1)
+findTests = $(shell find $(testdir) -ipath '*$(TESTS)*' -path '*.mk' $1|sort)
 
 # lists of files:
 xpass_files := $(call findTests,-not -name '*XFAIL*')

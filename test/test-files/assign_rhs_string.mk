@@ -24,6 +24,40 @@ var5 = s\
 #         ^^        string.unquoted.makefile
 
 
+# with whitespaces
+# ----------------
+
+# per parse tests below, GNU make's behaviour:
+# - any whitespaces after `=` are ignored
+# - no trailing whitespaces are ignored
+
+var6 = str
+#      ^^^          string.unquoted.makefile
+#     ^           - string.unquoted.makefile
+
+var7 = s r
+#      ^^^          string.unquoted.makefile
+#     ^           - string.unquoted.makefile
+
+var8 = s r  #c      ## /^var8 = s r  $/
+#      ^^^^^        string.unquoted.makefile
+#     ^     ^^    - string.unquoted.makefile
+
+var9=  s r  #c      ## /^var9 = s r  $/
+#      ^^^^^        string.unquoted.makefile
+#    ^^     ^^    - string.unquoted.makefile
+
+vr10 = s  r#        ## /^vr10 = s  r$/
+#      ^^^^         string.unquoted.makefile
+#     ^    ^^     - string.unquoted.makefile
+
+# below: two trailing whitespaces, i e $'vr11 = str  \n':
+vr11 = str  
+#      ^^^^^        string.unquoted.makefile
+#     ^           - string.unquoted.makefile
+## /^vr11 = str  $/
+
+
 # comments
 # --------
 

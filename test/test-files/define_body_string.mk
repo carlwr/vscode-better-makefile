@@ -9,6 +9,10 @@ STRING
 #^^^^^                meta.string.makefile
 #<-                   meta.string.makefile
 
+ st r  ing
+#^^^^^^^^^            string.unquoted.makefile
+
+
  space-indented
 #^^^^^^^^^^^^^^       string.unquoted.makefile
 #^^^^^^^^^^^^^^       meta.string.makefile

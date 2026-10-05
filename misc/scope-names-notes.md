@@ -39,6 +39,7 @@ variable name in variable assignment
     * since:
       * neither TS, JS or C# grammars scope with it at declaration site/assignment position
       * would give unfortunate results with VSCode-2026: would be styled with a color similar to that of `string` -> `var := value` would have its LHS and RHS styled with similar colors
+  * note: `var=value` is scoped exactly the same in a Makefile with this grammar as in a shellscript with `better-shell-syntax` (except this grammar also adding `meta.string.makefile` on RHS, per Sublimetext guidelines)
 * themes
   * `entity.name.variable`
     * VSCode-Plus: does style it (teal); from its style rule context, it seems intended for variable _declaration_ sites
@@ -229,6 +230,36 @@ function calls/invocation meta-scope (at call sites)
     * `entity.name.function` (only) where declared
     * `variable.function` (only) where invoked
     * (says nothing about meta scopes at function call sites either way)
+
+
+strings
+* what to scope with _string_ scopes?
+  * -> decide:
+    - those ranges that we can reliably know to be strings: RHS of assignments (including define)
+    - relevant parts of substref-s
+  * since:
+    * precedents
+      * RHS as string: SublimeText (-> `bat`), KDE/Kate, KDevelop
+      * RHS incl. define bodies + function args: Helix, Zed, JetBrains
+      * VS Code's own shell grammar: `FOO=bar`, `echo foo` -> `string.unquoted.*`
+    * `string.unquoted`: TextMate convention says "for things like here-docs" (cf. define bodies)
+  * no `string.interpolated`
+    * since: TextMate meaning is "evaluated" strings (`date`, $(pwd)); stock uses it for expansions, not values; no theme styles it generically
+* other Makefile grammars
+  * SublimeText's Makefile grammar
+    * assignment RHS + define bodies: `meta.string string.unquoted` (since 2015)
+      * except `!=` RHS: `source.shell.embedded`
+      * also strings: include args, vpath dirs, prereqs
+      * not strings: function args, substref-s
+      * expansions within strings keep the string scope (contrary to own guideline)
+* guidelines
+  * https://www.sublimetext.com/docs/scope_naming.html#string: strings should have `string.unquoted` and `meta.string`
+    * `meta.string` spans whole string incl. interpolations; `string.*` cleared within interpolations (`meta.interpolation`)
+* editor behaviour (VS Code) for string tokens
+  * brackets ignored for matching + colorization -> intended: bare brackets in values are not syntax
+    * `$(`, `)` must stay outside string scopes (else: VS Code issue #38078); `meta.string` too counts as string
+  * quick suggestions off by default -> re-enabled for makefile, with the default for code (cf. VS Code's yaml, dockerfile)
+  * quotes auto-close unless `notIn` -> `notIn` comment only (effectively as stock)
 
 
 ## Deliberately not done

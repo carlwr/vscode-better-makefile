@@ -263,6 +263,14 @@
             },
             {
               "include": "#expansions"
+            },
+            {
+              "match": "[^\\$]+",
+              "name": "meta.string.makefile string.unquoted.makefile"
+            },
+            {
+              "match": ".",
+              "name": "meta.string.makefile string.unquoted.makefile"
             }
           ]
         },
@@ -1051,7 +1059,7 @@
     },
     "variable-assignment": {
       "applyEndPatternLast": 1,
-      "begin": "(?x)\n(?:  ^[\\ ]*+|\\G\\s*+ ) # discard leading whitespace\n( (?:        [^!+?=\\s$:#\\\\]++\n  |   (?<!\\\\) [!+?] (?!=)\n  |   \\\\\n  |   \\g<exp>\n  |   \\$(?! [({] )\n  )++\n)  # group 1; the variable name\n\\s*+                  # any space between name and assignment operator\n                      # assignment operators:\n( (?<![?:+!])   =     #    =\n|              !=     #   !=\n|             \\+=     #   +=\n|             \\?=     #   ?=\n|              :=     #   :=\n|             ::=     #  ::=\n|            :::=     # :::=\n)\n# define named groups for recursive expansion detection:\n(?<_ch>  [^(){}\\n]+                                               ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)*  \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)*  \\) )++ )  ){0}",
+      "begin": "(?x)\n(?:  ^[\\ ]*+|\\G\\s*+ ) # discard leading whitespace\n( (?:        [^!+?=\\s$:#\\\\]++\n  |   (?<!\\\\) [!+?] (?!=)\n  |   \\\\\n  |   \\g<exp>\n  |   \\$(?! [({] )\n  )++\n)  # group 1; the variable name\n\\s*+                  # any space between name and assignment operator\n                      # assignment operators:\n( (?<![?:+!])   =     #    =\n|              !=     #   !=\n|             \\+=     #   +=\n|             \\?=     #   ?=\n|              :=     #   :=\n|             ::=     #  ::=\n|            :::=     # :::=\n)\n(?:[ \\t]*+)\n# define named groups for recursive expansion detection:\n(?<_ch>  [^(){}\\n]+                                               ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)*  \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)*  \\) )++ )  ){0}",
       "beginCaptures": {
         "1": {
           "name": "variable.other.assignment.makefile",
@@ -1079,6 +1087,14 @@
         },
         {
           "include": "#expansions"
+        },
+        {
+          "match": "[^\\n\\$#\\\\]+",
+          "name": "meta.string.makefile string.unquoted.makefile"
+        },
+        {
+          "match": "[^\\n]",
+          "name": "meta.string.makefile string.unquoted.makefile"
         }
       ]
     },

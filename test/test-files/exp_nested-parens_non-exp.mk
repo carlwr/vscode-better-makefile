@@ -34,18 +34,24 @@ v_a8 := a{b_(x)}c)#CMT    ## /^\Qv_a8 := a{b_(x)}c)\E$/
 
 T_a0 = a(b__x__c_#CMT    
 #                ^^^^       comment.line.number-sign.makefile
+#      ^^^^^^^^^^           string.unquoted.makefile
 T_a1 = a_b__x__c)#CMT
 #                ^^^^       comment.line.number-sign.makefile
+#      ^^^^^^^^^^           string.unquoted.makefile
 T_a6 = a(b_(x))c)#CMT
 #                ^^^^       comment.line.number-sign.makefile
+#      ^^^^^^^^^^           string.unquoted.makefile
 T_a7 = a(b((x)_c)#CMT
 #                ^^^^       comment.line.number-sign.makefile
+#      ^^^^^^^^^^           string.unquoted.makefile
 T_a8 = a{b_(x)}c)#CMT
 #                ^^^^       comment.line.number-sign.makefile
+#      ^^^^^^^^^^           string.unquoted.makefile
 
 # with line-cont.:
 T_a0C= a(b__x\
              __c_#CMT    ## /^T_a0C = a\(b__x\s*__c_$/
 #                ^^^^       comment.line.number-sign.makefile
+#            ^^^^           string.unquoted.makefile
 
 __ := )})}  # close any VS Code bracket matching state

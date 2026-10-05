@@ -409,6 +409,10 @@ repository:
         patterns:
         - include: "#doubleDollar"
         - include: "#expansions"
+        - match: '[^\$]+'
+          name: *SCOPE_str
+        - match: .
+          name: *SCOPE_str
 
       directive-varname:
         match: \S+
@@ -527,6 +531,7 @@ repository:
       |             ::=     #  ::=
       |            :::=     # :::=
       )
+      (?:[ \t]*+)
       # define named groups for recursive expansion detection:
       (?<_ch>  [^(){}\n]+                                               ){0}
       (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*  \} )++
@@ -548,6 +553,10 @@ repository:
     - include: "#comment"
     - include: "#doubleDollar"
     - include: "#expansions"
+    - match: '[^\n\$#\\]+'
+      name: *SCOPE_str
+    - match: '[^\n]'
+      name: *SCOPE_str
 
 
 # --------------------------- rules --------------------------- #

@@ -4,6 +4,10 @@
 define basic
 $(var)
 # ^^^               variable.other.makefile
+x$(var)
+#  ^^^              variable.other.makefile
+$(var) $(var)
+# ^^^    ^^^        variable.other.makefile
 str$(subst ,,)
 #    ^^^^^          support.function.subst.makefile
 std$@

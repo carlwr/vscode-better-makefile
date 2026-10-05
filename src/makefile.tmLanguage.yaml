@@ -179,7 +179,11 @@ repository:
     match: (\$\$)+
     name: constant.character.escape.dollar.makefile
 
-  comma:
+  comma-condition:
+    match: ","
+    name: punctuation.separator.delimiter.comma.makefile
+
+  comma-funcargs:
     match: ","
     name: punctuation.separator.delimiter.comma.makefile
 
@@ -479,7 +483,7 @@ repository:
       condition-body:
         patterns:
         - include: "#condition-varname"
-        - include: "#comma"
+        - include: "#comma-condition"
         - include: "#doubleDollar"
         - include: "#expansions"
         - include: "#comment"
@@ -751,7 +755,7 @@ repository:
       name:        meta.scope.function-call.makefile
       applyEndPatternLast: 1
       patterns:
-      - include: "#comma"
+      - include: "#comma-funcargs"
       - include: "#doubleDollar"
       - include: "#expansions"
       - include: "#expansions--func-builtin-NESTED"
@@ -767,7 +771,7 @@ repository:
       name:        meta.scope.function-call.makefile
       applyEndPatternLast: 1
       patterns:
-      - include: "#comma"
+      - include: "#comma-funcargs"
       - include: "#doubleDollar"
       - include: "#expansions"
       - include: "#expansions--func-builtin-NESTED"

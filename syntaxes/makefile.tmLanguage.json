@@ -26,7 +26,11 @@
     }
   ],
   "repository": {
-    "comma": {
+    "comma-condition": {
+      "match": ",",
+      "name": "punctuation.separator.delimiter.comma.makefile"
+    },
+    "comma-funcargs": {
       "match": ",",
       "name": "punctuation.separator.delimiter.comma.makefile"
     },
@@ -134,7 +138,7 @@
               "include": "#condition-varname"
             },
             {
-              "include": "#comma"
+              "include": "#comma-condition"
             },
             {
               "include": "#doubleDollar"
@@ -639,7 +643,7 @@
           "applyEndPatternLast": 1,
           "patterns": [
             {
-              "include": "#comma"
+              "include": "#comma-funcargs"
             },
             {
               "include": "#doubleDollar"
@@ -753,7 +757,7 @@
           "applyEndPatternLast": 1,
           "patterns": [
             {
-              "include": "#comma"
+              "include": "#comma-funcargs"
             },
             {
               "include": "#doubleDollar"

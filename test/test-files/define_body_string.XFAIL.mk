@@ -4,23 +4,19 @@
 define name
 
 STRING
-#^^^^^                string.unquoted
-#<-                   string.unquoted
-#^^^^^                meta.string
-#<-                   meta.string
+#^^^^^                string.unquoted.makefile
+#<-                   string.unquoted.makefile
+#^^^^^                meta.string.makefile
+#<-                   meta.string.makefile
 
  space-indented
-#^^^^^^^^^^^^^^       string.unquoted
-#<-                   string.unquoted
-#^^^^^^^^^^^^^^       meta.string
-#<-                   meta.string
+#^^^^^^^^^^^^^^       string.unquoted.makefile
+#^^^^^^^^^^^^^^       meta.string.makefile
 
 
 	_TAB_-indented
-#^^^^^^^^^^^^^^       string.unquoted
-#<-                   string.unquoted
-#^^^^^^^^^^^^^^       meta.string
-#<-                   meta.string
+#^^^^^^^^^^^^^^       string.unquoted.makefile
+#^^^^^^^^^^^^^^       meta.string.makefile
 #^^^^^^^^^^^^^^     - meta.scope.recipe.makefile
 #<-                 - meta.scope.recipe.makefile
 #

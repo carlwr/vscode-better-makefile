@@ -6,6 +6,34 @@ vpath
 #^^^^             meta.scope.define.makefile
 endef
 
+
+define aa1b#cmt
+vpath
+#^^^^           - keyword.control.vpath.makefile
+#^^^^             meta.scope.define.makefile
+endef
+
+define aa1c
+first line
+vpath
+#^^^^           - keyword.control.vpath.makefile
+#^^^^             meta.scope.define.makefile
+endef
+
+define aa1c#cmt
+first line
+vpath
+#^^^^           - keyword.control.vpath.makefile
+#^^^^             meta.scope.define.makefile
+endef
+
+define aa1d # first an empty line:
+
+vpath
+#^^^^           - keyword.control.vpath.makefile
+#^^^^             meta.scope.define.makefile
+endef
+
 define aa2#cmt
 vpath
 #^^^^           - keyword.control.vpath.makefile

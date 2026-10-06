@@ -113,7 +113,7 @@ y1= _$$(if Y2,,)
 
 y2= Z$$@
 #    ^^          constant.character.escape.dollar.makefile
-#      ^       - variable.parameter.automatic.makefile
+#     ^^       - variable.parameter.automatic.makefile
 
 # \ before $ is not special:
 var := VAL       ## prepare

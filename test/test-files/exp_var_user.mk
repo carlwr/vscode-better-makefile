@@ -15,19 +15,19 @@ targt: $(tgt)
 #<-               - variable.other.makefile
 
 nme0 = X$cX
-#        ^          variable.other.makefile
+#       ^^          variable.other.makefile
 #        ^          meta.scope.expansion.makefile
-#^^^^^^^^ ^       - variable.other.makefile
+#^^^^^^^  ^       - variable.other.makefile
 targ0: X$cX
-#        ^          variable.other.makefile
-#^^^^^^^^ ^       - variable.other.makefile
+#       ^^          variable.other.makefile
+#^^^^^^^  ^       - variable.other.makefile
 
 nme1 =  $c
-#        ^          variable.other.makefile
-#^^^^^^^^ ^       - variable.other.makefile
+#       ^^          variable.other.makefile
+#^^^^^^^  ^       - variable.other.makefile
 targ1:  $c
-#        ^          variable.other.makefile
-#^^^^^^^^ ^       - variable.other.makefile
+#       ^^          variable.other.makefile
+#^^^^^^^  ^       - variable.other.makefile
 
 tight_=$(tig)
 #        ^^^        variable.other.makefile
@@ -49,9 +49,24 @@ spcV := _$(spc)_    ## /^\QspcV := _V_/
 $(e) = $(exp)
 # ^      ^^^        variable.other.makefile
 
-ddd = $(v$$r)
-#       ^  ^        variable.other.makefile
+ccc =    $$r
 #        ^^         constant.character.escape.dollar.makefile
+#        ^^^      - variable.other.makefile
+#        ^^^      - punctuation.definition.variable.makefile
+#        ^^^      - meta.scope.expansion.makefile
+
+
+ddd = $(v$$r)
+#        ^^         constant.character.escape.dollar.makefile
+#       ^^^^        variable.other.makefile
+#       ^^^^        meta.scope.expansion.makefile
+#       ^^^^      - punctuation.definition.variable.makefile
+
+d0=$(_$(v$$r)_)
+#        ^^         constant.character.escape.dollar.makefile
+#       ^^^^        variable.other.makefile
+#       ^^^^        meta.scope.expansion.makefile
+#       ^^^^      - punctuation.definition.variable.makefile
 
 
 $(E) : $(EXP)
@@ -113,9 +128,9 @@ RULE:
 # ---------------------------- misc --------------------------- #
 
 v_01 = $}
-#       ^               variable.other.makefile
+#      ^^               variable.other.makefile
 v_02 = $)
-#       ^               variable.other.makefile
+#      ^^               variable.other.makefile
 
 
 x= _$(ab)c $(de$(fg)) $(words $(hi))

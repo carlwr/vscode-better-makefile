@@ -177,10 +177,12 @@ file wildcards
 
 `$c`, `$(` + `)`
 * -> decide to scope:
-  * `$` in `$c` with `punctuation.section.embedded`
-  * `$(` + `)` with `punctuation.definition.template-expression.{begin,end}`
-  * since: precedent in several other grammars + styled by VS Code themes
-  * (also scope all these with `punctuation.definition.variable`)
+  * w.r.t. punctuation scopes
+    * `$(` + `)` with `punctuation.definition.template-expression.{begin,end}`
+    * since: precedent in several other grammars + styled by VS Code themes
+    * (also scope all these with `punctuation.definition.variable`)
+  * w.r.t. variable name scope
+    * -> scope `$c` as a whole, but only `name` in `$(name)`
 * other grammars
   * `better-shell-syntax`
     * scopes the whole `$v`, but just `var` in `$(var)`, with a `variable.*` scope

@@ -11,7 +11,7 @@ $(var) $(var)
 str$(subst ,,)
 #    ^^^^^          support.function.subst.makefile
 std$@
-#   ^               variable.parameter.automatic.makefile
+#  ^^               variable.parameter.automatic.makefile
 endef
 
 

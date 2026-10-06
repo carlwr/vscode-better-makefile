@@ -45,6 +45,14 @@ __miscAnchors:
 - &SCOPE_varAsgn >-
     variable.other.assignment.makefile
 
+- &SCOPE_expPunct_open >-
+    punctuation.definition.variable.makefile
+    punctuation.definition.template-expression.begin.makefile
+
+- &SCOPE_expPunct_close >-
+    punctuation.definition.variable.makefile
+    punctuation.definition.template-expression.end.makefile
+
 - &SCOPE_recipe__ >-
     meta.scope.recipe.makefile
 
@@ -683,14 +691,10 @@ repository:
     - include: "#expansions_bb_"
 
   expansions_$c_:
-    match: (\$)([^({$#\n ])
+    # with e.g. `$@`, both chars should be scoped "automatic"
+    match: \$[^({$#\n ]
     captures:
-      "1":
-        name: >-
-          punctuation.definition.variable.makefile
-          punctuation.section.embedded.makefile
-      "2":
-        name: meta.scope.expansion.makefile
+      "0":
         patterns:
         - include: "#varname-automatic"
         - include: "#varname-positional"
@@ -700,16 +704,8 @@ repository:
     patterns:
     - begin: (?x) \$\(
       end:   (?x)   \) | (?=\n)
-      beginCaptures:
-        "0":
-          name: >-
-            punctuation.definition.variable.makefile
-            punctuation.definition.template-expression.begin.makefile
-      endCaptures:
-        "0":
-          name: >-
-            punctuation.definition.variable.makefile
-            punctuation.definition.template-expression.end.makefile
+      beginCaptures: { "0": { name: *SCOPE_expPunct_open } }
+      endCaptures:   { "0": { name: *SCOPE_expPunct_close } }
       contentName: meta.scope.expansion.makefile
       applyEndPatternLast: 1
       patterns:
@@ -728,16 +724,8 @@ repository:
     patterns:
     - begin: (?x) \$\{
       end:   (?x)   \} | (?=\n)
-      beginCaptures:
-        "0":
-          name: >-
-            punctuation.definition.variable.makefile
-            punctuation.definition.template-expression.begin.makefile
-      endCaptures:
-        "0":
-          name: >-
-            punctuation.definition.variable.makefile
-            punctuation.definition.template-expression.end.makefile
+      beginCaptures: { "0": { name: *SCOPE_expPunct_open } }
+      endCaptures:   { "0": { name: *SCOPE_expPunct_close } }
       contentName: meta.scope.expansion.makefile
       applyEndPatternLast: 1
       patterns:
@@ -916,30 +904,58 @@ repository:
         constant.language.makefile
 
   varname-automatic:
-    match: |-
-      (?x)
-      [@%<?^+|*]
-      (?: (?<= \$[({]. ) [FD] (?= [)}:\\] )  # $(@F)
-      |   (?<= \$[({]. )      (?= [)}:\\] )  # $(@)
-      |   (?<= \$    . )                     # $@
-      )
-    name: >-
-      variable.parameter.automatic.makefile
+    # need to handle two forms:
+    patterns:
+    # ...$(@); cursor is on @:
+    - match: |-
+        (?x)
+            (?<= \$[({] )  [@%<?^+|*]  [FD]  (?= [)}:\\] )  # $(@F)
+        |   (?<= \$[({] )  [@%<?^+|*]        (?= [)}:\\] )  # $(@)
+      name: >-
+        variable.parameter.automatic.makefile
+    # ...$@; cursor on $:
+    - match: (?x) (\$) ([@%<?^+|*])
+      name: >-
+        variable.parameter.automatic.makefile
+      captures:
+        "1":
+          name: >-
+            punctuation.definition.variable.makefile
+        "2":
+          name: meta.scope.expansion.makefile
 
   varname-positional:
-    match: |-
-      (?x)
-      [0-9]
-      (?: (?<= \$[({]. )      (?= [)}:\\] )  # $(1)
-      |   (?<= \$    . )                     # $1
-      )
-    name: >-
-      variable.parameter.positional.makefile
+    # structure + comments: see `varname-automatic`
+    patterns:
+    - match: (?x) (?<= \$[({] ) [0-9]  (?= [)}:\\] )
+      name: >-
+        variable.parameter.positional.makefile
+    - match: (?x) (\$) ([0-9])
+      name: >-
+        variable.parameter.positional.makefile
+      captures:
+        "1":
+          name: >-
+            punctuation.definition.variable.makefile
+        "2":
+          name: meta.scope.expansion.makefile
 
   varname-userSingleChar:
+    # with e.g. $c, cursor is always on $
     patterns:
-    - match: .
-      name: *SCOPE_var
+    - match: (\$)([^({$#\n ])
+      # make sure *SCOPE_var becomes the innermost/top scope:
+      captures:
+        "1":
+          name: punctuation.definition.variable.makefile
+          patterns:
+          - match: \$
+            name:  *SCOPE_var
+        "2":
+          name: meta.scope.expansion.makefile
+          patterns:
+          - match: '[^({$#\n ]'
+            name:  *SCOPE_var
 
   substref-segment:
     begin: ':'

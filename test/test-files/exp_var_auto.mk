@@ -4,16 +4,17 @@
 # --------------------- in assignment-RHSs -------------------- #
 
 aaaa = $@a
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 #      ^       punctuation.definition.variable.makefile
 #       ^      meta.scope.expansion.makefile
 #       ^    - punctuation.definition.variable.makefile
+#^^^^^^  ^   - variable.parameter.automatic.makefile
 #^^^^^^^ ^   - meta.scope.expansion.makefile
 
 
 tight_=$@t
-#       ^      variable.parameter.automatic.makefile
-#^^^^^^^ ^   - variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
+#^^^^^^  ^   - variable.parameter.automatic.makefile
 
 nme = $(@)a
 #       ^      variable.parameter.automatic.makefile
@@ -61,7 +62,7 @@ usr = $(x@)
 
 usr =  $@@
 #      ^       punctuation.definition.variable.makefile
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 #       ^      meta.scope.expansion.makefile
 #        ^   - variable.parameter.automatic.makefile
 #        ^   - meta.scope.expansion.makefile
@@ -85,18 +86,18 @@ N =$(%:a%=%)
 # -------------------------- variants ------------------------- #
 
 bbbb = $%
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 cccc = $<
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 dddd = $?
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 eeee = $^
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 ffff = $+
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 gggg = $*
-#       ^      variable.parameter.automatic.makefile
-#            - variable.language.special.wildcard.makefile
+#      ^^      variable.parameter.automatic.makefile
+#       ^    - variable.language.special.wildcard.makefile
 
 xxx = $(@F)
 #       ^^     variable.parameter.automatic.makefile
@@ -109,16 +110,16 @@ zzz = $(*F)
 # --------------------------- nested -------------------------- #
 
 h = $(h$@h)
-#       ^      variable.parameter.automatic.makefile
-#^^^^^^^ ^^  - variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
+#^^^^^^  ^^  - variable.parameter.automatic.makefile
 #   ^^ ^  ^    punctuation.definition.variable.makefile
 
 i =  $($@)
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 #    ^^^ ^     punctuation.definition.variable.makefile
 
 j=$(if $@,j,)
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 #      ^       punctuation.definition.variable.makefile
 
 c= $(d$(@)e)
@@ -132,7 +133,7 @@ c= $(d$(@)e)
 kkkk:
 	doit _$@_
 #^^^^^^^^^     meta.scope.recipe.makefile
-#       ^      variable.parameter.automatic.makefile
+#      ^^      variable.parameter.automatic.makefile
 #      ^       punctuation.definition.variable.makefile
 
 
@@ -144,7 +145,7 @@ l1 = $)        ## /^\Ql1 = $) \E/
 
 
 # cmt: $@
-#       ^    - variable.parameter.automatic.makefile
+#      ^^    - variable.parameter.automatic.makefile
 
 # cmt:$(@)
 #       ^    - variable.parameter.automatic.makefile

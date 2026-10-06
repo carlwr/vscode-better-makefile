@@ -564,11 +564,7 @@
     },
     "expansions_$c_": {
       "captures": {
-        "1": {
-          "name": "punctuation.definition.variable.makefile punctuation.section.embedded.makefile"
-        },
-        "2": {
-          "name": "meta.scope.expansion.makefile",
+        "0": {
           "patterns": [
             {
               "include": "#varname-automatic"
@@ -582,7 +578,7 @@
           ]
         }
       },
-      "match": "(\\$)([^({$#\\n ])"
+      "match": "\\$[^({$#\\n ]"
     },
     "expansions_bb_": {
       "patterns": [
@@ -1099,8 +1095,24 @@
       ]
     },
     "varname-automatic": {
-      "match": "(?x)\n[@%<?^+|*]\n(?: (?<= \\$[({]. ) [FD] (?= [)}:\\\\] )  # $(@F)\n|   (?<= \\$[({]. )      (?= [)}:\\\\] )  # $(@)\n|   (?<= \\$    . )                     # $@\n)",
-      "name": "variable.parameter.automatic.makefile"
+      "patterns": [
+        {
+          "match": "(?x)\n    (?<= \\$[({] )  [@%<?^+|*]  [FD]  (?= [)}:\\\\] )  # $(@F)\n|   (?<= \\$[({] )  [@%<?^+|*]        (?= [)}:\\\\] )  # $(@)",
+          "name": "variable.parameter.automatic.makefile"
+        },
+        {
+          "match": "(?x) (\\$) ([@%<?^+|*])",
+          "name": "variable.parameter.automatic.makefile",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.variable.makefile"
+            },
+            "2": {
+              "name": "meta.scope.expansion.makefile"
+            }
+          }
+        }
+      ]
     },
     "varname-parts": {
       "patterns": [
@@ -1116,8 +1128,24 @@
       ]
     },
     "varname-positional": {
-      "match": "(?x)\n[0-9]\n(?: (?<= \\$[({]. )      (?= [)}:\\\\] )  # $(1)\n|   (?<= \\$    . )                     # $1\n)",
-      "name": "variable.parameter.positional.makefile"
+      "patterns": [
+        {
+          "match": "(?x) (?<= \\$[({] ) [0-9]  (?= [)}:\\\\] )",
+          "name": "variable.parameter.positional.makefile"
+        },
+        {
+          "match": "(?x) (\\$) ([0-9])",
+          "name": "variable.parameter.positional.makefile",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.variable.makefile"
+            },
+            "2": {
+              "name": "meta.scope.expansion.makefile"
+            }
+          }
+        }
+      ]
     },
     "varname-segment": {
       "captures": {
@@ -1147,8 +1175,27 @@
     "varname-userSingleChar": {
       "patterns": [
         {
-          "match": ".",
-          "name": "variable.other.makefile"
+          "match": "(\\$)([^({$#\\n ])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.variable.makefile",
+              "patterns": [
+                {
+                  "match": "\\$",
+                  "name": "variable.other.makefile"
+                }
+              ]
+            },
+            "2": {
+              "name": "meta.scope.expansion.makefile",
+              "patterns": [
+                {
+                  "match": "[^({$#\\n ]",
+                  "name": "variable.other.makefile"
+                }
+              ]
+            }
+          }
         }
       ]
     },

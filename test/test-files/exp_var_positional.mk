@@ -4,9 +4,13 @@
 # --------------------- in assignment-RHSs -------------------- #
 
 aaaa = $1a
-#       ^      variable.parameter.positional.makefile
+#      ^^      variable.parameter.positional.makefile
 #       ^      meta.scope.expansion.makefile
+#^^^^^^^ ^   - meta.scope.expansion.makefile
 #      ^       punctuation.definition.variable.makefile
+#^^^^^^ ^^   - punctuation.definition.variable.makefile
+
+
 
 nme = $(2)a
 #       ^      variable.parameter.positional.makefile
@@ -41,15 +45,15 @@ N = $(1:a%=%)
 # --------------------------- nested -------------------------- #
 
 h = $(h$1h)
-#       ^      variable.parameter.positional.makefile
+#      ^^      variable.parameter.positional.makefile
 #   ^^ ^  ^    punctuation.definition.variable.makefile
 
 i =  $($1)
-#       ^      variable.parameter.positional.makefile
+#      ^^      variable.parameter.positional.makefile
 #    ^^^ ^     punctuation.definition.variable.makefile
 
 j=$(if $1,j,)
-#       ^      variable.parameter.positional.makefile
+#      ^^      variable.parameter.positional.makefile
 #      ^       punctuation.definition.variable.makefile
 
 c= $(d$(1)e)
@@ -62,5 +66,5 @@ c= $(d$(1)e)
 kkkk:
 	doit _$1_
 #^^^^^^^^^     meta.scope.recipe.makefile
-#       ^      variable.parameter.positional.makefile
+#      ^^      variable.parameter.positional.makefile
 #      ^       punctuation.definition.variable.makefile

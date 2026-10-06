@@ -1,6 +1,23 @@
 # SYNTAX TEST "source.makefile"
 
 
+# --------------------- scoping principle --------------------- #
+
+# in single-char expansion, the $ is scoped as belonging to the variable:
+
+scoping0 = $c
+#          ^^       variable.other.makefile
+#           ^       meta.scope.expansion.makefile
+#          ^        punctuation.definition.variable.makefile
+
+# but in $(..) expansions, the $( and ) are not:
+
+scoping1 = $(var)
+#            ^^^    variable.other.makefile
+#            ^^^    meta.scope.expansion.makefile
+#          ^^   ^   punctuation.definition.variable.makefile
+
+
 # ------------- in assignment-RHSs, in rule heads ------------- #
 
 
@@ -20,13 +37,11 @@ aaaa = $@a
 #       ^           meta.scope.expansion.makefile
 #^^^^^^^ ^        - meta.scope.expansion.makefile
 #      ^            punctuation.definition.variable.makefile
-#      ^            punctuation.section.embedded.makefile
 
 aaab = $c
 #       ^           meta.scope.expansion.makefile
 #^^^^^^^ ^        - meta.scope.expansion.makefile
 #      ^            punctuation.definition.variable.makefile
-#      ^            punctuation.section.embedded.makefile
 
 aaac = $(c)a
 #      ^^ ^         punctuation.definition.variable.makefile
@@ -41,7 +56,6 @@ aaad = ${c}a
 
 aaad = $cX
 #      ^            punctuation.definition.variable.makefile
-#      ^            punctuation.section.embedded.makefile
 #       ^           meta.scope.expansion.makefile
 #        ^        - meta.scope.expansion.makefile
 
@@ -55,7 +69,6 @@ $(e) = $(EXP)
 ddd = $(x$$y)
 #        ^^         constant.character.escape.dollar.makefile
 #        ^^       - punctuation.definition.variable.makefile
-#        ^^       - punctuation.section.embedded.makefile
 #       ^^^^        meta.scope.expansion.makefile
 
 $(V) : $(exp)

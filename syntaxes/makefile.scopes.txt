@@ -27,14 +27,14 @@ keyword.other.operator.percent.makefile
 keyword.other.operator.substref.percent.makefile
 meta.escaped-char.makefile
 meta.expression.assignment.makefile
+meta.function-call.braces-group.makefile
+meta.function-call.makefile
+meta.function-call.parens-group.makefile
 meta.scope.condition.makefile
 meta.scope.conditional.makefile
 meta.scope.define.body.makefile
 meta.scope.define.makefile
 meta.scope.expansion.makefile
-meta.scope.function-call.braces-group.makefile
-meta.scope.function-call.makefile
-meta.scope.function-call.parens-group.makefile
 meta.scope.load-symbolname.makefile
 meta.scope.prerequisites.makefile
 meta.scope.recipe.line.makefile

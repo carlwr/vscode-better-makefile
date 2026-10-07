@@ -745,7 +745,7 @@ repository:
     - begin: *__builtInFunc_multiary
       end:   (?x) (?= \)) | (?=\n)
       beginCaptures: { "1": { name: support.function.$1.makefile } }
-      name:        meta.scope.function-call.makefile
+      name:        meta.function-call.makefile
       applyEndPatternLast: 1
       patterns:
       - include: "#comma-funcargs"
@@ -759,7 +759,7 @@ repository:
     - begin: *__builtInFunc_multiary
       end:   (?x) (?= \}) | (?=\n)
       beginCaptures: { "1": { name: support.function.$1.makefile } }
-      name:        meta.scope.function-call.makefile
+      name:        meta.function-call.makefile
       applyEndPatternLast: 1
       patterns:
       - include: "#comma-funcargs"
@@ -773,7 +773,7 @@ repository:
     - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))
       end:   (?=\))
       beginCaptures: { "1": { name: support.function.$1.makefile } }
-      name: meta.scope.function-call.makefile
+      name: meta.function-call.makefile
       contentName: *SCOPE_var
       patterns:
       - include: "#doubleDollar"
@@ -784,7 +784,7 @@ repository:
     - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
       end:   (?=})
       beginCaptures: { "1": { name: support.function.$1.makefile } }
-      name: meta.scope.function-call.makefile
+      name: meta.function-call.makefile
       contentName: *SCOPE_var
       patterns:
       - include: "#doubleDollar"
@@ -810,7 +810,7 @@ repository:
       expansions--func-builtin-NESTED_pp_:
         begin: (?x) \(
         end:   (?x) \) | (?=\n)
-        name: meta.scope.function-call.parens-group.makefile
+        name: meta.function-call.parens-group.makefile
         applyEndPatternLast: 1
         patterns:
         - include: "#doubleDollar"
@@ -820,7 +820,7 @@ repository:
       expansions--func-builtin-NESTED_bb_:
         begin: (?x) \{
         end:   (?x) \} | (?=\n)
-        name: meta.scope.function-call.braces-group.makefile
+        name: meta.function-call.braces-group.makefile
         applyEndPatternLast: 1
         patterns:
         - include: "#doubleDollar"

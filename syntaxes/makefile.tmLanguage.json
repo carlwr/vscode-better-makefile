@@ -524,7 +524,7 @@
           "applyEndPatternLast": 1,
           "begin": "(?x) \\{",
           "end": "(?x) \\} | (?=\\n)",
-          "name": "meta.scope.function-call.braces-group.makefile",
+          "name": "meta.function-call.braces-group.makefile",
           "patterns": [
             {
               "include": "#doubleDollar"
@@ -544,7 +544,7 @@
           "applyEndPatternLast": 1,
           "begin": "(?x) \\(",
           "end": "(?x) \\) | (?=\\n)",
-          "name": "meta.scope.function-call.parens-group.makefile",
+          "name": "meta.function-call.parens-group.makefile",
           "patterns": [
             {
               "include": "#doubleDollar"
@@ -643,7 +643,7 @@
               "name": "support.function.$1.makefile"
             }
           },
-          "name": "meta.scope.function-call.makefile",
+          "name": "meta.function-call.makefile",
           "applyEndPatternLast": 1,
           "patterns": [
             {
@@ -675,7 +675,7 @@
               "name": "support.function.$1.makefile"
             }
           },
-          "name": "meta.scope.function-call.makefile",
+          "name": "meta.function-call.makefile",
           "contentName": "variable.other.makefile",
           "patterns": [
             {
@@ -751,7 +751,7 @@
               "name": "support.function.$1.makefile"
             }
           },
-          "name": "meta.scope.function-call.makefile",
+          "name": "meta.function-call.makefile",
           "applyEndPatternLast": 1,
           "patterns": [
             {
@@ -783,7 +783,7 @@
               "name": "support.function.$1.makefile"
             }
           },
-          "name": "meta.scope.function-call.makefile",
+          "name": "meta.function-call.makefile",
           "contentName": "variable.other.makefile",
           "patterns": [
             {

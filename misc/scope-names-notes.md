@@ -218,10 +218,11 @@ file wildcards
 
 function calls/invocation meta-scope (at call sites)
 * -> decide
-  * `meta.scope.function-call.makefile`
-    * since: precedent in `make.tmbundle`
-* other language grammars: arguments in a function call?
+  * `meta.function-call.makefile`
+    * since: more standard than the alternative `meta.scope.function-call.makefile`
+* other language grammars:
   * most languages: no dedicated scopes
+  * `meta.scope.function-call.makefile` used in `fadeevab/make.tmbundle`
   * `meta.function.call.rust` (e.g. for "f(x)" in `z = f(x)`)
   * `meta.function-call.ruby`
 * themes

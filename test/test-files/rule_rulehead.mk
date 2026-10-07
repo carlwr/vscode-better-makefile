@@ -67,11 +67,11 @@ $(a$$$(b)c)____: p
 
 $(eval a:=b)t  : p
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
-# ^^^^^^^^^        meta.scope.function-call.makefile
+# ^^^^^^^^^        meta.function-call.makefile
 $(or ,)t  ____B: p
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
 #         ^^^^^    entity.name.function.target.makefile
-# ^^^^             meta.scope.function-call.makefile
+# ^^^^             meta.function-call.makefile
 tX: $(v) $(v)B
 #  ^^^^^^^^^^^     meta.scope.prerequisites.makefile
 #     ^    ^       variable.other.makefile

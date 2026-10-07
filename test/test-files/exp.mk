@@ -28,7 +28,7 @@ name = $(NME)
 #^^^^^^^^   ^     - meta.scope.expansion.makefile
 
 nme0 = $(dir str)
-#        ^^^^^^^    meta.scope.function-call.makefile
+#        ^^^^^^^    meta.function-call.makefile
 #        ^^^^^^^    meta.scope.expansion.makefile
 #      ^^           punctuation.definition.template-expression.begin.makefile
 #               ^   punctuation.definition.template-expression.end.makefile

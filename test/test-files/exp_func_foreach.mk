@@ -3,5 +3,5 @@
 
 fe= $(foreach var,list,text)
 #     ^^^^^^^^^^^^^^^^^^^^^    meta.scope.expansion.makefile
-#     ^^^^^^^^^^^^^^^^^^^^^    meta.scope.function-call.makefile
+#     ^^^^^^^^^^^^^^^^^^^^^    meta.function-call.makefile
 #     ^^^^^^^                  support.function.foreach.makefile

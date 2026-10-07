@@ -1,5 +1,24 @@
 # Scope names — notes
 
+## conventions
+
+If multiple scopes are listed as bullets, e.g. as a "decide to scope as" list, the order of the bullets is the same as the order of the scopes in the grammar rule.
+
+### example
+
+this scope list:
+* `scopeA`
+  * ...
+* `scopeB`
+  * ...
+
+...corresponds to a grammar resulting in, as JSON:
+
+```json
+"name": "scopeA scopeB"
+```
+
+## general notes
 
 line continuation character
 * matches for Github search `path:/.*\.json/ "semanticTokenColors" <scope>`
@@ -7,13 +26,29 @@ line continuation character
   *  11 constant.character.escape.continuation
   *  66 constant.character.escape.line-continuation
   *   0 punctuation.separator.line-continuation
-* `jeff-hykin/better-shell-syntax`: constant.character.escape.line-continuation
+* `better-shell-syntax`: constant.character.escape.line-continuation
 * -> use all first three of above
+  * order: escapes last -> Catppuccin: escape color, not punctuation color
 
 
 variable name in variable assignment
-* `variable.other.assignment.makefile`
-* (follows jeff-hykin/better-shell-syntax)
+* -> decide to scope:
+  * `variable.other.assignment.makefile`
+    * note: precedent in `better-shell-syntax`
+  * _don't_ scope with `entity.name.variable`
+    * since:
+      * neither TS, JS or C# grammars scope with it at declaration site/assignment position
+      * would give unfortunate results with VSCode-2026: would be styled with a color similar to that of `string` -> `var := value` would have its LHS and RHS styled with similar colors
+* themes
+  * `entity.name.variable`
+    * VSCode-Plus: does style it (teal); from its style rule context, it seems intended for variable _declaration_ sites
+* other language grammars
+  * none of TS, JS or C# grammars seem to scope variables at declaration site/assignment position with `entity.name.variable`
+* guidelines
+  * Sublimetext:
+    * `entity.name.function` (only) where declared
+    * `variable.function` (only) where invoked
+    * (does not mention any `entity.name.variable` scope)
 
 
 built-in variables (= special variables)
@@ -36,20 +71,67 @@ built-in variables (= special variables)
   * https://www.sublimetext.com/docs/scope_naming.html#variable
 
 
+automatic variables
+* -> decide to scope:
+  * `variable.parameter.automatic.makefile`
+    * since:
+      * is most similar to how common grammars (TS, JS, C#) scopes referenced function parameters (=~ automatic vars, semantically)
+      * is styled distinctive orange with VSCode-2026
+    * further notes + reasoning:
+      * as a consequence, VSCode-Modern will style with teal, the same as user vars)
+      * difference `make.tmbundle` -> this grammar, in VS Code:
+        * mid-blue -> orange (VSCode-2026)
+        * mid-blue -> teal (all themes up to -Modern)
+      * note: not possible for this grammar to stack `variable.parameter` and `variable.language` in a way so that -Modern retains mid-blue while -2026 gets orange
+      * -> prefer to scope with `variable.parameter` only; for VSCode-2026 that gives styling most consistent with other major languages grammars, and buys the distinct orange (tolerate the necessary _slight_ regression for VSCode-Modern)
+* reasoning about semantic meaning
+  * an _automatic variable_ seems most similar to a _referenced function parameter_ (that `make` passed into recipes implicitly)
+* other language grammars
+  * `make.tmbundle`
+    * `variable.language` -> VSCode themes style with mid-blue
+  * TS, JS, C#
+    * scopes referenced function parameters as `variable.parameter` (through semantic tokens)
+      * -> With VSCode-2026 referenced params get the distinct orange color
+* themes
+  * VS Code:
+    * `variable.parameter`: not styled by any theme (-> get styled by `variable`)
+    * `variable.parameter.function`: teal in -2026 (not styled by other themes)
+    * `variable.language`: mid-blue in all themes
+    * `variable`: teal up to -Modern, orange in -2026
+* guidelines
+  * Sublimetext
+    * > Reserved variable names that are specified by the language, such as this, self, super, etc. should use `variable.language`
+    * > Parameters to a function or methods should use the [`variable.parameter`]. [It] may also be used for other parameter-like variables, such as receivers or named return values in Go.
+
+
+positional variables
+* -> decide to scope:
+  * like _automatic_ variables, but `/automatic/` -> `/positional/`
+* note: semantically similar to _automatic variables_ ("implicitly passed function arguments"); see notes on _automatic variables_
+
+
 special targets (e.g. `.PHONY`)
 * -> decide to scope:
   * `support.function.target.$1.makefile`
   * _and_ with the scopes used for built-in constants (that the user may only read, not set)
 
 
-prereqs in rule head?
-* currently, everything after ":": `meta.scope.prerequisites`
-* SublimeText: `meta.function.arguments`
-* other grammars: arguments in a function call?
-  * most languages: no dedicated scopes
-  * Python: `meta.function-call.arguments` (e.g. for "x, y" in `f(x, y)`)
-* misc
-  * Rust: `meta.function.call` (e.g. for "f(x)" in `z = f(x)`)
+prereqs in rule head:
+* -> decide:
+  * `meta.scope.prerequisites`
+  * (don't scope with any "function argument"-like scope, even though SublimeText's Makefile grammar does)
+* other Makefile grammars
+  * SublimeText: `meta.function.arguments.makefile`
+
+
+targets
+* -> decide to scope:
+  * `entity.name.function.target.makefile`
+    * since: has precedent in `make.tmbundle`
+  * meta-scope
+    * `meta.scope.target.makefile`
+      * since: has precedent in `make.tmbundle`
+      * note: use singular `.target.` rather than plural `.targets.`
 
 
 `%`
@@ -81,11 +163,6 @@ file wildcards
   * VS Code Modern: `string.regexp` (since: is a scope that VS Code styles distinctively)
 
 
-`meta.scope.target.makefile`
-* use singular `.target.` rather than plural `.targets.`
-  * since: `meta.scope.target.makefile` has prescedent in fadeevab/make.tmbundle
-
-
 `$c`, `$(` + `)`
 * -> decide to scope:
   * `$` in `$c` with `punctuation.section.embedded`
@@ -93,7 +170,7 @@ file wildcards
   * since: presedence in several other grammars + styled by VS Code themes
   * (also scope all these with `punctuation.definition.variable`)
 * other grammars
-  * `jeff-hykin/better-shell-syntax`
+  * `better-shell-syntax`
     * scopes the whole `$v`, but just `var` in `$(var)`, with a `variable.*` scope
       * -> has consequences for how VS Code Modern styles these
   * Python
@@ -125,12 +202,107 @@ file wildcards
     * `string.template variable` with `text`
 
 
+function calls/invocation meta-scope (at call sites)
+* -> decide
+  * `meta.scope.function-call.makefile`
+    * since: precedent in `make.tmbundle`
+* other language grammars: arguments in a function call?
+  * most languages: no dedicated scopes
+  * `meta.function.call.rust` (e.g. for "f(x)" in `z = f(x)`)
+  * `meta.function-call.ruby`
+* themes
+  * VS Code: styles no `/function.call/` scope or `meta.` scope
+  * Catppuccin: styles no `/function.call/` scope or `meta.` scope
+* guidelines
+  * Sublimetext:
+    * `entity.name.function` (only) where declared
+    * `variable.function` (only) where invoked
+    * (says nothing about meta scopes at function call sites either way)
+
+
+## Deliberately not done
+
+_more fine-grained scoping for some functions_:
+- e.g.:
+  - `$(foreach varname, ..)`
+  - `$(call funcvar, ..)`
+  - `$(let a b,x y)`
+  - (maybe others)
+- skip since: considered too much work / considered to make the YAML grammar too complicated vs. what user value it would add
+
+
+## scope prefix `meta.scope.X` vs. `meta.X`
+
+-> decided:
+* prefer `meta.scope.X` where there is precedent in `make.tmbundle`, and possibly for other meta scopes this grammar introduces
+* prefer `meta.X` for `X` when `meta.X` is established (e.g. through other language grammars, themes etc.)
+
+other grammars:
+* `meta.scope.X`
+  * is what `make.tmbundle` uses consistently for `meta.` scopes
+* `meta.X`
+  * is what most (other) language grammars use
+
+themes:
+* VS Code, Catppuccin styles no `meta.scope.X` scopes (but a few `meta.X` scopes)
+
+guidelines
+* https://www.sublimetext.com/docs/scope_naming.html: mentions only `meta.X` scopes, no `meta.scope.X` scopes
+
+
+## resulting scope stack w.r.t. `meta.` scopes
+
+Prefer to scope so that any `meta.` are on lower layers in the resulting scope stack than the main non-`meta.` scopes.
+* since:
+  * guarantees that `meta.` scopes will work robustly as qualifiers (e.g. `"meta.function-call variable.language"`) in rules of themes using the grammar
+  * (minor:) listed/displayed scope stacks produced by the grammar are more intuitive and readable
+
+
+## multiple scopes for one token
+
+I.e. for tokens that match a grammar rule that has e.g.:
+```json
+"name": "scopeA scopeB"
+```
+
+VS Code (`vscode-textmate`) behaviour:
+* splits on single spaces; pushes each as a nested scope, in order (last = innermost)
+* theme styling: later scope overrides earlier, per attribute (e.g. color from `scopeB`, italic kept from `scopeA`)
+  * regardless of theme rule specificity
+  * a scope no theme rule matches overrides nothing
+
+-> decided (guidelines):
+* treat scope lists as an ordered fallback chain:
+  * first: most generic/most widely styled
+  * last: preferred
+* put `meta.` scopes first (so `meta.X foo` theme selectors match)
+
+
+## other grammars
+
+`make.tmbundle`
+* when referenced, refers to https://github.com/fadeevab/make.tmbundle
+* currently the upstream of VS Code's Makefile grammar
+* fork of https://github.com/textmate/make.tmbundle
+
+`better-shell-syntax`
+* https://github.com/jeff-hykin/better-shell-syntax
+* currently the upstream of VS Code's shellscript grammar
+
+`tree-sitter-make`
+* https://github.com/tree-sitter-grammars/tree-sitter-make
+* https://github.com/tree-sitter-grammars/tree-sitter-make/blob/main/queries/highlights.scm
+
+
 ## Links
 
 VS Code stock themes scoping
 * https://github.com/microsoft/vscode/blob/main/extensions/theme-defaults/themes/
   * inheritance: Dark 2026 -> Dark Modern -> Plus -> dark_vs
 
+Github Linguist's TextMate theme (deprecated 2025)
+* https://github.com/primer/github-textmate-theme/blob/master/GitHub%20Dark.tmTheme
+* https://github.com/primer/github-syntax-theme-generator/blob/main/lib/themes/dark.json
+
 misc.
-* https://github.com/tree-sitter-grammars/tree-sitter-make
-  * https://github.com/tree-sitter-grammars/tree-sitter-make/blob/main/queries/highlights.scm
+* https://github.com/github-linguist/linguist

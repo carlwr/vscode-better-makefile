@@ -42,13 +42,16 @@ v_k1 := a$(or x,{#}_#)a #CMT      ## /^\Qv_k1 := axa \E$/
 #     after `$(<func>`, balanced ()-s and {}-s are tracked when searching for the `)` closes the function expansion
 
 T_j0_ = a$(or x,(#)_#)a #CMT
+#       ^     ^ ^^^^^ ^           string.unquoted.makefile
 #       ^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                       ^^^^      comment.line.number-sign.makefile
 
 T_k0_ = a$(or x,{#}_#)a #CMT
+#       ^     ^ ^^^^^ ^           string.unquoted.makefile
 #       ^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                       ^^^^      comment.line.number-sign.makefile
 
 T_k0b = a$(or x,_{#}_#)a #CMT
+#       ^     ^ ^^^^^^ ^          string.unquoted.makefile
 #       ^^^^^^^^^^^^^^^^        - comment.line.number-sign.makefile
 #                        ^^^^     comment.line.number-sign.makefile

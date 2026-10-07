@@ -523,7 +523,17 @@
         "expansions--func-builtin-NESTED_bb_": {
           "applyEndPatternLast": 1,
           "begin": "(?x) \\{",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.string.makefile string.unquoted.makefile"
+            }
+          },
           "end": "(?x) \\} | (?=\\n)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.string.makefile string.unquoted.makefile"
+            }
+          },
           "name": "meta.function-call.braces-group.makefile",
           "patterns": [
             {
@@ -537,13 +547,31 @@
             },
             {
               "include": "#line-cont"
+            },
+            {
+              "match": "(?x) ((?:        [^\\\\$\\n{}(] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
             }
           ]
         },
         "expansions--func-builtin-NESTED_pp_": {
           "applyEndPatternLast": 1,
           "begin": "(?x) \\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.string.makefile string.unquoted.makefile"
+            }
+          },
           "end": "(?x) \\) | (?=\\n)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.string.makefile string.unquoted.makefile"
+            }
+          },
           "name": "meta.function-call.parens-group.makefile",
           "patterns": [
             {
@@ -557,6 +585,14 @@
             },
             {
               "include": "#line-cont"
+            },
+            {
+              "match": "(?x) ((?:        [^\\\\$\\n(){] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
             }
           ]
         }
@@ -636,7 +672,7 @@
     "expansions_bb_func-builtin_multiary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])",
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
           "end": "(?x) (?= \\}) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -661,6 +697,14 @@
             },
             {
               "include": "#line-cont"
+            },
+            {
+              "match": "(?x) ((?:       [^,\\\\$\\n{}(] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
             }
           ]
         }
@@ -745,7 +789,7 @@
     "expansions_pp_func-builtin_multiary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])",
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
           "end": "(?x) (?= \\)) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -770,6 +814,14 @@
             },
             {
               "include": "#line-cont"
+            },
+            {
+              "match": "(?x) ((?:       [^,\\\\$\\n(){] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
             }
           ]
         }

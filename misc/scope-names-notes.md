@@ -237,7 +237,9 @@ function calls/invocation meta-scope (at call sites)
 
 * function arguments (at call sites)
   * -> decide:
-    * `meta.function-call.arguments.makefile`
+    * string scopes + `meta.function-call.arguments.makefile`
+    * string scope only for all valid chars, including e g `*`, `=`, `:`
+      * since: mentioned chars are special only for _some_ functions; prefer string scope so e.g. `$(info [DEBUG] q = 100%)` gets an unbroken string scope for the whole argument
   * other grammars:
     * (most grammars: no scope; exceptions:)
     * `meta.arguments.coffeescript`
@@ -251,8 +253,10 @@ strings
 * what to scope with _string_ scopes?
   * -> decide:
     - those ranges that we can reliably know to be strings: RHS of assignments (including define)
+    - function args
     - relevant parts of substref-s
   * since:
+    * function args: keeps `fadeevab/make.tmbundle`'s look
     * precedents
       * RHS as string: SublimeText (-> `bat`), KDE/Kate, KDevelop
       * RHS incl. define bodies + function args: Helix, Zed, JetBrains
@@ -333,6 +337,19 @@ VS Code (`vscode-textmate`) behaviour:
   * first: most generic/most widely styled
   * last: preferred
 * put `meta.` scopes first (so `meta.X foo` theme selectors match)
+
+
+## Deliberately not done
+
+_more fine-grained scoping for some functions_:
+- e.g.:
+  - `$(foreach varname, ..)`
+  - `$(value varname)`
+  - `$(call funcvar, ..)`
+  - `$(let a b,x y)`
+  - (maybe others)
+  - (there might be XFAIL tests for some of the above)
+- skip since: considered too much work / considered to make the YAML grammar too complicated vs. what user value it would add
 
 
 ## other grammars

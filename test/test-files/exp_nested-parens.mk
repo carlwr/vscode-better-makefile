@@ -28,14 +28,20 @@ v_h1 := a$(or },_#)a #CMT    ## /^v_h1 := a}a $/
 v_h1_ = a$(or },_#)a #CMT    ## /^v_h1_ = a\$\(.*\)a $/
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+#             ^ ^^              string.unquoted.makefile
+#              ^                punctuation.separator.delimiter.comma.function.makefile
 
 v_h1b:= a$(or _}_,)a #CMT    ## /^v_h1b :=\Q a_}_a \E$/
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+#             ^^^               string.unquoted.makefile
+#                ^              punctuation.separator.delimiter.comma.function.makefile
 
 v_h1c:= a$(or (}),)a #CMT    ## /^v_h1c :=\Q a(})a \E$/
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+#             ^^^               string.unquoted.makefile
+#                ^              punctuation.separator.delimiter.comma.function.makefile
 
 
 # with substref:
@@ -74,11 +80,13 @@ T_d3:= a${________{xxx$(})___#}a #CMT      ## /^T_d3 := aa $/
 T_f0:= a${or _____{xxxxx}____#}a #CMT      ## /^T_f0 := a_____{xxxxx}____#a $/
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                                ^^^^      comment.line.number-sign.makefile
+#            ^^^^^^^^^^^^^^^^^             string.unquoted.makefile
 
 T_f1:= a${or ____${xxxxx}____#}a #CMT      ## /^T_f1 := a________#a $/
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                                ^^^^      comment.line.number-sign.makefile
 #                  ^^^^^                   variable.other.makefile
+#            ^^^^        ^^^^^             string.unquoted.makefile
 
 
 # ------------ function call as the outer expansion ----------- #
@@ -90,6 +98,8 @@ v_g2_ = $(if y,(,n)a #b)c#cmt     ##   /^v_g2_ = (?x).*  c  $/
 v_g2:=  $(if y,(,n)a #b)c#cmt     ## /^\Qv_g2 := (,n)a #bc\E$/
 #       ^^^^^^^^^^^^^^^^^       - comment.line.number-sign.makefile
 #                        ^^^^     comment.line.number-sign.makefile
+#            ^ ^ ^^^^^^           string.unquoted.makefile
+#             ^                   punctuation.separator.delimiter.comma.function.makefile
 
 
 # ---------------------------- misc --------------------------- #

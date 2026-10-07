@@ -165,6 +165,26 @@ __miscAnchors:
     | words
     )
     (?=[ \\])
+    (?:\s*)    # eat any space following the function name
+
+
+# arg segments:
+#
+# how to form segments differ by arity, e.g.:
+#
+#   $(if t,y_$(v)_,n)      2nd arg has segments y_ and _
+#   $(words pref,_$(v)_)   arg has segments pref,_ and _
+#
+# naming conventions in grammar:
+#
+#   *_pp_* is used in $(..) expansions contexts
+#   *_bb_* is used in ${..} expansions contexts
+
+- &__funcarg_multiary-pp '(?x) ((?:       [^,\\$\n(){] | \\(?!\\*\n) )+)'
+- &__funcarg_multiary-bb '(?x) ((?:       [^,\\$\n{}(] | \\(?!\\*\n) )+)'
+
+- &__funcarg_unary-pp    '(?x) ((?:        [^\\$\n(){] | \\(?!\\*\n) )+)'
+- &__funcarg_unary-bb    '(?x) ((?:        [^\\$\n{}(] | \\(?!\\*\n) )+)'
 
 
 
@@ -754,6 +774,8 @@ repository:
       - include: "#expansions"
       - include: "#expansions--func-builtin-NESTED"
       - include: "#line-cont"
+      - match: *__funcarg_multiary-pp
+        captures: { "1": { name: *SCOPE_str } }
 
   expansions_bb_func-builtin_multiary:
     patterns:
@@ -769,6 +791,8 @@ repository:
       - include: "#expansions"
       - include: "#expansions--func-builtin-NESTED"
       - include: "#line-cont"
+      - match: *__funcarg_multiary-bb
+        captures: { "1": { name: *SCOPE_str } }
 
   expansions_pp_func-builtin_varUnary:
     patterns:
@@ -812,6 +836,8 @@ repository:
       expansions--func-builtin-NESTED_pp_:
         begin: (?x) \(
         end:   (?x) \) | (?=\n)
+        beginCaptures: { "0": { name: *SCOPE_str } }
+        endCaptures:   { "0": { name: *SCOPE_str } }
         name: meta.function-call.parens-group.makefile
         applyEndPatternLast: 1
         patterns:
@@ -819,9 +845,13 @@ repository:
         - include: "#expansions"
         - include: "#expansions--func-builtin-NESTED"
         - include: "#line-cont"
+        - match: *__funcarg_unary-pp
+          captures: { "1": { name: *SCOPE_str } }
       expansions--func-builtin-NESTED_bb_:
         begin: (?x) \{
         end:   (?x) \} | (?=\n)
+        beginCaptures: { "0": { name: *SCOPE_str } }
+        endCaptures:   { "0": { name: *SCOPE_str } }
         name: meta.function-call.braces-group.makefile
         applyEndPatternLast: 1
         patterns:
@@ -829,6 +859,8 @@ repository:
         - include: "#expansions"
         - include: "#expansions--func-builtin-NESTED"
         - include: "#line-cont"
+        - match: *__funcarg_unary-bb
+          captures: { "1": { name: *SCOPE_str } }
 
 
 # ----------------------- variable names ---------------------- #

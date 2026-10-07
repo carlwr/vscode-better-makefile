@@ -116,14 +116,14 @@ RULE:
 # --------------------------- commas -------------------------- #
 
 vA= $(if t,y,n)
-#         ^ ^         punctuation.separator.delimiter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.function.makefile
 #   ^^^^^           - meta.function-call.arguments.makefile
 
 vA= $(if t,y,)
-#         ^ ^         punctuation.separator.delimiter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.function.makefile
 
 vE= $(myVar a,b)
-#            ^      - punctuation.separator.delimiter.comma.makefile
+#            ^      - punctuation.separator.delimiter.comma.function.makefile
 #   ^^^^^^^^^^^^    - meta.function-call.arguments.makefile
 
 # commas cannot be escaped:
@@ -153,17 +153,17 @@ V_comSp := $(if t, y,n)
 
 vC= $(if t\
           ,y,n)
-#         ^ ^         punctuation.separator.delimiter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.function.makefile
 #         ^^^^        meta.scope.expansion.makefile
 
 vD= $(if \
          t,y,n)
-#         ^ ^         punctuation.separator.delimiter.comma.makefile
+#         ^ ^         punctuation.separator.delimiter.comma.function.makefile
 #         ^^^^        meta.scope.expansion.makefile
 
 vE= $(if t\
 ,y,n)
-#<-                   punctuation.separator.delimiter.comma.makefile
+#<-                   punctuation.separator.delimiter.comma.function.makefile
 
 vF= $(if \\\
          t,y,n)

@@ -13,7 +13,7 @@ vpath % $(VAR)
 ifeq ($(VAR),b)
 #       ^^^                variable.other.makefile
 #     ^^   ^               punctuation.definition.variable.makefile
-#           ^              punctuation.separator.delimiter.comma.makefile
+#           ^              punctuation.separator.delimiter.comma.condition.makefile
 endif
 
 ifdef $(VAR)

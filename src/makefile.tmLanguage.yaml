@@ -186,11 +186,11 @@ repository:
 
   comma-condition:
     match: ","
-    name: punctuation.separator.delimiter.comma.makefile
+    name: punctuation.separator.delimiter.comma.condition.makefile
 
   comma-funcargs:
     match: ","
-    name: punctuation.separator.delimiter.comma.makefile
+    name: punctuation.separator.delimiter.comma.function.makefile
 
   comment:
     patterns:

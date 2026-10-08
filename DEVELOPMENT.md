@@ -12,19 +12,15 @@ pnpm install  # also enables the repo's git hooks
 pnpm qa       # typecheck, lint, `pnpm test`
 ```
 
-## Build
+## Description
 
 The TextMate grammar is defined in _TextMate YAML_. A build step uses it to generate two files under `syntaxes/`: the grammar as _TextMate JSON_ and a list of the scope names the grammar defines.
 
 The generated files under `syntaxes/` are committed. Locally, a git hook helps with ensuring that the generated files reflect the source for each commit. CI checks that `main` commits are consistent.
 
-Regenerate the files under `syntaxes/`:
-```bash
-make         # or, equivalent:
-pnpm build
-```
+## Development workflow
 
-## Required system tools
+### Required system tools
 
 `pnpm install` and `pnpm test`/`pnpm qa` require only Node.js and pnpm.
 
@@ -43,20 +39,15 @@ sudo apt-get install make zsh jq pcre2-utils   # Ubuntu 26.04+
 
 `pnpm build` and the commit hook will run _GNU `make`_ as `gmake` if available, else as `make`.
 
-## `git` and generated files
+### Build
 
+Regenerate the files under `syntaxes/`:
 ```bash
-git commit                                  # git hooks are run
-git commit -n                               # git hooks are bypassed
-make gen && git add ./syntaxes              # re-gen on `syntaxes/` conflicts
-git rebase -x './scripts/make check' <base> # verify a range
-git diff -- ':!syntaxes/'                   # diff, excluding generated files
-
-# to bisect:
-git bisect run sh -c 'grep -q ^check: Makefile || exit 125; make check'
+make         # or, equivalent:
+pnpm build
 ```
 
-## Run tests
+### Test
 
 The grammar tests are run on the grammar as defined by _the generated TextMate JSON_ file.
 
@@ -72,6 +63,19 @@ The grammar tests are run on the grammar as defined by _the generated TextMate J
 - supports verbosity/output formatting control and test filtering
 
 More details: see [`test/README.md`](test/README.md)
+
+## `git` and generated files
+
+```bash
+git commit                                  # git hooks are run
+git commit -n                               # git hooks are bypassed
+make gen && git add ./syntaxes              # re-gen on `syntaxes/` conflicts
+git rebase -x './scripts/make check' <base> # verify a range
+git diff -- ':!syntaxes/'                   # diff, excluding generated files
+
+# to bisect:
+git bisect run sh -c 'grep -q ^check: Makefile || exit 125; make check'
+```
 
 ## Other useful commands
 

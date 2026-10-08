@@ -90,6 +90,7 @@ define op3   ?=
 #            ^^   keyword.operator.assignment.makefile
 endef
 define op4   :=
+#^^^^^            keyword.control.define.makefile
 #            ^^   keyword.operator.assignment.makefile
 endef
 define op5  ::=
@@ -108,7 +109,8 @@ endef
 
 # -------------------------- comments ------------------------- #
 
-define cmtAA#cmt
+define cmtAA#c:t
+#^^^^^           keyword.control.define.makefile
 #           ^^^^ comment.line.number-sign.makefile
 #      ^^^^^     variable.other.assignment.makefile
 endef
@@ -180,6 +182,7 @@ endef
     ## /^colon_var := _#.*/
 
 define dcol::
+#^^^^^             keyword.control.define.makefile
 #      ^^^^^^      variable.other.assignment.makefile
 endef
 ## /^(define )?dcol::(?(1)$|( =))/
@@ -259,6 +262,12 @@ override define ov4 =
 endef
 
 override define ov5 = # (comment == force space after)
+#^^^^^^^               keyword.control.override.makefile
+#        ^^^^^^        keyword.control.define.makefile
+#               ^^^    variable.other.assignment.makefile
+endef
+
+override define o:6 =
 #^^^^^^^               keyword.control.override.makefile
 #        ^^^^^^        keyword.control.define.makefile
 #               ^^^    variable.other.assignment.makefile

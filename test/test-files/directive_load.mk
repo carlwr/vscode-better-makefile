@@ -48,8 +48,14 @@ load f.so(s\\\
 # _not_ load directives
 # ---------------------
 
-loadVar := val
+loadVar := value
 #^^^^^^        - keyword.control.load.makefile
+
+load: prereq
+#^^^           - keyword.control.load.makefile
+
+load := value
+#^^^           - keyword.control.load.makefile
 
 # load f
 # ^^^^         - keyword.control.load.makefile

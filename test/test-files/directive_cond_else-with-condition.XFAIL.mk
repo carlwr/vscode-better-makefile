@@ -17,7 +17,7 @@ endif
 # additional "else", with or without condition after it:
 
 ifeq (b,b)
-else ifeq (B,B)
+else ifeq (B:x,B)
 #    ^^^^       keyword.control.ifeq.makefile
 #    ^^^^     - keyword.control.else.makefile
 #^^^            keyword.control.else.makefile

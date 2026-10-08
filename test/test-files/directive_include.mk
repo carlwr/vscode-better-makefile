@@ -14,3 +14,7 @@ include foo
 sinclude also
 #^^^^^^^            keyword.control.include.makefile
 #<-                 keyword.control.include.makefile
+
+sinclude al:o
+#^^^^^^^            keyword.control.include.makefile
+#<-                 keyword.control.include.makefile

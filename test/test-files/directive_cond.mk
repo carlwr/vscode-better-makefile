@@ -8,6 +8,16 @@ endif
 endif
 #^^^^          - keyword.control.endif.makefile
 
+ifeq (a:b,A)
+#^^^             keyword.control.ifeq.makefile
+endif
+#^^^^            keyword.control.endif.makefile
+
+  ifeq (c:d,A)
+# ^^^^           keyword.control.ifeq.makefile
+  endif
+# ^^^^^          keyword.control.endif.makefile
+
 
 # -------------------------- variants ------------------------- #
 

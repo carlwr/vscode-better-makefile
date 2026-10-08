@@ -24,6 +24,18 @@ endef
 #^^^^        keyword.control.endef.makefile
 
 
+  define b:x :=
+  define c:x :=
+#  ^^^^^     keyword.control.define.makefile
+#        ^   variable.other.assignment.makefile
+    inner
+  endef
+#  ^^^^      keyword.control.endef.makefile
+  endef
+#  ^^^^      keyword.control.endef.makefile
+
+
+
 # spurious endef
 # --------------
 

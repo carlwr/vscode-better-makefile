@@ -23,6 +23,9 @@ vpath \\% p
 vpath % path1:path2
 #            ^       punctuation.separator.paths.vpath.makefile
 
+vpath   path1:path2
+#            ^       punctuation.separator.paths.vpath.makefile
+
 
 # GNU make manual:
 #

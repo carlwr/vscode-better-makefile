@@ -57,6 +57,7 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
 - avoids a number of bugs in the default grammar — for example, this grammar:
   - correctly scopes rules and variable assignments that start with an expansion (`$(objs): common.h`)
   - correctly scopes ruleheads with line continuation before the rulehead separator
+  - correctly scopes rules and assignments that happen to use names of directives (`export: export.o`, `private := ./src/private/`)
   - does not mistake `:`s and `=`s in substitution references for rulehead separators or assignment operators
   - does not mistake `:` in a comment for a rulehead (`not  # a : rulehead`)
   - does not break the highlighting for the rest of the file with valid syntax such as e.g. `defines-headers: defs.h`

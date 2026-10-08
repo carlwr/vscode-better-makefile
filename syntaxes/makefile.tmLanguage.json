@@ -7,13 +7,13 @@
       "include": "#comment"
     },
     {
-      "include": "#directives"
-    },
-    {
       "include": "#variable-assignment"
     },
     {
       "include": "#rulehead"
+    },
+    {
+      "include": "#directives"
     },
     {
       "include": "#doubleDollar"
@@ -980,7 +980,7 @@
     },
     "rulehead": {
       "applyEndPatternLast": 1,
-      "begin": "(?x)\n^(?!\\t)             # recipe line - fail the match\n[ ]*+               # eat leading whitespace\n\n(                   # \"1\": name of target(s)\n  (?:\n    (?:[^$&:#\\\\])++ # chars we can eat carelessly\n  | \\\\    [:#\\\\]    # eat escaped variants of these\n  | \\\\              # after the above, we can eat any backslash\n  | \\g<exp>         # expansions (important: includes $(substref:colons))\n  | \\$(?! [({] )    # eat $<char> expansions\n  | &(?!:)          # an `&` not followed by colon - eat!\n                    # (note: with `\\&`, make does NOT treat & as escaped)\n                    # (importantly, we never eat unescaped #-s)\n  )++\n)\n\n(                   # \"2\": the separator after the target(s)\n   ::\n|  :\n| &::\n| &:\n)\n\n(?!\\=)              # the : was part of ':=' (= an assignment)\n\n# define named groups for recursive expansion detection:\n(?<_ch>  [^(){}\\n]+                                               ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)*  \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)*  \\) )++ )  ){0}",
+      "begin": "(?x)\n^(?!\\t)             # recipe line - fail the match\n^(?! [ ]*+          # directive - fail the match:\n     (?:\n       [s\\-]? include\n     | [-]?   load\n     |        vpath\n     |        define\n     |        export\n     |        undefine\n     |        override\n     |        private\n     |        unexport\n     |        ifeq\n     |        ifneq\n     |        ifdef\n     |        ifndef\n     )[ \\t]\n )\n[ ]*+               # eat leading whitespace\n\n(                   # \"1\": name of target(s)\n  (?:\n    (?:[^$&:#\\\\])++ # chars we can eat carelessly\n  | \\\\    [:#\\\\]    # eat escaped variants of these\n  | \\\\              # after the above, we can eat any backslash\n  | \\g<exp>         # expansions (important: includes $(substref:colons))\n  | \\$(?! [({] )    # eat $<char> expansions\n  | &(?!:)          # an `&` not followed by colon - eat!\n                    # (note: with `\\&`, make does NOT treat & as escaped)\n                    # (importantly, we never eat unescaped #-s)\n  )++\n)\n\n(                   # \"2\": the separator after the target(s)\n   ::\n|  :\n| &::\n| &:\n)\n\n(?!\\=)              # the : was part of ':=' (= an assignment)\n\n# define named groups for recursive expansion detection:\n(?<_ch>  [^(){}\\n]+                                               ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)*  \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)*  \\) )++ )  ){0}",
       "beginCaptures": {
         "1": {
           "name": "meta.scope.target.makefile",

@@ -17,11 +17,11 @@ patterns:
 
 - include: "#comment"
 
-- include: "#directives"
-
 - include: "#variable-assignment"
 
 - include: "#rulehead"
+
+- include: "#directives"
 
 - include: "#doubleDollar"
 
@@ -603,6 +603,23 @@ repository:
     match: &__ruleheadBegin |-
       (?x)
       ^(?!\t)             # recipe line - fail the match
+      ^(?! [ ]*+          # directive - fail the match:
+           (?:
+             [s\-]? include
+           | [-]?   load
+           |        vpath
+           |        define
+           |        export
+           |        undefine
+           |        override
+           |        private
+           |        unexport
+           |        ifeq
+           |        ifneq
+           |        ifdef
+           |        ifndef
+           )[ \t]
+       )
       [ ]*+               # eat leading whitespace
 
       (                   # "1": name of target(s)

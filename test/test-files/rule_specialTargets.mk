@@ -50,8 +50,53 @@ rec:
 #^^^^^^^^^^^^^   - support.function.target.PHONY.makefile
 #<-              - support.function.target.PHONY.makefile
 
+var0  = .PHONY
+#       ^^^^^^   - support.function.target.PHONY.makefile
+var0 := .PHONY
+#       ^^^^^^   - support.function.target.PHONY.makefile
 tf $(or .PHONY ,): p
 #       ^^^^^^   - support.function.target.PHONY.makefile
+t: $(or .PHONY ,)
+#       ^^^^^^   - support.function.target.PHONY.makefile
 
-# how treat built-in targets in prereqs? Most don't make sense as prereqs - but some, like .WAIT, _only_ make sense as prereqs. For now, no tests on this either way.
-p:.PHONY   
+
+# ------------------------- in prereqs ------------------------ #
+
+t:    .PHONY
+#     ^^^^^^           support.function.target.PHONY.makefile
+t____:.PHONY
+#     ^^^^^^           support.function.target.PHONY.makefile
+t:    .PHONY #c
+#     ^^^^^^           support.function.target.PHONY.makefile
+t:  x .PHONY y
+#     ^^^^^^           support.function.target.PHONY.makefile
+t: $c .PHONY y
+#     ^^^^^^           support.function.target.PHONY.makefile
+t: \
+      .PHONY
+#     ^^^^^^           support.function.target.PHONY.makefile
+t: \
+.PHONY
+#^^^^^                 support.function.target.PHONY.makefile
+t: \
+ .PHONY # space-indented
+#^^^^^^                support.function.target.PHONY.makefile
+t: \
+	.PHONY # tab-indented
+#^^^^^^                support.function.target.PHONY.makefile
+
+
+# negatives:
+
+t:____x.PHONY
+#      ^^^^^^        - support.function.target.PHONY.makefile
+t:     .PHONYx
+#      ^^^^^^        - support.function.target.PHONY.makefile
+t:   # .PHONY x
+#      ^^^^^^        - support.function.target.PHONY.makefile
+t: p # .PHONY x
+#      ^^^^^^        - support.function.target.PHONY.makefile
+
+
+# should not be scoped as a .PHONY - but not serious enough to warrant an active test or XFAIL at this point:
+t: v = .PHONY

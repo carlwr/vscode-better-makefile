@@ -96,7 +96,7 @@ __miscAnchors:
 - &__specialTargets |-
     (?x)
     (?# special targets: )
-    (?<![^ ])
+    (?<= ^ | [\t :] )
     ( \.DEFAULT
     | \.DELETE_ON_ERROR
     | \.EXPORT_ALL_VARIABLES
@@ -115,7 +115,10 @@ __miscAnchors:
     | \.SUFFIXES
     | \.WAIT
     )
-    (\z|(?=[ ]))
+    ( \z
+    | (?=[ ])
+    | (?=\n)
+    )
 
 
 # built-in functions anchors
@@ -689,6 +692,8 @@ repository:
       - include: "#comment"
       - include: "#doubleDollar"
       - include: "#expansions"
+      - match: *__specialTargets
+        captures: { "1": { name: *SCOPE_target_special } }
     - begin: ;
       beginCaptures:
         "0": { name: punctuation.separator.key-value.rulehead.recipe.makefile }

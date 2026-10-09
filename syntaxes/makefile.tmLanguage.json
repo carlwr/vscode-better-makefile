@@ -989,7 +989,7 @@
               "match": "[ ]+"
             },
             {
-              "match": "(?x)\n(?# special targets: )\n(?<![^ ])\n( \\.DEFAULT\n| \\.DELETE_ON_ERROR\n| \\.EXPORT_ALL_VARIABLES\n| \\.IGNORE\n| \\.INTERMEDIATE\n| \\.LOW_RESOLUTION_TIME\n| \\.NOTINTERMEDIATE\n| \\.NOTPARALLEL\n| \\.ONESHELL\n| \\.PHONY\n| \\.POSIX\n| \\.PRECIOUS\n| \\.SECONDARY\n| \\.SECONDEXPANSION\n| \\.SILENT\n| \\.SUFFIXES\n| \\.WAIT\n)\n(\\z|(?=[ ]))",
+              "match": "(?x)\n(?# special targets: )\n(?<= ^ | [\\t :] )\n( \\.DEFAULT\n| \\.DELETE_ON_ERROR\n| \\.EXPORT_ALL_VARIABLES\n| \\.IGNORE\n| \\.INTERMEDIATE\n| \\.LOW_RESOLUTION_TIME\n| \\.NOTINTERMEDIATE\n| \\.NOTPARALLEL\n| \\.ONESHELL\n| \\.PHONY\n| \\.POSIX\n| \\.PRECIOUS\n| \\.SECONDARY\n| \\.SECONDEXPANSION\n| \\.SILENT\n| \\.SUFFIXES\n| \\.WAIT\n)\n( \\z\n| (?=[ ])\n| (?=\\n)\n)",
               "captures": {
                 "1": {
                   "name": "support.function.target.$1.makefile"
@@ -1059,6 +1059,14 @@
             },
             {
               "include": "#expansions"
+            },
+            {
+              "match": "(?x)\n(?# special targets: )\n(?<= ^ | [\\t :] )\n( \\.DEFAULT\n| \\.DELETE_ON_ERROR\n| \\.EXPORT_ALL_VARIABLES\n| \\.IGNORE\n| \\.INTERMEDIATE\n| \\.LOW_RESOLUTION_TIME\n| \\.NOTINTERMEDIATE\n| \\.NOTPARALLEL\n| \\.ONESHELL\n| \\.PHONY\n| \\.POSIX\n| \\.PRECIOUS\n| \\.SECONDARY\n| \\.SECONDEXPANSION\n| \\.SILENT\n| \\.SUFFIXES\n| \\.WAIT\n)\n( \\z\n| (?=[ ])\n| (?=\\n)\n)",
+              "captures": {
+                "1": {
+                  "name": "support.function.target.$1.makefile"
+                }
+              }
             }
           ]
         },

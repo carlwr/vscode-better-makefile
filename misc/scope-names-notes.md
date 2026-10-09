@@ -119,6 +119,11 @@ special targets (e.g. `.PHONY`)
 * considered and rejected: adding also `support.type.target.$1.makefile`
   * for: would make user<->special targets distinct also with VSCode-Modern
   * against: would be a stretch semantically; would introduce a visual difference vs. `make.tmbundle`; wouldn't add visual benefit in the most important theme (VSCode-2026)
+* considered and rejected: distinguish `.WAIT` from the other special targets
+  * background: `.WAIT` makes sense only in prereq position, all/most others only in target position
+  * rejected since:
+    * not considered worth complicating the grammar in order to distinguish them
+    * even though a scoping only in positions where a special target makes sense would likely be helpful to users (on the margin), treating all special targets the same in terms of scoping likely is still _technically_ (more) correct
 * themes
   * VSCode-Modern, VSCode-2026
     * `support.type`: green-teal

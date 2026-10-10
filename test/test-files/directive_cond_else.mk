@@ -10,6 +10,9 @@ endif
 
 # make: "extraneous text after 'else' directive"
 ifeq (a,b)
+else ifeqifeq (a,a)
+#^^^                  keyword.control.else.makefile
+#    ^^^^^^^^       - keyword.control.else.makefile
 else ifdefx
 #^^^                  keyword.control.else.makefile
 #    ^^^^^^         - keyword.control.else.makefile

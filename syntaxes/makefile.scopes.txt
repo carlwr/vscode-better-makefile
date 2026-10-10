@@ -8,6 +8,7 @@ constant.other.placeholder.percent.makefile
 constant.other.placeholder.substref.percent.makefile
 entity.name.function.target.makefile
 keyword.control.$1.makefile
+keyword.control.$2.makefile
 keyword.control.define.makefile
 keyword.control.else.makefile
 keyword.control.endef.makefile

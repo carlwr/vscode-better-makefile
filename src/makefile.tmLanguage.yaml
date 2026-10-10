@@ -529,6 +529,12 @@ repository:
         - include: "#expansions"
         - include: "#comment"
 
+      condition:
+        begin: \G(?<=ifeq|ifneq|ifdef|ifndef)
+        end:   ^
+        name: meta.scope.condition.makefile
+        patterns: [include: "#condition-body"]
+
       conditional:
         begin: ^\s*(ifeq|ifneq|ifdef|ifndef)(?=\s)
         captures:
@@ -536,15 +542,15 @@ repository:
         end:   ^\s*(endif)\b
         name: meta.scope.conditional.makefile
         patterns:
-        - begin: \G
-          end:   ^
-          name: meta.scope.condition.makefile
-          patterns: [include: "#condition-body"]
-        - begin: ^\s*else(?=\s)\s*(ifeq|ifneq|ifdef|ifndef)*(?=\s)
+        - include: "#condition"
+        - begin: ^\s*(else)(?=\s)(?:\s+(ifeq|ifneq|ifdef|ifndef)(?=\s))?
           beginCaptures:
-            "0": { name: keyword.control.else.makefile }
+            "1": { name: keyword.control.else.makefile }
+            "2": { name: keyword.control.$2.makefile }
           end:   ^
-          patterns: [include: "#condition-body"]
+          patterns:
+          - include: "#condition"
+          - include: "#condition-body"
         - include: $self
 
 

@@ -132,6 +132,16 @@
         }
       ],
       "repository": {
+        "condition": {
+          "begin": "\\G(?<=ifeq|ifneq|ifdef|ifndef)",
+          "end": "^",
+          "name": "meta.scope.condition.makefile",
+          "patterns": [
+            {
+              "include": "#condition-body"
+            }
+          ]
+        },
         "condition-body": {
           "patterns": [
             {
@@ -175,24 +185,23 @@
           "name": "meta.scope.conditional.makefile",
           "patterns": [
             {
-              "begin": "\\G",
-              "end": "^",
-              "name": "meta.scope.condition.makefile",
-              "patterns": [
-                {
-                  "include": "#condition-body"
-                }
-              ]
+              "include": "#condition"
             },
             {
-              "begin": "^\\s*else(?=\\s)\\s*(ifeq|ifneq|ifdef|ifndef)*(?=\\s)",
+              "begin": "^\\s*(else)(?=\\s)(?:\\s+(ifeq|ifneq|ifdef|ifndef)(?=\\s))?",
               "beginCaptures": {
-                "0": {
+                "1": {
                   "name": "keyword.control.else.makefile"
+                },
+                "2": {
+                  "name": "keyword.control.$2.makefile"
                 }
               },
               "end": "^",
               "patterns": [
+                {
+                  "include": "#condition"
+                },
                 {
                   "include": "#condition-body"
                 }

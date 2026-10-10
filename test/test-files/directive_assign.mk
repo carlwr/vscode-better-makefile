@@ -5,6 +5,11 @@ export   BAR = bar
 #        ^^^^^^^^^   meta.expression.assignment.makefile
 #        ^^^         variable.other.assignment.makefile
 
+unexport BAR = bar
+#            ^       keyword.operator.assignment.makefile
+#        ^^^^^^^^^   meta.expression.assignment.makefile
+#        ^^^         variable.other.assignment.makefile
+
 export   TGHT=tght
 #            ^       keyword.operator.assignment.makefile
 #        ^^^^^^^^^   meta.expression.assignment.makefile
@@ -28,6 +33,8 @@ private  FOO = foo
 
 export   v := v_V
 #        ^                 variable.other.assignment.makefile
+unexport v := v_V
+#        ^                 variable.other.assignment.makefile
 override v := v_V
 #        ^                 variable.other.assignment.makefile
 private  v := v_V
@@ -35,12 +42,16 @@ private  v := v_V
 
 export   v =  v:V
 #        ^                 variable.other.assignment.makefile
+unexport v =  v:V
+#        ^                 variable.other.assignment.makefile
 override v =  v:V
 #        ^                 variable.other.assignment.makefile
 private  v =  v:V
 #        ^                 variable.other.assignment.makefile
 
 export   v =  v__ # : _
+#        ^                 variable.other.assignment.makefile
+unexport v =  v__ # : _
 #        ^                 variable.other.assignment.makefile
 override v =  v__ # : _
 #        ^                 variable.other.assignment.makefile
@@ -65,9 +76,6 @@ undefine und=UND
 #           ^     - keyword.operator.assignment.makefile
 
 include  inc=INC
-#           ^     - keyword.operator.assignment.makefile
-
-unexport une=UNE
 #           ^     - keyword.operator.assignment.makefile
 
 vpath    vpa=VPA

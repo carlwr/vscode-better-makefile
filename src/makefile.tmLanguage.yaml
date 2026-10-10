@@ -502,6 +502,7 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
+        - include: "#variable-assignment"
         - include: "#directive-varname"
 
       condition-varname:

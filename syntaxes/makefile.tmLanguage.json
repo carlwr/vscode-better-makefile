@@ -445,6 +445,9 @@
               "include": "#comment"
             },
             {
+              "include": "#variable-assignment"
+            },
+            {
               "include": "#directive-varname"
             }
           ]

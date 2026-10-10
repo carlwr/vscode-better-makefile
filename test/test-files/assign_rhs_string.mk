@@ -84,7 +84,7 @@ vaz3 = s$(v$(a)r)x
 vaz5 = x$(MAKE)y
 #      ^       ^      string.unquoted.makefile
 #       ^^^^^^^     - string.unquoted.makefile
-#         ^^^^        variable.language.readwrite.makefile
+#         ^^^^        variable.language.readwrite.special.makefile
 
 
 # misc

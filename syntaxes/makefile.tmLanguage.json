@@ -1247,11 +1247,11 @@
       "patterns": [
         {
           "match": "(?x)\n(?: \\G         \\g<varname> (?= [:)}] )  # an expansion's name slot\n|   (?<![^\\s]) \\g<varname> (?= \\z    )  # a captured name, in full\n)\n(?<varname>\n  COMSPEC\n| GNUMAKEFLAGS\n| GPATH\n| MAKE\n| MAKEFILES\n| MAKEFLAGS\n| MAKEOVERRIDES\n| MAKESHELL\n| MAKE_TERMERR\n| MAKE_TERMOUT\n| MFLAGS\n| SHELL\n| SUFFIXES\n| VPATH\n| \\.DEFAULT_GOAL\n| \\.EXTRA_PREREQS\n| \\.LIBPATTERNS\n| \\.RECIPEPREFIX\n| \\.SHELLFLAGS\n){0}",
-          "name": "variable.language.readwrite.makefile variable.other.constant.makefile"
+          "name": "variable.language.readwrite.special.makefile"
         },
         {
           "match": "(?x)\n(?: \\G         \\g<varname> (?= [:)}] )  # an expansion's name slot\n|   (?<![^\\s]) \\g<varname> (?= \\z    )  # a captured name, in full\n)\n(?<varname>\n  CURDIR\n| MAKECMDGOALS\n| MAKEFILE_LIST\n| MAKELEVEL\n| MAKE_HOST\n| MAKE_RESTARTS\n| MAKE_TMPDIR\n| MAKE_VERSION\n| \\.FEATURES\n| \\.INCLUDE_DIRS\n| \\.LOADED\n| \\.SHELLSTATUS\n| \\.VARIABLES\n| -\\*-eval-flags-\\*-\n| -\\*-command-variables-\\*-\n){0}",
-          "name": "variable.language.constant.makefile constant.language.makefile"
+          "name": "variable.language.constant.special.makefile"
         }
       ]
     },

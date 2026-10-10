@@ -109,7 +109,7 @@ dd_= $(D:find=re$(V)pl)
 #    ^^ ^^^^^^^^^^ ^^  - variable.other.makefile
 
 d3 = $(SHELL:%f=%r)
-#      ^^^^^             variable.language.readwrite.makefile
+#      ^^^^^             variable.language.readwrite.special.makefile
 #           ^            punctuation.separator.substref.colon.makefile
 #              ^         punctuation.separator.substref.equal.makefile
 

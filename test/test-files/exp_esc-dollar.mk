@@ -92,7 +92,7 @@ goal:
 goal2:
 	_$${SHELL}
 # ^^             constant.character.escape.dollar.makefile
-#    ^^^^^     - variable.language.readwrite.makefile
+#    ^^^^^     - variable.language.readwrite.special.makefile
 
 
 # --------------------- not misinterpreted -------------------- #

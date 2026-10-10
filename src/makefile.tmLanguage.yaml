@@ -949,8 +949,7 @@ repository:
         | \.SHELLFLAGS
         ){0}
       name: >-
-        variable.language.readwrite.makefile
-        variable.other.constant.makefile
+        variable.language.readwrite.special.makefile
 
     # special variable -> immutable:
     - match: |-
@@ -976,8 +975,7 @@ repository:
         | -\*-command-variables-\*-
         ){0}
       name: >-
-        variable.language.constant.makefile
-        constant.language.makefile
+        variable.language.constant.special.makefile
 
   varname-automatic:
     # need to handle two forms:

@@ -55,12 +55,12 @@ variable name in variable assignment
 built-in variables (= special variables)
 * user may read and set (e.g. `MAKEFLAGS`)
   * -> decide to scope:
-    * `variable.language.readwrite`
-    * `variable.other.constant` (since styled peach by Catppuccin)
+    * `variable.language.readwrite.special`
 * user may read, not set (e.g. `CURDIR`)
   * -> decide to scope:
-    * `variable.language.constant`
-    * `constant.language` (since styled red by Catppuccin)
+    * `variable.language.constant.special`
+    * _don't_ scope with `constant.language.special`
+      * since: would make `$(VAR)` a single-colored block of chars (hurts readability; also note that `$(..)` expansions for shellscript files always get distinct colors for `$(`+`)`, albeit for different reasons)
 * themes
   * Catppuccin
     * `variable.other.constant` (peach)
@@ -68,6 +68,8 @@ built-in variables (= special variables)
   * VS Code Modern
     * `keyword.other.operator` (pink)
     * `variable.other.constant` (teal)
+    * `constant.language.special` (dark blue)
+      * note: the same dark blue as `punctuation.definition.template-expression` -> if a referenced variable is scoped ``constant.language.special`, then `$(VAR)` gets the same color on all six characters
 * guidelines
   * https://www.sublimetext.com/docs/scope_naming.html#variable
 

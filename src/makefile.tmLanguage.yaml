@@ -573,9 +573,9 @@ repository:
       )
       (?:[ \t]*+)
       # define named groups for recursive expansion detection:
-      (?<_ch>  [^(){}\n]+                                               ){0}
-      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*  \} )++
-                           |   (?: \$\( (?:\g<exp>|\g<_ch>)*  \) )++ )  ){0}
+      (?<_ch>  [^(){}\n$]++| \$                                        ){0}
+      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*+ \} )++
+                           |   (?: \$\( (?:\g<exp>|\g<_ch>)*+ \) )++)  ){0}
 
   variable-assignment:
     begin: *__varAssignBegin
@@ -649,9 +649,9 @@ repository:
       (?!\=)              # the : was part of ':=' (= an assignment)
 
       # define named groups for recursive expansion detection:
-      (?<_ch>  [^(){}\n]+                                               ){0}
-      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*  \} )++
-                           |   (?: \$\( (?:\g<exp>|\g<_ch>)*  \) )++ )  ){0}
+      (?<_ch>  [^(){}\n$]++| \$                                        ){0}
+      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*+ \} )++
+                           |   (?: \$\( (?:\g<exp>|\g<_ch>)*+ \) )++)  ){0}
 
   rulehead:
     name: meta.scope.rulehead.makefile

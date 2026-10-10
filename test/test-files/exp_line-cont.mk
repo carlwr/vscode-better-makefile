@@ -152,3 +152,13 @@ $(or \
 #              ^^    comment.line.number-sign.makefile
 
 # )})} #close
+
+
+# ------------------ long lines: backtracking ----------------- #
+
+# catastrophic backtracking -> Oniguruma retry limit aborts the match -> scopes missing
+$(or $(or _____________________________________(_): =,\
+#                                                     ^   punctuation.separator.continuation.makefile
+#      ^^                                                 support.function.or.makefile
+  ))
+# )})} #close

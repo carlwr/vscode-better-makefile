@@ -1034,10 +1034,13 @@
       "name": "meta.scope.rulehead.makefile",
       "patterns": [
         {
+          "include": "#variable-assignment"
+        },
+        {
           "begin": "\\G(?!\\n|;)",
           "end": "(?=\\n|;)",
           "applyEndPatternLast": 1,
-          "contentName": "meta.scope.prerequisites.makefile",
+          "name": "meta.scope.prerequisites.makefile",
           "patterns": [
             {
               "match": "[ ]+"

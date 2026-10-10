@@ -680,10 +680,13 @@ repository:
     end:   (?=\n)
     applyEndPatternLast: 1
     patterns:
+    # either a target-specific assignment:
+    - include: "#variable-assignment"
+    # or `[prereqs][; recipe]`:
     - begin: \G(?!\n|;)
       end:     (?=\n|;)
       applyEndPatternLast: 1
-      contentName: meta.scope.prerequisites.makefile
+      name: meta.scope.prerequisites.makefile
       patterns:
       - match: '[ ]+'
       - include: "#line-cont"

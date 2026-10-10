@@ -27,6 +27,15 @@ private  FOO = foo
 #        ^^^         variable.other.assignment.makefile
 
 
+ifdef FOO
+  export BAR=val
+#           ^        keyword.operator.assignment.makefile
+#        ^^^^^^^     meta.expression.assignment.makefile
+#        ^^^         variable.other.assignment.makefile
+
+endif
+
+
 # -------------------- not mislead by `:`-s ------------------- #
 
 # check that directives that support assignments are not misinterpreted as e.g. ruleheads when a `:` is involved. For simplicity, use "the name of the assigned variable is correctly scoped" as a proxy for "probably not misinterpreted".

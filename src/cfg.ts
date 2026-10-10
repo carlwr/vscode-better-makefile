@@ -4,17 +4,11 @@ import { z } from 'zod'
 const pkgJsonSchema = z.object({
   name: z.string(),
   contributes: z.object({
-    grammars: z.array(
-      z.object({
-        path: z.string(),
-        scopeName: z.string(),
-      }),
+    grammars: z.tuple(
+      [z.object({ path: z.string(), scopeName: z.string() })],
+      z.unknown(),
     ),
-    languages: z.array(
-      z.object({
-        configuration: z.string(),
-      }),
-    ),
+    languages: z.tuple([z.object({ configuration: z.string() })], z.unknown()),
   }),
 })
 
@@ -32,7 +26,7 @@ const pkgJson = parsePkgJson()
 
 export const TMATE_SCHEMA = 'schemas/tmLanguage.schema.json'
 export const GRAMMAR_YAML = 'src/makefile.tmLanguage.yaml'
-export const GRAMMAR_JSON = pkgJson.contributes.grammars[0]!.path
-export const SCOPE_NAME = pkgJson.contributes.grammars[0]!.scopeName
-export const LANG_CONFIG = pkgJson.contributes.languages[0]!.configuration
+export const GRAMMAR_JSON = pkgJson.contributes.grammars[0].path
+export const SCOPE_NAME = pkgJson.contributes.grammars[0].scopeName
+export const LANG_CONFIG = pkgJson.contributes.languages[0].configuration
 export const EXTENSION_NAME = pkgJson.name

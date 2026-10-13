@@ -62,6 +62,11 @@ __miscAnchors:
     string.unquoted.makefile
     meta.string.makefile
 
+- &SCOPE_target_special >-
+    support.function.target.$1.makefile
+    variable.language.constant.makefile
+    constant.language.makefile
+
 # substref scopes:
 - &SCOPE_sr_met meta.substref.makefile
 - &SCOPE_sr_col >-
@@ -106,6 +111,56 @@ __miscAnchors:
     | \.WAIT
     )
     (\z|(?=[ ]))
+
+
+# built-in functions anchors
+# --------------------------
+
+- &__builtInFunc_multiary |-
+    (?x)
+    \G
+    (?# built-in functions -> )
+    (?# ref.: function.c -> struct function_table_entry + guile)
+    ( abspath
+    | addprefix
+    | addsuffix
+    | and
+    | basename
+    | call
+    | dir
+    | error
+    | eval
+    | file
+    | filter
+    | filter-out
+    | findstring
+    | firstword
+    | foreach
+    | guile
+    | if
+    | info
+    | intcmp
+    | join
+    | lastword
+    | let
+    | notdir
+    | or
+    | patsubst
+    | realpath
+    | shell
+    | sort
+    | strip
+    | subst
+    | suffix
+    | value
+    | warning
+    | wildcard
+    | word
+    | wordlist
+    | words
+    )
+    (?=[ \\])
+
 
 
 repository:
@@ -158,30 +213,37 @@ repository:
           (?x)
           (?<!    \\        )   # otherwise unreliable \ count -> don't match
           (   (?: \\{2} )*+ )   # "1": any even no. of \-s -> quoting \-es
-                 (\\)(\#)       #    : the quoted #
+                 (\\)(\#)       # "2": the quoted #
         captures:
           "1": { patterns: [include: "#esc-backslashes"] }
           "2": { name: constant.character.escape.backslash.makefile }
           "3": { name: meta.escaped-char.makefile }
 
+  __lineCont:
+    match: &__lineCont |-
+      (?=\\+\n)
+
   line-cont:
-    # handles any sequence of \-s + newline
-    #
-    # no. of \-s   |  line-cont?  consumes newline?
-    # -----------  |  ---------   -----------------
-    # even         |  n           n
-    # odd          |  Y           Y
-    # -----------  |  ---------   -----------------
-    #
-    # applies appropriate scopes to all \-s in either case
-    begin: (?=\\+\n)
+    begin: *__lineCont
     end:   (?!\G)
     applyEndPatternLast: 1
     patterns:
     - include: "#esc-backslashes"
     - begin: \\$
       end:   ^
-      beginCaptures: { "0": { name: *SCOPE_lineCont } }
+      beginCaptures:
+        "0": { name: *SCOPE_lineCont }
+
+  line-cont-recipe:
+    begin: *__lineCont
+    end:   (?!\G)
+    applyEndPatternLast: 1
+    patterns:
+    - include: "#esc-backslashes"
+    - begin: \\$
+      end:   ^
+      beginCaptures:
+        "0": { name: *SCOPE_lineCont }
 
   percent:
     match: \\*%
@@ -235,8 +297,10 @@ repository:
     - include: "#vpath"
     - include: "#define"
     - include: "#export"
-    - include: "#override_private"
-    - include: "#unexport_undefine"
+    - include: "#undefine"
+    - include: "#override"
+    - include: "#private"
+    - include: "#unexport"
     - include: "#conditional"
 
     repository:
@@ -293,8 +357,12 @@ repository:
         begin: |-
           (?x)
           ^
-          \s*+\b(override\b)?        # "1", optional
-          \s*+\b(define  \b)         # "2", required
+          \s*+  (                    # "1", optional
+                  (?: (?: override
+                      ) [\ \t]++
+                  )*+
+                )
+              (\b define   \b)       # "2", required
           \s*   (                    # "3", required
                   (?: [^\s#=!+?:]++    # >=1 of the subsequences
                   |   ! (?!    =)
@@ -304,12 +372,9 @@ repository:
                   )++
                 )
           \s*   (                    # "4", optional
-                  (                    # optional prefix...
-                  |   !
-                  |  \+
-                  |  \?
-                  |   :?:?:?
-                  )?
+                  (?: [!+?]            # optional prefix...
+                  |   :{0,3}
+                  )
                   =                    # ...and "="
                 )?
         beginCaptures:
@@ -325,12 +390,22 @@ repository:
           "1": { name: keyword.control.endef.makefile }
         name: meta.scope.define.makefile
         patterns:
-        # detect comments in define head
+        # this list will never be looped over - each item matched at most once
+          # define head: detect comments:
         - begin: \G(?!^)
           end:   ^
           patterns:
           - include: "#comment"
-        - include: "#define"
+          # define body:
+        - begin: ^
+          end:   ^(?=\s*(endef)\b)
+          name: meta.scope.define.body.makefile
+          patterns:
+          - include: "#define"
+          - include: "#define-body"
+
+      define-body:
+        patterns:
         - include: "#doubleDollar"
         - include: "#expansions"
 
@@ -342,26 +417,44 @@ repository:
       export:
         begin: ^[ ]*(export)\b
         beginCaptures:
-          "1": { name: keyword.control.$1.makefile }
+          "1": { name: keyword.control.export.makefile }
         end:   ^
         patterns:
         - include: "#comment"
         - include: "#variable-assignment"
         - include: "#directive-varname"
 
-      override_private:
-        begin: ^[ ]*(override|private)\b
+      undefine:
+        begin: ^[ ]*(undefine)\b
         beginCaptures:
-          "1": { name: keyword.control.$1.makefile }
+          "1": { name: keyword.control.undefine.makefile }
+        end:   ^
+        patterns:
+        - include: "#comment"
+        - include: "#directive-varname"
+
+      override:
+        begin: ^[ ]*(override)\b
+        beginCaptures:
+          "1": { name: keyword.control.override.makefile }
         end:   ^
         patterns:
         - include: "#comment"
         - include: "#variable-assignment"
 
-      unexport_undefine:
-        begin: ^[ ]*(unexport|undefine)\b
+      private:
+        begin: ^[ ]*(private)\b
         beginCaptures:
-          "1": { name: keyword.control.$1.makefile }
+          "1": { name: keyword.control.private.makefile }
+        end:   ^
+        patterns:
+        - include: "#comment"
+        - include: "#variable-assignment"
+
+      unexport:
+        begin: ^[ ]*(unexport)\b
+        beginCaptures:
+          "1": { name: keyword.control.unexport.makefile }
         end:   ^
         patterns:
         - include: "#comment"
@@ -434,9 +527,9 @@ repository:
       |            :::=     # :::=
       )
       # define named groups for recursive expansion detection:
-      (?<_ch>  [^(){}\n]+                                              ){0}
-      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)* \} )++
-                           |   (?: \$\( (?:\g<exp>|\g<_ch>)* \) )++ )  ){0}
+      (?<_ch>  [^(){}\n]+                                               ){0}
+      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*  \} )++
+                           |   (?: \$\( (?:\g<exp>|\g<_ch>)*  \) )++ )  ){0}
 
   variable-assignment:
     begin: *__varAssignBegin
@@ -464,7 +557,7 @@ repository:
     match: &__ruleheadBegin |-
       (?x)
       ^(?!\t)             # recipe line - fail the match
-      [ ]*                # eat leading whitespace
+      [ ]*+               # eat leading whitespace
 
       (                   # "1": name of target(s)
         (?:
@@ -489,9 +582,9 @@ repository:
       (?!\=)              # the : was part of ':=' (= an assignment)
 
       # define named groups for recursive expansion detection:
-      (?<_ch>  [^(){}\n]+                                              ){0}
-      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)* \} )++
-                           |   (?: \$\( (?:\g<exp>|\g<_ch>)* \) )++ )  ){0}
+      (?<_ch>  [^(){}\n]+                                               ){0}
+      (?<exp>  (?<![^$]\$) (?: (?: \$\{ (?:\g<exp>|\g<_ch>)*  \} )++
+                           |   (?: \$\( (?:\g<exp>|\g<_ch>)*  \) )++ )  ){0}
 
   rulehead:
     name: meta.scope.rulehead.makefile
@@ -502,12 +595,7 @@ repository:
         patterns:
         - match: '[ ]+'
         - match: *__specialTargets
-          captures:
-            "1":
-              name: >-
-                support.function.target.$1.makefile
-                variable.language.constant.makefile
-                constant.language.makefile
+          captures: { "1": { name: *SCOPE_target_special } }
         # a target, possibly with expansion(s):
         - begin: (?<![^ ])
           end:   \z|(?=[ ])
@@ -519,9 +607,9 @@ repository:
             captures:
               "0":
                 patterns:
-                - include: "#doubleDollar"
-                - include: "#percent"
                 - include: "#wildcard"
+                - include: "#percent"
+                - include: "#doubleDollar"
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
     end:   (?=\n)
     applyEndPatternLast: 1
@@ -557,7 +645,7 @@ repository:
     - match: \G[\t @+\-]+
       captures:
         "0": { patterns: [{ match: '[@+\-]+', name: *SCOPE_recipeLnPfx }] }
-    - include: "#line-cont"
+    - include: "#line-cont-recipe"
     - include: "#doubleDollar"
     - include: "#expansions"
 
@@ -574,17 +662,18 @@ repository:
 
   # rule naming conventions
     # examples:
-    #   _$p..p_           <=>  captures $(..)
-    #   $p_var-builtin_p  <=>  captures <builtin-var> in $(<builtin-var>)
+    #   _$c_             <=>  captures $<char>
+    #   *_pp_*           <=>  captures $(..)
+    #   *_bb_*           <=>  captures ${..}
 
   expansions:
     # entry point for all searches for variable expansions
     patterns:
-    - include: "#expansions-_$c_"
-    - include: "#expansions-_$p..p_"
-    - include: "#expansions-_$b..b_"
+    - include: "#expansions_$c_"
+    - include: "#expansions_pp_"
+    - include: "#expansions_bb_"
 
-  expansions-_$c_:
+  expansions_$c_:
     match: (\$)([^({$#\n ])
     captures:
       "1":
@@ -596,17 +685,17 @@ repository:
         patterns:
         - include: "#varname-automatic"
         - include: "#varname-positional"
-        - { match: ., name: *SCOPE_var }
+        - include: "#varname-userSingleChar"
 
-  expansions-_$p..p_:
+  expansions_pp_:
     patterns:
     - begin: (?x) \$\(
+      end:   (?x)   \) | (?=\n)
       beginCaptures:
         "0":
           name: >-
             punctuation.definition.variable.makefile
             punctuation.definition.template-expression.begin.makefile
-      end:   (?x)   \) | (?=\n)
       endCaptures:
         "0":
           name: >-
@@ -616,8 +705,8 @@ repository:
       applyEndPatternLast: 1
       patterns:
       - include: "#line-cont"
-      - include: "#expansions-$p_func-builtin_..p"
-      - include: "#expansions-$p_func-builtin_flavor.._p"
+      - include: "#expansions_pp_func-builtin_multiary"
+      - include: "#expansions_pp_func-builtin_varUnary"
       - include: "#expansions"
       - include: "#varname-specialVar"
       - include: "#varname-automatic"
@@ -626,15 +715,15 @@ repository:
       - include: "#varname-segment"
       - { match: '\}', name: *SCOPE_var }
 
-  expansions-_$b..b_:
+  expansions_bb_:
     patterns:
     - begin: (?x) \$\{
+      end:   (?x)   \} | (?=\n)
       beginCaptures:
         "0":
           name: >-
             punctuation.definition.variable.makefile
             punctuation.definition.template-expression.begin.makefile
-      end:   (?x)   \} | (?=\n)
       endCaptures:
         "0":
           name: >-
@@ -644,8 +733,8 @@ repository:
       applyEndPatternLast: 1
       patterns:
       - include: "#line-cont"
-      - include: "#expansions-$b_func-builtin_..b"
-      - include: "#expansions-$b_func-builtin_flavor.._b"
+      - include: "#expansions_bb_func-builtin_multiary"
+      - include: "#expansions_bb_func-builtin_varUnary"
       - include: "#expansions"
       - include: "#varname-specialVar"
       - include: "#varname-automatic"
@@ -654,59 +743,12 @@ repository:
       - include: "#varname-segment"
       - { match: '\)', name: *SCOPE_var }
 
-  __builtInFuncBegin:
-    match: &__builtInFuncBegin |-
-      (?x)
-      \G
-      (?# built-in functions -> )
-      (?# ref.: function.c -> struct function_table_entry + guile)
-      ( abspath
-      | addprefix
-      | addsuffix
-      | and
-      | basename
-      | call
-      | dir
-      | error
-      | eval
-      | file
-      | filter
-      | filter-out
-      | findstring
-      | firstword
-      | foreach
-      | guile
-      | if
-      | info
-      | intcmp
-      | join
-      | lastword
-      | let
-      | notdir
-      | or
-      | patsubst
-      | realpath
-      | shell
-      | sort
-      | strip
-      | subst
-      | suffix
-      | value
-      | warning
-      | wildcard
-      | word
-      | wordlist
-      | words
-      )
-      (?=[ \\])
-
-  expansions-$p_func-builtin_..p:
+  expansions_pp_func-builtin_multiary:
     patterns:
-    - begin: *__builtInFuncBegin
-      beginCaptures:
-        "1": { name: support.function.$1.makefile }
-      end: (?x) (?= \)) | (?=\n)
-      name: meta.scope.function-call.makefile
+    - begin: *__builtInFunc_multiary
+      end:   (?x) (?= \)) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.scope.function-call.makefile
       applyEndPatternLast: 1
       patterns:
       - include: "#comma"
@@ -717,13 +759,12 @@ repository:
       - include: "#wildcard"
       - include: "#line-cont"
 
-  expansions-$b_func-builtin_..b:
+  expansions_bb_func-builtin_multiary:
     patterns:
-    - begin: *__builtInFuncBegin
-      beginCaptures:
-        "1": { name: support.function.$1.makefile }
-      end: (?x) (?= \}) | (?=\n)
-      name: meta.scope.function-call.makefile
+    - begin: *__builtInFunc_multiary
+      end:   (?x) (?= \}) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.scope.function-call.makefile
       applyEndPatternLast: 1
       patterns:
       - include: "#comma"
@@ -733,19 +774,47 @@ repository:
       - include: "#percent"
       - include: "#wildcard"
       - include: "#line-cont"
+
+  expansions_pp_func-builtin_varUnary:
+    patterns:
+    - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))
+      end:   (?=\))
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name: meta.scope.function-call.makefile
+      contentName: *SCOPE_var
+      patterns:
+      - include: "#doubleDollar"
+      - include: "#expansions"
+
+  expansions_bb_func-builtin_varUnary:
+    patterns:
+    - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
+      end:   (?=})
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name: meta.scope.function-call.makefile
+      contentName: *SCOPE_var
+      patterns:
+      - include: "#doubleDollar"
+      - include: "#expansions"
+
+
+  # "*NESTED*" rules
+  # ----------------
+
+  # intended to track nested (..)s and {..}s in function arguments
+  #
+  # example:
+  #   `$(info a(b)c)` -> GNU make prints "a(b)c"
+  #   i.e. ")" after "b" does _not_ end the argument to `info`
+  #
+  # note: make.tmbundle rules corresponding to these use scope names /.*interpolation.*/.
 
   expansions--func-builtin-NESTED:
     patterns:
-    - include: "#expansions--func-builtin-NESTED-pp"
-    - include: "#expansions--func-builtin-NESTED-bb"
-    # the "*NESTED*" rules:
-    # * intended to track nested (..)s and {..}s in function arguments
-    # * example:
-    #     `$(info a(b)c)` -> GNU make prints "a(b)c"
-    #     i.e. ")" after "b" does _not_ end the argument to `info`
-    # * previously had names "*interpolation*"
+    - include: "#expansions--func-builtin-NESTED_pp_"
+    - include: "#expansions--func-builtin-NESTED_bb_"
     repository:
-      expansions--func-builtin-NESTED-pp:
+      expansions--func-builtin-NESTED_pp_:
         begin: (?x) \(
         end:   (?x) \) | (?=\n)
         name: meta.scope.function-call.parens-group.makefile
@@ -755,7 +824,7 @@ repository:
         - include: "#expansions"
         - include: "#expansions--func-builtin-NESTED"
         - include: "#line-cont"
-      expansions--func-builtin-NESTED-bb:
+      expansions--func-builtin-NESTED_bb_:
         begin: (?x) \{
         end:   (?x) \} | (?=\n)
         name: meta.scope.function-call.braces-group.makefile
@@ -765,30 +834,6 @@ repository:
         - include: "#expansions"
         - include: "#expansions--func-builtin-NESTED"
         - include: "#line-cont"
-
-  expansions-$p_func-builtin_flavor.._p:
-    patterns:
-    - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))
-      contentName: *SCOPE_var
-      beginCaptures:
-        "1": { name: support.function.$1.makefile }
-      end:   (?=\))
-      name: meta.scope.function-call.makefile
-      patterns:
-      - include: "#doubleDollar"
-      - include: "#expansions"
-
-  expansions-$b_func-builtin_flavor.._b:
-    patterns:
-    - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
-      contentName: *SCOPE_var
-      beginCaptures:
-        "1": { name: support.function.$1.makefile }
-      end:   (?=})
-      name: meta.scope.function-call.makefile
-      patterns:
-      - include: "#doubleDollar"
-      - include: "#expansions"
 
 
 # ----------------------- variable names ---------------------- #
@@ -869,7 +914,8 @@ repository:
       |   (?<= \$[({]. )      (?= [)}:\\] )  # $(@)
       |   (?<= \$    . )                     # $@
       )
-    name: variable.parameter.automatic.makefile
+    name: >-
+      variable.parameter.automatic.makefile
 
   varname-positional:
     match: |-
@@ -878,7 +924,13 @@ repository:
       (?: (?<= \$[({]. )      (?= [)}:\\] )  # $(1)
       |   (?<= \$    . )                     # $1
       )
-    name: variable.parameter.positional.makefile
+    name: >-
+      variable.parameter.positional.makefile
+
+  varname-userSingleChar:
+    patterns:
+    - match: .
+      name: *SCOPE_var
 
   substref-segment:
     begin: ':'

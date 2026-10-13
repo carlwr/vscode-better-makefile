@@ -11,10 +11,14 @@ keyword.control.$1.makefile
 keyword.control.define.makefile
 keyword.control.else.makefile
 keyword.control.endef.makefile
+keyword.control.export.makefile
 keyword.control.include.makefile
 keyword.control.load.makefile
 keyword.control.override.makefile
+keyword.control.private.makefile
 keyword.control.recipe-lineprefix.makefile
+keyword.control.undefine.makefile
+keyword.control.unexport.makefile
 keyword.control.vpath.makefile
 keyword.operator.assignment.makefile
 keyword.operator.substref.colon.makefile
@@ -25,6 +29,7 @@ meta.escaped-char.makefile
 meta.expression.assignment.makefile
 meta.scope.condition.makefile
 meta.scope.conditional.makefile
+meta.scope.define.body.makefile
 meta.scope.define.makefile
 meta.scope.expansion.makefile
 meta.scope.function-call.braces-group.makefile

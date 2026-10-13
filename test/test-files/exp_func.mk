@@ -105,7 +105,9 @@ $(dir a)= $(dir asg)
 $(dir r): $(dir rle)
 # ^^^       ^^^        support.function.dir.makefile
 # ^^^^^     ^^^^^^^    meta.function-call.makefile
-#^     ^  ^^       ^   punctuation.definition.variable.makefile
+#<-                    punctuation.definition.template-expression.begin.makefile
+#^        ^^           punctuation.definition.template-expression.begin.makefile
+#      ^           ^   punctuation.definition.template-expression.end.makefile
 #     ^         ^^^    meta.function-call.arguments.makefile
 #     ^         ^^^    string.unquoted.makefile
 
@@ -114,7 +116,8 @@ $(dir r): $(dir rle)
 not-fnc = $(xyz arg)
 #           ^^^      - support.function.dir.makefile
 #           ^^^^^^^  - meta.function-call.makefile
-#         ^^       ^   punctuation.definition.variable.makefile
+#         ^^           punctuation.definition.template-expression.begin.makefile
+#                  ^   punctuation.definition.template-expression.end.makefile
 #           ^^^^^^^    variable.other.makefile
 #           ^^^^^^^    meta.scope.expansion.makefile
 #         ^^^^^^^^^^ - meta.function-call.arguments.makefile
@@ -143,7 +146,8 @@ earg1:=$(if  _$(vv),)
 v_0= $(dir s$(dir s))
 #      ^^^    ^^^      support.function.dir.makefile
 #      ^^^^^^^^^^^^^   meta.function-call.makefile
-#    ^^     ^^     ^^  punctuation.definition.variable.makefile
+#    ^^     ^^         punctuation.definition.template-expression.begin.makefile
+#                  ^^  punctuation.definition.template-expression.end.makefile
 #          ^^^^^^^^^   meta.function-call.arguments.makefile
 #          ^      ^    string.unquoted.makefile
 #^^^^^^^^^^ ^^^^^^ ^ - string.unquoted.makefile
@@ -155,7 +159,8 @@ tgt: $(dir s$(dir s))
 vb1= $(dir  ${dir s})
 #      ^^^    ^^^      support.function.dir.makefile
 #      ^^^^^^^^^^^^^   meta.function-call.makefile
-#    ^^     ^^     ^^  punctuation.definition.variable.makefile
+#    ^^     ^^         punctuation.definition.template-expression.begin.makefile
+#                  ^^  punctuation.definition.template-expression.end.makefile
 #           ^^^^^^^^   meta.function-call.arguments.makefile
 #                 ^    string.unquoted.makefile
 
@@ -294,7 +299,8 @@ vDd=$(dir \
 
 func0 := $(if ,,a #b  )     ## /^\Qfunc0 := a #b  /
 #                 ^       - comment.line.number-sign.makefile
-#        ^^           ^     punctuation.definition.variable.makefile
+#        ^^                 punctuation.definition.template-expression.begin.makefile
+#                     ^     punctuation.definition.template-expression.end.makefile
 #          ^^^^^^^^^^^      meta.function-call.makefile
 #          ^^^^^^^^^^^      meta.scope.expansion.makefile
 #               ^^^^        string.unquoted.makefile
@@ -306,7 +312,8 @@ func1 := $(if ,,a\#b  )     ## /^\Qfunc1 := a\#b  /
 #                ^        - constant.character.escape.backslash.makefile
 #                 ^       - meta.escaped-char.makefile
 #                 ^       - comment.line.number-sign.makefile
-#        ^^           ^     punctuation.definition.variable.makefile
+#        ^^                 punctuation.definition.template-expression.begin.makefile
+#                     ^     punctuation.definition.template-expression.end.makefile
 #          ^^^^^^^^^^^      meta.function-call.makefile
 #          ^^^^^^^^^^^      meta.scope.expansion.makefile
 #               ^^^^        string.unquoted.makefile
@@ -348,4 +355,6 @@ _tst1T := x$(dir)y
 #          ^^^^^^^   - meta.scope.expansion.makefile
 #          ^^^       - support.function.dir.makefile
 #          ^^^^^^^   - meta.function-call.makefile
-#        ^^       ^  - punctuation.definition.variable.makefile
+#        ^^^^^^^^^^  - punctuation.definition.template-expression.begin.makefile
+#        ^^^^^^^^^^  - punctuation.definition.template-expression.end.makefile
+#        ^^^^^^^^^^  - punctuation.definition.variable.makefile

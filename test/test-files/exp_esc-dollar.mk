@@ -54,7 +54,8 @@ endef
 xx=    $$$(X)
 #      ^^        constant.character.escape.dollar.makefile
 #        ^     - constant.character.escape.dollar.makefile
-#        ^^ ^    punctuation.definition.variable.makefile
+#        ^^      punctuation.definition.template-expression.begin.makefile
+#           ^    punctuation.definition.template-expression.end.makefile
 
 yy=$(Y)$$
 #      ^^        constant.character.escape.dollar.makefile
@@ -99,12 +100,14 @@ goal2:
 
 x1= _$$(X1)
 #    ^^          constant.character.escape.dollar.makefile
-#      ^  ^    - punctuation.definition.variable.makefile
+#    ^^^^^^    - punctuation.definition.template-expression.begin.makefile
+#    ^^^^^^    - punctuation.definition.template-expression.end.makefile
 #       ^^     - variable.other.makefile
 
 x2= \$$(X1)
 #    ^^          constant.character.escape.dollar.makefile
-#      ^  ^    - punctuation.definition.variable.makefile
+#   ^^^^^^^    - punctuation.definition.template-expression.begin.makefile
+#   ^^^^^^^    - punctuation.definition.template-expression.end.makefile
 #       ^^     - variable.other.makefile
 
 y1= _$$(if Y2,,)

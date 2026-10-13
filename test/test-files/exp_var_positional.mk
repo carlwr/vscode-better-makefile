@@ -14,8 +14,12 @@ aaaa = $1a
 
 nme = $(2)a
 #       ^      variable.parameter.positional.makefile
+#     ^^       punctuation.definition.template-expression.begin.makefile
+#        ^     punctuation.definition.template-expression.end.makefile
 nme = ${3}a
 #       ^      variable.parameter.positional.makefile
+#     ^^       punctuation.definition.template-expression.begin.makefile
+#        ^     punctuation.definition.template-expression.end.makefile
 
 
 
@@ -36,7 +40,8 @@ usr = $(x1)
 N = $(1:a%=%)
 #     ^        variable.parameter.positional.makefile
 #^^^^^ ^^^^^ - variable.parameter.positional.makefile
-#   ^^      ^  punctuation.definition.variable.makefile
+#   ^^         punctuation.definition.template-expression.begin.makefile
+#           ^  punctuation.definition.template-expression.end.makefile
 #        ^ ^   constant.other.placeholder.substref.percent.makefile
 #       ^^^^   meta.substref.makefile
 #     ^^^^^^   meta.scope.expansion.makefile
@@ -46,11 +51,11 @@ N = $(1:a%=%)
 
 h = $(h$1h)
 #      ^^      variable.parameter.positional.makefile
-#   ^^ ^  ^    punctuation.definition.variable.makefile
+#      ^       punctuation.definition.variable.makefile
 
 i =  $($1)
 #      ^^      variable.parameter.positional.makefile
-#    ^^^ ^     punctuation.definition.variable.makefile
+#      ^       punctuation.definition.variable.makefile
 
 j=$(if $1,j,)
 #      ^^      variable.parameter.positional.makefile

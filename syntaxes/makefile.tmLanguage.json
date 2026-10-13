@@ -635,12 +635,12 @@
           "end": "(?x)   \\} | (?=\\n)",
           "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.begin.makefile"
+              "name": "punctuation.definition.template-expression.begin.makefile"
             }
           },
           "endCaptures": {
             "0": {
-              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.end.makefile"
+              "name": "punctuation.definition.template-expression.end.makefile"
             }
           },
           "contentName": "meta.scope.expansion.makefile",
@@ -761,12 +761,12 @@
           "end": "(?x)   \\) | (?=\\n)",
           "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.begin.makefile"
+              "name": "punctuation.definition.template-expression.begin.makefile"
             }
           },
           "endCaptures": {
             "0": {
-              "name": "punctuation.definition.variable.makefile punctuation.definition.template-expression.end.makefile"
+              "name": "punctuation.definition.template-expression.end.makefile"
             }
           },
           "contentName": "meta.scope.expansion.makefile",
@@ -1185,13 +1185,12 @@
         },
         {
           "match": "(?x) (\\$) ([@%<?^+|*])",
-          "name": "variable.parameter.automatic.makefile",
           "captures": {
             "1": {
-              "name": "punctuation.definition.variable.makefile"
+              "name": "punctuation.definition.variable.makefile variable.parameter.automatic.makefile"
             },
             "2": {
-              "name": "meta.scope.expansion.makefile"
+              "name": "meta.scope.expansion.makefile variable.parameter.automatic.makefile"
             }
           }
         }
@@ -1218,13 +1217,12 @@
         },
         {
           "match": "(?x) (\\$) ([0-9])",
-          "name": "variable.parameter.positional.makefile",
           "captures": {
             "1": {
-              "name": "punctuation.definition.variable.makefile"
+              "name": "punctuation.definition.variable.makefile variable.parameter.positional.makefile"
             },
             "2": {
-              "name": "meta.scope.expansion.makefile"
+              "name": "meta.scope.expansion.makefile variable.parameter.positional.makefile"
             }
           }
         }

@@ -29,20 +29,24 @@ $(bBB) := bBB#      ## /^(?x)   \Qb\\ := bBB\E  $  /
 
 v6 := a_$(bb\)_x)   ##  /^\Qv6 := a_bbB_x)  /
 #         ^^^           variable.other.makefile
-#       ^^   ^          punctuation.definition.variable.makefile
-#               ^     - punctuation.definition.variable.makefile
+#       ^^              punctuation.definition.template-expression.begin.makefile
+#            ^          punctuation.definition.template-expression.end.makefile
+#               ^     - punctuation.definition.template-expression.end.makefile
 
 v7 := a_$(b\\)_x)   ##  /^\Qv7 := a_bBB_x)  /
 #         ^^^           variable.other.makefile
-#       ^^   ^          punctuation.definition.variable.makefile
-#               ^     - punctuation.definition.variable.makefile
+#       ^^              punctuation.definition.template-expression.begin.makefile
+#            ^          punctuation.definition.template-expression.end.makefile
+#               ^     - punctuation.definition.template-expression.end.makefile
 
 t6__: a_$(bb\)_x)   ##  /^\Qt6__: a_bbB_x)/
 #         ^^^           variable.other.makefile
-#       ^^   ^          punctuation.definition.variable.makefile
-#               ^     - punctuation.definition.variable.makefile
+#       ^^              punctuation.definition.template-expression.begin.makefile
+#            ^          punctuation.definition.template-expression.end.makefile
+#               ^     - punctuation.definition.template-expression.end.makefile
 
 t7__: a_$(b\\)_x)   ##  /^\Qt7__: a_bBB_x)/
 #         ^^^           variable.other.makefile
-#       ^^   ^          punctuation.definition.variable.makefile
-#               ^     - punctuation.definition.variable.makefile
+#       ^^              punctuation.definition.template-expression.begin.makefile
+#            ^          punctuation.definition.template-expression.end.makefile
+#               ^     - punctuation.definition.template-expression.end.makefile

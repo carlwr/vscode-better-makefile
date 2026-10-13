@@ -50,7 +50,8 @@ define def3
 
 	$(tab) # tab-ind.
 #  ^^^               variable.other.makefile
-#^^   ^              punctuation.definition.variable.makefile
+#^^                  punctuation.definition.template-expression.begin.makefile
+#     ^              punctuation.definition.template-expression.end.makefile
 
 endef
 

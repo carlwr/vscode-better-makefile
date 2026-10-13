@@ -35,7 +35,9 @@ __target  ____B: p
 
 $(var)         : p
 # ^^^              variable.other.makefile
-#<-                punctuation.definition.variable.makefile
+#<-                punctuation.definition.template-expression.begin.makefile
+#^                 punctuation.definition.template-expression.begin.makefile
+#    ^             punctuation.definition.template-expression.end.makefile
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
 $v:
 #^                 meta.scope.target.makefile

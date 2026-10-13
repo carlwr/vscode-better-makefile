@@ -46,11 +46,9 @@ __miscAnchors:
     variable.other.assignment.makefile
 
 - &SCOPE_expPunct_open >-
-    punctuation.definition.variable.makefile
     punctuation.definition.template-expression.begin.makefile
 
 - &SCOPE_expPunct_close >-
-    punctuation.definition.variable.makefile
     punctuation.definition.template-expression.end.makefile
 
 - &SCOPE_recipe__ >-
@@ -989,14 +987,15 @@ repository:
         variable.parameter.automatic.makefile
     # ...$@; cursor on $:
     - match: (?x) (\$) ([@%<?^+|*])
-      name: >-
-        variable.parameter.automatic.makefile
       captures:
         "1":
           name: >-
             punctuation.definition.variable.makefile
+            variable.parameter.automatic.makefile
         "2":
-          name: meta.scope.expansion.makefile
+          name: >-
+            meta.scope.expansion.makefile
+            variable.parameter.automatic.makefile
 
   varname-positional:
     # structure + comments: see `varname-automatic`
@@ -1005,14 +1004,15 @@ repository:
       name: >-
         variable.parameter.positional.makefile
     - match: (?x) (\$) ([0-9])
-      name: >-
-        variable.parameter.positional.makefile
       captures:
         "1":
           name: >-
             punctuation.definition.variable.makefile
+            variable.parameter.positional.makefile
         "2":
-          name: meta.scope.expansion.makefile
+          name: >-
+            meta.scope.expansion.makefile
+            variable.parameter.positional.makefile
 
   varname-userSingleChar:
     # with e.g. $c, cursor is always on $

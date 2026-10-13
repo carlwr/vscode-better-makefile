@@ -15,7 +15,8 @@ scoping0 = $c
 scoping1 = $(var)
 #            ^^^    variable.other.makefile
 #            ^^^    meta.scope.expansion.makefile
-#          ^^   ^   punctuation.definition.variable.makefile
+#          ^^       punctuation.definition.template-expression.begin.makefile
+#               ^   punctuation.definition.template-expression.end.makefile
 
 
 # ------------- in assignment-RHSs, in rule heads ------------- #
@@ -44,7 +45,6 @@ aaab = $c
 #      ^            punctuation.definition.variable.makefile
 
 aaac = $(c)a
-#      ^^ ^         punctuation.definition.variable.makefile
 #        ^          meta.scope.expansion.makefile
 #      ^^           punctuation.definition.template-expression.begin.makefile
 #         ^         punctuation.definition.template-expression.end.makefile
@@ -60,7 +60,8 @@ aaad = $cX
 #        ^        - meta.scope.expansion.makefile
 
 targt: $(TGT)
-#      ^^   ^       punctuation.definition.variable.makefile
+#      ^^           punctuation.definition.template-expression.begin.makefile
+#           ^       punctuation.definition.template-expression.end.makefile
 #        ^^^        meta.scope.expansion.makefile
 
 $(e) = $(EXP)
@@ -84,7 +85,8 @@ $(V) : $(exp)
 
 
 nest = $(nst$(INR))s
-#      ^^   ^^   ^^      punctuation.definition.variable.makefile
+#      ^^   ^^      punctuation.definition.template-expression.begin.makefile
+#                ^^ punctuation.definition.template-expression.end.makefile
 
 
 
@@ -92,4 +94,5 @@ nest = $(nst$(INR))s
 
 targ:
 	cmd $(AAA)
-#    ^^   ^             punctuation.definition.variable.makefile
+#    ^^             punctuation.definition.template-expression.begin.makefile
+#         ^         punctuation.definition.template-expression.end.makefile

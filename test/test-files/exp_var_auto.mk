@@ -32,12 +32,16 @@ usr = $(u)A
 nme = $(@D)n
 #       ^^     variable.parameter.automatic.makefile
 #^^^^^^^  ^  - variable.parameter.automatic.makefile
-#     ^^  ^    punctuation.definition.variable.makefile
+#     ^^       punctuation.definition.template-expression.begin.makefile
+#         ^    punctuation.definition.template-expression.end.makefile
+#     ^^  ^  - punctuation.definition.variable.makefile
 
 NME = ${@D}N
 #       ^^     variable.parameter.automatic.makefile
 #^^^^^^^  ^  - variable.parameter.automatic.makefile
-#     ^^  ^    punctuation.definition.variable.makefile
+#     ^^       punctuation.definition.template-expression.begin.makefile
+#         ^    punctuation.definition.template-expression.end.makefile
+#     ^^  ^  - punctuation.definition.variable.makefile
 
 
 # ------------------------- negatives ------------------------- #
@@ -76,7 +80,9 @@ usr = $$@
 
 N =$(%:a%=%)
 #    ^         variable.parameter.automatic.makefile
-#  ^^      ^   punctuation.definition.variable.makefile
+#  ^^          punctuation.definition.template-expression.begin.makefile
+#          ^   punctuation.definition.template-expression.end.makefile
+#  ^^      ^ - punctuation.definition.variable.makefile
 #       ^ ^    constant.other.placeholder.substref.percent.makefile
 #     ^^^^^    meta.substref.makefile
 #    ^^^^^^    meta.scope.expansion.makefile
@@ -112,11 +118,13 @@ zzz = $(*F)
 h = $(h$@h)
 #      ^^      variable.parameter.automatic.makefile
 #^^^^^^  ^^  - variable.parameter.automatic.makefile
-#   ^^ ^  ^    punctuation.definition.variable.makefile
+#      ^       punctuation.definition.variable.makefile
+#   ^^         punctuation.definition.template-expression.begin.makefile
+#         ^    punctuation.definition.template-expression.end.makefile
 
 i =  $($@)
 #      ^^      variable.parameter.automatic.makefile
-#    ^^^ ^     punctuation.definition.variable.makefile
+#      ^       punctuation.definition.variable.makefile
 
 j=$(if $@,j,)
 #      ^^      variable.parameter.automatic.makefile

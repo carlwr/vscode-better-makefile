@@ -23,7 +23,9 @@ $(v#)#cmt
 # ^^             variable.other.makefile
 ${var$(VAR)}
 # ^^^  ^^^       variable.other.makefile
-#^   ^^   ^^     punctuation.definition.variable.makefile
+#<-              punctuation.definition.template-expression.begin.makefile
+#^   ^^          punctuation.definition.template-expression.begin.makefile
+#         ^^     punctuation.definition.template-expression.end.makefile
 
 
 # tests

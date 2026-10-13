@@ -5,6 +5,8 @@
 
 
 name = $(nme)
+#      ^^           punctuation.definition.template-expression.begin.makefile
+#           ^       punctuation.definition.template-expression.end.makefile
 #        ^^^        variable.other.makefile
 #^^^^^^^^   ^     - variable.other.makefile
 #<-               - variable.other.makefile
@@ -54,6 +56,8 @@ ccc =    $$r
 #        ^^^      - variable.other.makefile
 #        ^^^      - punctuation.definition.variable.makefile
 #        ^^^      - meta.scope.expansion.makefile
+#        ^^^      - punctuation.definition.template-expression.begin.makefile
+#        ^^^      - punctuation.definition.template-expression.end.makefile
 
 
 ddd = $(v$$r)
@@ -78,28 +82,34 @@ $(E) : $(EXP)
 
 nest = $(nst$(inr))s
 #        ^^^  ^^^        variable.other.makefile
-#      ^^   ^^   ^^      punctuation.definition.variable.makefile
+#      ^^^^^^^^^^^^    - punctuation.definition.variable.makefile
+#      ^^   ^^           punctuation.definition.template-expression.begin.makefile
+#                ^^      punctuation.definition.template-expression.end.makefile
 #                  ^   - variable.other.makefile
 
 nest = ___$($(inr))s
 #             ^^^        variable.other.makefile
-#         ^^^^   ^^      punctuation.definition.variable.makefile
+#         ^^^^           punctuation.definition.template-expression.begin.makefile
+#                ^^      punctuation.definition.template-expression.end.makefile
 #      ^^^^^^^   ^^^   - variable.other.makefile
 
 
 nest = $(nst${inr})s
 #        ^^^  ^^^        variable.other.makefile
-#      ^^   ^^   ^^      punctuation.definition.variable.makefile
+#      ^^   ^^           punctuation.definition.template-expression.begin.makefile
+#                ^^      punctuation.definition.template-expression.end.makefile
 #                  ^   - variable.other.makefile
 
 nest = $(nst${i r})s
 #        ^^^  ^^^        variable.other.makefile
-#      ^^   ^^   ^^      punctuation.definition.variable.makefile
+#      ^^   ^^           punctuation.definition.template-expression.begin.makefile
+#                ^^      punctuation.definition.template-expression.end.makefile
 #                  ^   - variable.other.makefile
 
 NEST_: $(NST${INR})
 #        ^^^  ^^^        variable.other.makefile
-#      ^^   ^^   ^^      punctuation.definition.variable.makefile
+#      ^^   ^^           punctuation.definition.template-expression.begin.makefile
+#                ^^      punctuation.definition.template-expression.end.makefile
 
 
 # we prefer that nested punctuation does not inherit the outer `variable.other` scope [1]; this test has some chance of failing if that is not the case:
@@ -135,13 +145,17 @@ v_02 = $)
 
 x= _$(ab)c $(de$(fg)) $(words $(hi))
 #     ^^     ^^  ^^             ^^    variable.other.makefile
-#   ^^  ^  ^^  ^^  ^^ ^^      ^^  ^^  punctuation.definition.variable.makefile
+#   ^^     ^^  ^^     ^^      ^^      punctuation.definition.template-expression.begin.makefile
+#       ^          ^^             ^^  punctuation.definition.template-expression.end.makefile
 
 X: _$(AB)C $(DE$(FG)) $(words $(HI))
 #     ^^     ^^  ^^             ^^    variable.other.makefile
-#   ^^  ^  ^^  ^^  ^^ ^^      ^^  ^^  punctuation.definition.variable.makefile
+#   ^^     ^^  ^^     ^^      ^^      punctuation.definition.template-expression.begin.makefile
+#       ^          ^^             ^^  punctuation.definition.template-expression.end.makefile
 
 
 # NOT in $(comment)
 #          ^^^^^^^                  - variable.other.makefile
-#        ^^       ^                 - punctuation.definition.variable.makefile
+#        ^^^^^^^^^^                 - punctuation.definition.variable.makefile
+#        ^^^^^^^^^^                 - punctuation.definition.template-expression.begin.makefile
+#        ^^^^^^^^^^                 - punctuation.definition.template-expression.end.makefile

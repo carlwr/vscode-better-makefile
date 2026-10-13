@@ -5,7 +5,8 @@
 
 vpath % $(VAR)
 #         ^^^         variable.other.makefile
-#       ^^   ^        punctuation.definition.variable.makefile
+#       ^^            punctuation.definition.template-expression.begin.makefile
+#            ^        punctuation.definition.template-expression.end.makefile
 
 vpath $(v:%o=%c)
 #       ^             variable.other.makefile
@@ -17,11 +18,13 @@ vpath $(v:%o=%c)
 
 ifeq ($(VAR),b)
 #       ^^^          variable.other.makefile
-#     ^^   ^         punctuation.definition.variable.makefile
+#     ^^             punctuation.definition.template-expression.begin.makefile
+#          ^         punctuation.definition.template-expression.end.makefile
 #           ^        punctuation.separator.delimiter.comma.condition.makefile
 endif
 
 ifdef $(VAR)
 #       ^^^          variable.other.makefile
-#     ^^   ^         punctuation.definition.variable.makefile
+#     ^^             punctuation.definition.template-expression.begin.makefile
+#          ^         punctuation.definition.template-expression.end.makefile
 endif

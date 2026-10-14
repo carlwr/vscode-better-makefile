@@ -28,6 +28,7 @@ load f.so(f)
 #^^^             keyword.control.load.makefile
 #         ^      meta.scope.load-symbolname.makefile
 #        ^ ^     punctuation.definition.parameters.load-symbolname.makefile
+#        ^ ^     punctuation.section.load-symbolname.makefile
 
 load dd$$_
 #^^^             keyword.control.load.makefile
@@ -48,7 +49,10 @@ load f.so(s\\\
 # _not_ load directives
 # ---------------------
 
-loadVar := value
+load# lone `load` -> don't scope
+#^^^           - keyword.control.load.makefile
+
+loadVar := val
 #^^^^^^        - keyword.control.load.makefile
 
 load: prereq

@@ -356,7 +356,7 @@ repository:
 
       load:
         patterns:
-        - begin: ^[ ]*([-]?load)\b
+        - begin: ^[ ]*([-]?load)(?=[ \t])
           beginCaptures:
             "1": { name: keyword.control.load.makefile }
           end:   ^
@@ -368,11 +368,13 @@ repository:
         repository:
           load-symbolname:
             begin: (?x) \(
+            beginCaptures:
+              "0": { name: punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile }
             end:   (?x) \) | (?=\n)
+            endCaptures:
+              "0": { name: punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile }
             applyEndPatternLast: 1
             contentName: meta.scope.load-symbolname.makefile
-            captures:
-              "0": { name: punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile}
             patterns:
             - include: "#doubleDollar"
             - include: "#expansions"

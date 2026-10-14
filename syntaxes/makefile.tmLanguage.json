@@ -342,7 +342,7 @@
         "load": {
           "patterns": [
             {
-              "begin": "^[ ]*([-]?load)\\b",
+              "begin": "^[ ]*([-]?load)(?=[ \\t])",
               "beginCaptures": {
                 "1": {
                   "name": "keyword.control.load.makefile"
@@ -369,13 +369,18 @@
             "load-symbolname": {
               "applyEndPatternLast": 1,
               "begin": "(?x) \\(",
-              "captures": {
+              "beginCaptures": {
                 "0": {
                   "name": "punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile"
                 }
               },
               "contentName": "meta.scope.load-symbolname.makefile",
               "end": "(?x) \\) | (?=\\n)",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.parameters.load-symbolname.makefile punctuation.section.load-symbolname.makefile"
+                }
+              },
               "patterns": [
                 {
                   "include": "#doubleDollar"

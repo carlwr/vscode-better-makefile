@@ -5,6 +5,7 @@ constant.character.escape.dollar.makefile
 constant.character.escape.line-continuation.makefile
 constant.other.placeholder.percent.makefile
 constant.other.placeholder.substref.percent.makefile
+constant.other.placeholder.wildcard.makefile
 entity.name.function.target.makefile
 keyword.control.$1.makefile
 keyword.control.$2.makefile
@@ -59,7 +60,6 @@ punctuation.separator.substref.colon.makefile
 punctuation.separator.substref.equal.makefile
 punctuation.whitespace.comment.leading.makefile
 source.makefile
-string.regexp.makefile
 string.unquoted.makefile
 support.function.$1.makefile
 support.function.target.$1.makefile
@@ -69,6 +69,7 @@ variable.language.special.wildcard.makefile
 variable.other.assignment.makefile
 variable.other.constant.percent.makefile
 variable.other.constant.substref.percent.makefile
+variable.other.constant.wildcard.makefile
 variable.other.makefile
 variable.parameter.automatic.makefile
 variable.parameter.positional.makefile

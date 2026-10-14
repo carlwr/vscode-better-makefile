@@ -1305,7 +1305,7 @@
             },
             {
               "match": "[*?\\[\\]]",
-              "name": "variable.language.special.wildcard.makefile string.regexp.makefile"
+              "name": "variable.language.special.wildcard.makefile variable.other.constant.wildcard.makefile constant.other.placeholder.wildcard.makefile"
             },
             {
               "match": ".*",

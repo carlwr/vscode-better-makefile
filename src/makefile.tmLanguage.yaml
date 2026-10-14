@@ -315,7 +315,8 @@ repository:
         - match: '[*?\[\]]'
           name: >-
             variable.language.special.wildcard.makefile
-            string.regexp.makefile
+            variable.other.constant.wildcard.makefile
+            constant.other.placeholder.wildcard.makefile
 
         - match: .*
           name: *SCOPE_str  # not expected to be assigned

@@ -178,10 +178,12 @@ substitution references (`$(file:%.c=%.o)` etc.)
   * -> see other bullet about `%` in general
 
 
-file wildcards
+file wildcards (e.g. `*`)
 * -> decide to scope:
-  * `variable.language.special.wildcard` (since: precedent with `better-shell-syntax`)
-  * VS Code Modern: `string.regexp` (since: is a scope that VS Code styles distinctively)
+  * `variable.language.special.wildcard`
+    * since: precedent with `better-shell-syntax`
+  * like `%`
+    * since: same reasons as for `%` + similar styling of `%` and file wildcards is intuitive
 
 
 `$c`, `$(` + `)`

@@ -2,17 +2,17 @@
 
 
 *: p
-#<-        variable.language.special.wildcard.makefile
 #<-        meta.scope.target.makefile
-#<-        string.regexp.makefile
+#<-        variable.language.special.wildcard.makefile variable.other.constant.wildcard.makefile constant.other.placeholder.wildcard.makefile
 #  ^       meta.scope.prerequisites.makefile
 
 
 targ: *
-#     ^    variable.language.special.wildcard.makefile
 #^^^       meta.scope.target.makefile
 #     ^    meta.scope.prerequisites.makefile
-#     ^    string.regexp.makefile
+#     ^    variable.language.special.wildcard.makefile
+#     ^    variable.other.constant.wildcard.makefile
+#     ^    constant.other.placeholder.wildcard.makefile
 
 _?_*: [ _]
 #^ ^  ^  ^ variable.language.special.wildcard.makefile

@@ -41,7 +41,6 @@ __miscAnchors:
 
 - &SCOPE_var >-
     variable.other.makefile
-    variable.other.string.makefile
 
 - &SCOPE_varAsgn >-
     variable.other.assignment.makefile

@@ -74,6 +74,5 @@ variable.other.constant.makefile
 variable.other.constant.percent.makefile
 variable.other.constant.substref.percent.makefile
 variable.other.makefile
-variable.other.string.makefile
 variable.parameter.automatic.makefile
 variable.parameter.positional.makefile

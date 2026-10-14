@@ -4,7 +4,7 @@ The grammar tests use the npm package `vscode-tmgrammar-test`. It is a port of /
 
 `vscode-tmgrammar-test` lacks documentation, but SublimeText's grammar test documentation is mostly valid also for `vscode-tmgrammar-test`.
 
-In the directory of this files, the following files, with filename prefix `_ref_`, can be found:
+In the directory of this file, the following files, with filename prefix `_ref_`, can be found:
 
 1. SublimeText's grammar test documentation webpage in markdown format
 

@@ -150,7 +150,7 @@ substitution references (`$(file:%.c=%.o)` etc.)
 * :, =
   * -> decide to scope:
     * `keyword.operator.substref`
-      * since: follows how `better-shell-syntax` scopes `##` in `${var##repl}` (scopes with `keyword.operator.expansion.shell`
+      * since: follows how `better-shell-syntax` scopes `##` in `${var##repl}` (scopes with `keyword.operator.expansion.shell`)
     * `support.function.*` (styled well by VS Code)
     * `keyword.operator.*` (styled well by Catppuccin)
 * %-s
@@ -167,7 +167,7 @@ file wildcards
 * -> decide to scope:
   * `$` in `$c` with `punctuation.section.embedded`
   * `$(` + `)` with `punctuation.definition.template-expression.{begin,end}`
-  * since: presedence in several other grammars + styled by VS Code themes
+  * since: precedent in several other grammars + styled by VS Code themes
   * (also scope all these with `punctuation.definition.variable`)
 * other grammars
   * `better-shell-syntax`
@@ -196,9 +196,9 @@ file wildcards
     * `punctuation` with `overlay2`
       * (no `punctuation.*` that is immediately applicable, and != text)
     * `punctuation.definition.variable` with `text`
-      * -> I can't override this with some other scope that will win in specificity; accept that standard carppuccin will style this as text
+      * -> I can't override this with some other scope that will win in specificity; accept that standard Catppuccin will style this as text
     * `variable.parameter` with `maroon`
-      * * (no `variable.*` that is immediately applicable, and != text)
+      * (no `variable.*` that is immediately applicable, and != text)
     * `string.template variable` with `text`
 
 

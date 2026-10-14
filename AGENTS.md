@@ -1,14 +1,14 @@
 _This file is `AGENTS.md`. `CLAUDE.md` is a symlink pointing to this file._
 
 
-## README.md
+## README.md files
 
-README.md is and remains the voice of the human maintainer.
+Any `README.md` files within the repo are the voice of the human maintainer.
 
 Agents _may not_:
 - edit the prose
 - suggest changes to the prose
-- suggest prose to put into the file
+- suggest prose to put into such files
 - inform about grammatic errors or non-idiomatic phrasing
 
 Agents _may_:
@@ -32,6 +32,7 @@ Agents _may_:
   - avoid referencing specific file names or identifier names
   - avoid claims about things in other files
 
+
 ## Commits
 
 For commits by agents:
@@ -40,3 +41,25 @@ For commits by agents:
   - max. 55 chars, preferably a bit shorter
   - phrased in imperative
   - follow patterns used in the existing commit history
+
+
+## Commit history re-writing
+
+recipe:
+- commit on top of branch tip so desired end state, or close to it, becomes the branch tip
+- attach a backup tag to the (possibly new) branch tip
+- re-write commit history
+- compare new branch tip to the backup tag; assert byte-equality or inspect the diff is as expected
+- consider
+  - reading new intermediate commit diffs so they are as expected
+  - running a suitable `rebase -x ..` command to verify source<->generated align + all tests pass
+- verify not compromised, unless necessary:
+  - previous pure file moves (similarity=100%, or high)
+  - previous intact move of line chunks
+- remove the backup tag
+
+Never re-write pushed commits unless the user explicitly asks for that.
+
+## Other rules
+
+Agents and subagents are not allowed to list files, read files or write to anything under `.non-vcs/`, unless explicitly asked to by the user; e.g. by the user mentioning that dir or files in it.

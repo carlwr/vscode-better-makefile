@@ -30,6 +30,12 @@ Just install the extension - no other action is needed; _VS Code_ will automatic
 
 &nbsp;
 
+## Footprint
+
+All functionality is shipped through two JSON files; there is no code that is run. This means there should be no impact on startup time and a near-zero security surface.
+
+&nbsp;
+
 ## Improvements
 
 Improvements vs. the default _VS Code_ treatment of makefiles include:
@@ -50,8 +56,9 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
 - avoids a number of bugs in the default grammar — for example, this grammar:
   - correctly scopes rules and variable assignments that start with an expansion (`$(objs): common.h`)
   - correctly scopes ruleheads with line continuation before the rulehead separator
-  - `:`s and `=`s in substitution references are not mistaken for rulehead separators or assignment operators
-  - a `:` in a comment does not mistake the line for a rulehead (`not  # a : rulehead`)
+  - does not mistake `:`s and `=`s in substitution references for rulehead separators or assignment operators
+  - does not mistake `:` in a comment for a rulehead (`not  # a : rulehead`)
+  - does not break the highlighting for the rest of the file with valid syntax such as e.g. `defines-headers: defs.h`
 
 **Word highlighting and brackets:**
 - word highlighting for words like `my-target: .myPrereqs` and `my-var := value` is done correctly
@@ -60,7 +67,7 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
 **Grammar robustness:**
 - unconditionally ends scopes on non-escaped newlines which avoids runaway highlighting for makefiles with incorrect syntax (and in case of bugs in the grammar itself)
 - provides _multiple_ scopes to syntax elements where appropriate, increasing the likelihood that themes provide appropriate highlighting
-- thorough automatic tests, including verification against _GNU `make`_'s parsing of the test file to ensure the grammar and _GNU `make`_ agree
+- thorough automatic tests, including test assertions on _GNU `make`_'s own syntactic interpretation, to help ensure the grammar and _GNU `make`_ agree
 
 **General:**
 - is updated with the latest _GNU `make`_ 4.4.1 syntax (e.g. available special targets, special variables, built-in functions)
@@ -143,13 +150,9 @@ The above is verified at build time and in CI.
 
 This `README.md` is authored entirely by me (Carl), a human developer; AI tools [were not allowed][AGENTS.md] to author text or suggest phrasing in it.
 
-The grammar itself was hand-rolled by me; so were the extensive tests and the testing set-up<sup>[1]</sup>. The majority of the work was done early 2025; experiments with the latest agentic tooling and models at that time still could not speed up the work compared with me hand-coding everything myself.
+The grammar itself was hand-rolled by me; so were the extensive tests and the [testing set-up](test/). The majority of the work was done early 2025; experiments with the latest agentic tooling and models at that time still could not speed up the work compared with me hand-coding everything myself.
 
-Post the 1.0 release (spring 2026) agentic tooling might be used for improvements and edits. This `README.md` file, however, remains [fully human-authored][AGENTS.md].
-
----
-
-<sup>[1]</sup>: The [test runner used in this project](./test/runner/Makefile) could be characterized as maybe _"a small custom-made test runner implemented in GNU make"_. It is quite unconventional but it does, I must say, serve its purpose reasonably well. Writing it as a Makefile allowed me to express it concisely and declaratively.
+Post the 1.0 release (spring 2026) agentic tooling might be used for improvements and edits. This and any other repo `README.md` files however are, and will always remain, [fully human-authored][AGENTS.md].
 
 
 <!----- links ----->

@@ -460,7 +460,7 @@ repository:
 
   __ruleheadBegin:
     # We must decide with a single regex whether we have a rulehead or not - make a sensible effort. The key is identifying the rulehead colon + friends reliably.
-    # Posessively eat anything that could be part of the target list before the colon, but importantly, NOT the colon - it must be carefully protected in the eating phase. When this eating is done, we are positioned to attempt to match one of the colon separators - if one matches, we go for a rulehead.
+    # Possessively eat anything that could be part of the target list before the colon, but importantly, NOT the colon - it must be carefully protected in the eating phase. When this eating is done, we are positioned to attempt to match one of the colon separators - if one matches, we go for a rulehead.
     match: &__ruleheadBegin |-
       (?x)
       ^(?!\t)    # recipe line - fail the match

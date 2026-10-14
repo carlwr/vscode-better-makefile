@@ -3,6 +3,11 @@ v = ${v__a_r}str  # cmt
 targ: prereq
 	echo $@
 	echo $c
+	echo $1
+	echo $(@)
+	echo $(@F)
+	echo $(var)
+	echo $(SHELL)
 
 # setting built-in vars:
 SHELL          = /bin/sh
@@ -168,10 +173,17 @@ v = $(v:x%x=y%y)  # % within
 v = $(v:x)  # not a subst. ref., but a variable named "v:x"
 
 myval  = $(call myfunc,first arg,secondArg)
-myval2 = $(patsubst first_arg,secondArg)
+myval2 = $(patsubst first_arg%,secondArg%)
 myval3 = $(noSuch first_arg,secondArg)
 myval4 = char is  $c   # expanding single-char var
 myval5 = char is $(c)  # expanding single-char var
+
+
+wildc = $(wildcard ./src/*.c)
+wildc = $(wildcard ~dpr/f.[a-d])
+
+wildc: ./src/*.c
+wildc: ~dpr?/f.[a-d]
 
 var = $(exp)_str
 var = $c_str
@@ -350,6 +362,7 @@ override LESSOPEN='| <%s|head|cowsay'
 export   var
 export   var := ho
 
+
 ifeq (1,1)
 $(info message text)
 var = val
@@ -365,6 +378,19 @@ else-target: else-prereq
 	gcc else-recipe
 
 endif
+
+ifeq '1','1'
+  $(info one == one)
+else
+  $(warning one != one)
+endif
+
+ifeq ('1','1')  # quotes are literal, not syntax
+  $(info one == one)
+else
+  $(warning one != one)
+endif
+
 
 $(eval something)
 

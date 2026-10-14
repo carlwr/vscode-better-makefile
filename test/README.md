@@ -1,118 +1,94 @@
-# running tests
+# Grammar tests
 
-command `make test` will
-* (if needed) convert the .yaml grammar to .json format
-* run all tests, namely all files `test/test-files/*.mk`:
-  * `test/test-files/*.XFAIL.mk`: expected to fail (prints warning if passing)
-  * all other: normal test; expected to pass
+Test files are `make`/`Makefile` syntax files with a `.mk` file extension. They follow a _lab notebook_ style.
 
-xfail test files:
-* are suitable for tests failing for a known reason, typically a known deficiency with the grammar
-* should have tests for _one specific feature of the grammar_
-  * since: the tests only report/detect one of two possible states for an XFAIL test file: 1.) at least one of the tests in the file failed, 2.) _all_ tests in the file _pass_
-  * -> if needed, divide xfail tests into separate files; use a suitable qualifying name (e.g. `assign.doubleColon.XFAIL.mk`) or even just a running counter (`assign.01.XFAIL.mk`)
+## Test runner
 
+The test runner is implemented in [`runner/Makefile`](runner/Makefile). It should be invoked with the repo root as the current dir.
 
-## useful command recipes
+The default target is `test`. It is the only target intended to be requested by the user.
 
-```bash
-# run tests for test files matching /.*nested.*/:
-make test --keep-going TESTS=nested HUMAN=1 NOTRACE= VERBOSE=
+These shell commands are equivalent, except that the first also re-generates the grammar:
+```sh
+# invoke through repo-root's Makefile:
+make test
 
-# query the make database for lines that include `myVar`:
-make -nps -f <file>.mk|grep myVar|cat -e|sort|less
+# invoke through the test-runner Makefile directly:
+make -f test/runner/Makefile
+make -f test/runner/Makefile test
 ```
 
+Environment variables can be used to select a subset of tests and to control the output. For details and defaults, see the [`runner/Makefile`](runner/Makefile) code.
 
-# test file syntax
+### Invocation example
 
-example test file with comments on the test file syntax in `<angle brackets>`:
-```makefile
-# SYNTAX TEST "source.makefile"
-# <above: required first line!>
-
-include $(inc)
-#^^^^^^          keyword.control.include.makefile
-
-# <above: there are ^-s at columns 2-7, followed by an arbitrary amount of whitespace, followed by the name of a scope: this test will pass if that scope is indeed the grammar-specified scope at columns 2-7 on the line `include $(inc)`.>
-
-#         ^^^    variable.other.makefile
-
-# <the line above specifies another test for the same line: lines with ^-s and scope names _apply to the closest non-commented line above it_. Hence, the line above will be a passing test iff columns 11, 12 and 13 for the line "include $(inc)" - i.e. the string "inc" on that line, are scoped with `variable.other.makefile`.>
-
-
-v = $(SHELL)str$(SHELL)
-#           ^^^         - variable.language.readwrite.makefile
-# <above: the ^-s point out where the scope must NOT apply: scope name preceded with "-">
-
-# any comments, like this one, may also be in the test file
-
-# to test the leftmost character/column, use "<-":
-$(SHELL): lessBadBash.c
-#<- entity.name.function.target.makefile
-
-# the following tests that both "%" characters are scoped correctly:
-%.c: %.o
-#<-      constant.other.placeholder.percent.makefile
-#    ^   constant.other.placeholder.percent.makefile
-
+```sh
+make test --keep-going TESTS=nest HUMAN=1 NOTRACE=1 VERBOSE=
 ```
 
-## tab characters
+The resulting test run:
+- won't stop at the first test failure
+- picks test files whose path match `/.*nest.*/`
+- will print colorized the terminal output
+- won't print traces
+- won't be verbose
 
-When aligning code with tab characters to ^ markers, the test engine will consider the tab character to be one (1) character - the following test file describes a test that will pass:
-```bash
-$ cat -t test.mk
-# SYNTAX TEST "source.makefile"
-target:
-^Iecho
-#<-      keyword.control.recipe-lineprefix.makefile
-#^^^^  - keyword.control.recipe-lineprefix.makefile
+## Test model
+
+kind     |tests what?     |expected to|assertions from files
+---      |---             |---        |---
+**xpass**|grammar scoping |pass       |_not_ named `*.XFAIL.mk`
+**xfail**|grammar scoping |fail       |named `*.XFAIL.mk`
+**parse**|`make` behaviour|pass       |(all files)
+
+
+### _xfail_ tests
+
+These are suitable for assertions failing for a known reason, typically a known deficiency with the grammar.
+
+An **xfail** test is a whole test file, with the expectation that _at least one_ of its grammar assertions fail. Therefore, _xfail_ test files should preferably test _at most one specific feature_ of the grammar.
+
+If all grammar assertions in an _xfail_ test file unexpectedly pass, a warning is printed.
+
+Any non-zero exit of `vscode-tmgrammar-test` is treated as an (expectedly) failing test.
+
+### _parse_ tests
+
+Full details + assertion syntax: see `parseTest --help` + the `parseTest` code.
+
+Each test file with parse assertions asks _GNU `make`_ for the _`make` database_ (`make -p`) of the file and runs the parse assertions against it. Any error message or non-zero exit of `make -p` is ignored; whatever part of the `make` database is produced is still used. This is by design; it allows parse assertions in test files that also include syntax causing non-fatal `make` errors.
+
+Any _parse test assertions_ in _xfail_ test files are _active_: it is a test failure if such an assertion fails.
+
+_Warning_: requesting the make database might cause `make` to execute shell commands (e.g. `var != command`); prefer to avoid such syntax in the test files.
+
+## Required system tools
+
+- GNU `make` 4.4+
+- `zsh`
+- `pcre2grep`
+- GNU `timeout` (optional; used if found)
+- `vscode-tmgrammar-test`
+  - install to expected location `node_modules/.bin/vscode-tmgrammar-test` with e.g. `pnpm install`, or set a custom path with `make test tmtest=..`
+
+## Test output example
+
+```sh
+make -f test/runner/Makefile test TESTS=feat
 ```
 
-## final newline
+Output:
 
-All files in the repo, including test files, should have a final newline.
-
-
-# parse tests
-
-details: see the `test/runner/parseTest` script itself
-
-
-# test file style guide
-
-* a "notebook-style" character to test files is OK
-* at most one scope name per line
-* vertically-align scope names (possibly not for the full file, but for subsections of the test file)
-* keep active lines _short_
-* use section headers where appropriate [1]
-* vary the contents on the active lines [1]
-
-example - some comments on the styling within `<angle brackets>`:
-```makefile
-
-# variable expansion on assignment RHS
-# ------------------------------------
-# <above: section heading!>
-
-a =  $(aaa)
-#      ^^^     variable.other.makefile
-b =  $(bbb)
-#      ^^^     variable.other.makefile
-c = _$(ccc)_
-#      ^^^     variable.other.makefile
-
-#              |<scopes vertically-aligned with this column!>
-#
-#      xxx <syntax lines are padded so all three scope specs are for these three same column indices - allows for three identical scope spec lines, and improves readability!>
 ```
+[ok   parse]         feat-new.XFAIL.mk
+[ok   parse]         main-feat.mk
+[ok   parse]         other-feature.mk
+[done parse] (n=3)
 
-[1]: since: that provides better anchoring of the text for diffs and merges with `git`
+[exp  xfail]         feat-new.XFAIL.mk
+[done xfail] (n=1)
 
-
-# about `vscode-tmgrammar-test`
-
-* may hang indefinitely with malformed scope specs
-  * (reason: the package seems they use an unfortunate regex that on mal-formed scope names gives a n^2 or x^n complexity on the computation)
-  * -> run with a timeout
+[ok   xpass]         main-feat.mk
+[ok   xpass]         other-feature.mk
+[done      ] (n=2)
+```

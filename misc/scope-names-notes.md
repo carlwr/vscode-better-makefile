@@ -170,8 +170,8 @@ substitution references (`$(file:%.c=%.o)` etc.)
   * -> decide to scope:
     * `keyword.operator.substref`
       * since: follows how `better-shell-syntax` scopes `##` in `${var##repl}` (scopes with `keyword.operator.expansion.shell`)
-    * `support.function.*` (styled well by VS Code)
     * `keyword.operator.*` (styled well by Catppuccin)
+      * requires: after `punctuation.separator.substref`, else Catppuccin: punctuation color
 * %-s
   * -> see other bullet about `%` in general
 

@@ -64,8 +64,6 @@ source.makefile
 string.regexp.makefile
 string.unquoted.makefile
 support.function.$1.makefile
-support.function.substref.colon.makefile
-support.function.substref.equal.makefile
 support.function.target.$1.makefile
 variable.language.constant.special.makefile
 variable.language.readwrite.special.makefile

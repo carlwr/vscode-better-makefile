@@ -42,7 +42,6 @@ main:v=V
 main: v=$(v:%o=%c)
 #     ^^^^^^^^^^^^   meta.expression.assignment.makefile
 #     ^              variable.other.assignment.makefile
-#          ^         support.function.substref.colon.makefile
 #             ^      punctuation.separator.substref.equal.makefile
 #^^^^^^^^^^^^^^^^^   meta.scope.rulehead.makefile
 #^^^                 entity.name.function.target.makefile

@@ -47,3 +47,10 @@ endif
 #^^^^            keyword.control.endif.makefile
 endif
 #^^^^          - keyword.control.endif.makefile
+
+
+# ------------------- known to be a variable ------------------ #
+
+ifdef         var
+#             ^^^ variable.other.makefile
+endif

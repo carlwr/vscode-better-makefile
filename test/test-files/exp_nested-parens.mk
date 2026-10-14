@@ -10,10 +10,10 @@
 # --------- spurious non-exp. delim not of outer type --------- #
 
 # delim of the other type, if unbalanced, is the literal character:
-v_c0 := a$(___{__#)a #CMT    ## /v_c0 := a(?#    )a $/
-v_c1 := a$(___}__#)a #CMT    ## /v_c1 := a(?#    )a $/
-v_c0_ = a$(___{__#)a #CMT    ## /v_c0_ = a\$\(.*\)a $/
-v_c1_ = a$(___}__#)a #CMT    ## /v_c1_ = a\$\(.*\)a $/
+v_c0 := a$(___{__#)a #CMT    ## /^v_c0 := a(?#    )a $/
+v_c1 := a$(___}__#)a #CMT    ## /^v_c1 := a(?#    )a $/
+v_c0_ = a$(___{__#)a #CMT    ## /^v_c0_ = a\$\(.*\)a $/
+v_c1_ = a$(___}__#)a #CMT    ## /^v_c1_ = a\$\(.*\)a $/
 
 T_c0 := a$(___{__#)a #CMT
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
@@ -24,43 +24,61 @@ T_c1 := a$(___}__#)a #CMT
 #          ^^^^^^^              variable.other.makefile
 #                    ^^^^       comment.line.number-sign.makefile
 
-v_h1 := a$(or },_#)a #CMT    ## /v_h1 := a}a $/
-v_h1_ = a$(or },_#)a #CMT    ## /v_h1_ = a\$\(.*\)a $/
+v_h1 := a$(or },_#)a #CMT    ## /^v_h1 := a}a $/
+v_h1_ = a$(or },_#)a #CMT    ## /^v_h1_ = a\$\(.*\)a $/
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+
+v_h1b:= a$(or _}_,)a #CMT    ## /^v_h1b :=\Q a_}_a \E$/
+#       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
+#                    ^^^^       comment.line.number-sign.makefile
+
+v_h1c:= a$(or (}),)a #CMT    ## /^v_h1c :=\Q a(})a \E$/
+#       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
+#                    ^^^^       comment.line.number-sign.makefile
+
 
 # with substref:
 
 T_c0a = a$(_:_{__#)a #CMT
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+#          ^                    variable.other.makefile
+#            ^^^^^              string.unquoted.makefile
 
 T_c0b = a$(___{:_#)a #CMT
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+#          ^^^^                 variable.other.makefile
+#               ^^              string.unquoted.makefile
 
 T_c0c = a$(___{:=#)a #CMT
 #       ^^^^^^^^^^^^          - comment.line.number-sign.makefile
 #                    ^^^^       comment.line.number-sign.makefile
+#          ^^^^                 variable.other.makefile
+#                ^              string.unquoted.makefile
 
 
 # ------- outermost delim type determines inner tracking ------ #
 
-T_d1:= a${_______${xxxxx}____#}a #CMT      ## /T_d1 := a.*a $/
+T_d1:= a${_______${xxxxx}____#}a #CMT      ## /^T_d1 := aa $/
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
+#                                ^^^^      comment.line.number-sign.makefile
+#         ^^^^^^^  ^^^^^ ^^^^^             variable.other.makefile
+
+T_d3:= a${________{xxx$(})___#}a #CMT      ## /^T_d3 := aa $/
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
+#                                ^^^^      comment.line.number-sign.makefile
+#         ^^^^^^^^^^^^  ^ ^^^^             variable.other.makefile
+
+T_f0:= a${or _____{xxxxx}____#}a #CMT      ## /^T_f0 := a_____{xxxxx}____#a $/
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                                ^^^^      comment.line.number-sign.makefile
 
-T_d3:= a${________{xxx$(})___#}a #CMT      ## /T_d3 := a.*a $/
+T_f1:= a${or ____${xxxxx}____#}a #CMT      ## /^T_f1 := a________#a $/
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                                ^^^^      comment.line.number-sign.makefile
-
-T_f0:= a${or _____{xxxxx}____#}a #CMT      ## /T_f0 := a.*a $/
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
-#                                ^^^^      comment.line.number-sign.makefile
-
-T_f1:= a${or ____${xxxxx}____#}a #CMT      ## /T_f1 := a.*a $/
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
-#                                ^^^^      comment.line.number-sign.makefile
+#                  ^^^^^                   variable.other.makefile
 
 
 # ------------ function call as the outer expansion ----------- #
@@ -78,9 +96,9 @@ v_g2:=  $(if y,(,n)a #b)c#cmt     ## /^\Qv_g2 := (,n)a #bc\E$/
 
 # note: there's no concept of "escaping delimiters"
 # ...in `\{`, `\` is just a character:
-v_e1 := a${_______\{xxxxx}____#}a #CMT   ## /v_e1 := a.*a $/
-v_e2 := a${________{xxxx\}____#}a #CMT   ## /v_e2 := a.*a $/
-v_e3 := a${________{xxxxx}___#\}a #CMT   ## /v_e3 := a.*a $/
+v_e1 := a${_______\{xxxxx}____#}a #CMT   ## /^v_e1 := a____#}a $/
+v_e2 := a${________{xxxx\}____#}a #CMT   ## /^v_e2 := a____#}a $/
+v_e3 := a${________{xxxxx}___#\}a #CMT   ## /^v_e3 := a___#\\}a $/
 
 # runtime error, unterminated call to if:
 #v_e0B:= a${B$(if (,t,-)X}Y#)a #CMT

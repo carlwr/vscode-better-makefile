@@ -6,6 +6,7 @@
 
 a =    $(VPATH)
 #        ^^^^^      variable.language.readwrite.makefile
+#        ^^^^^      meta.scope.expansion.makefile
 #^^^^^^^^     ^   - variable.language.readwrite.makefile
 #^^^^^^^^^^^^^^     meta.expression.assignment.makefile
 

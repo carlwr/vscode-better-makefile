@@ -90,11 +90,11 @@ cont_esc7 = c \\\\\\\
 # ----------------------- not line-cont. ---------------------- #
 
 # a \, if not preceding a <nl>, is not special:
-cont_var1 = a\b       ## /\Qcont_var1 = a\b/
+cont_var1 = a\b       ## /^\Qcont_var1 = a\b/
 #            ^      - punctuation.separator.continuation.makefile
-cont_trg1_: a\b       ## /\Qcont_trg1_: a\b/
+cont_trg1_: a\b       ## /^\Qcont_trg1_: a\b/
 #            ^      - punctuation.separator.continuation.makefile
-cont_var2 = \\b       ## /\Qcont_var2 = \\b/
+cont_var2 = \\b       ## /^\Qcont_var2 = \\b/
 #           ^^      - punctuation.separator.continuation.makefile
 
 
@@ -105,6 +105,6 @@ cont_var2 = \\b       ## /\Qcont_var2 = \\b/
 #   /* Discard each backslash-newline combination from LINE.
 #      Backslash-backslash-newline combinations become backslash-newlines.
 #      This is done by copying the text at LINE into itself.  */
-#   
+#
 #   void collapse_continuations (char *line) { .. }
 

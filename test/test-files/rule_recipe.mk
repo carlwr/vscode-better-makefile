@@ -3,6 +3,7 @@
 one:
 	cmd
 #^^^       meta.scope.recipe.makefile
+#<-      - meta.scope.recipe.makefile
 
 two:
 	vax

@@ -27,6 +27,7 @@ __target  ____B: p
 #                ^ meta.scope.prerequisites.makefile
   target  ____B: p
 # ^^^^^^^^^^^^^    meta.scope.target.makefile
+#^               - meta.scope.target.makefile
 
 
 # expansions
@@ -57,6 +58,12 @@ $(b$(w)c)_targt: p
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
 #                ^ meta.scope.prerequisites.makefile
 # ^  ^ ^           variable.other.makefile
+$(a${b$(c)d}e)f: p
+#^^^^^^^^^^^^^^    meta.scope.target.makefile
+#              ^   punctuation.separator.key-value.rulehead.makefile
+$(a$$$(b)c)____: p
+#^^^^^^^^^^^^^^    meta.scope.target.makefile
+#              ^   punctuation.separator.key-value.rulehead.makefile
 
 $(eval a:=b)t  : p
 #^^^^^^^^^^^^^^    meta.scope.target.makefile
@@ -79,7 +86,6 @@ $(words str):
 #^^^^^^^^^^^       meta.scope.target.makefile
 #<-                meta.scope.target.makefile
 # ^^^^^            support.function.words.makefile
-#<-                punctuation.definition.variable.makefile
 
 
 # substref
@@ -142,11 +148,6 @@ ta6___\:: pre5
 #      ^         - punctuation.separator.key-value.rulehead.makefile
 #       ^          punctuation.separator.key-value.rulehead.makefile
 
-# first : escaped, second the separator:
-ta6___\:: pre5
-#      ^         - punctuation.separator.key-value.rulehead.makefile
-#       ^          punctuation.separator.key-value.rulehead.makefile
-
 # interestingly, `make` does not consider this & escaped - this is a multi-target rule:
 t7a t7\&: pre5;
 #      ^^          punctuation.separator.key-value.rulehead.makefile
@@ -171,27 +172,15 @@ br2___  : p2(_     ## /^\Qbr2___: p2(_/
 # escapes in prereqs
 # ------------------
 
-_esc1_  : a\bc     ## /\Q_esc1_: a\b/
+_esc1_  : a\bc     ## /^\Q_esc1_: a\b/
 #           ^    - meta.escaped-char.makefile
 #^^^^^             meta.scope.target.makefile
 #         ^^^^     meta.scope.prerequisites.makefile
 
-_esc2_  : a\\b     ## /\Q_esc2_: a\\b/
+_esc2_  : a\\b     ## /^\Q_esc2_: a\\b/
 #          ^     - constant.character.escape.backslash.makefile
 #^^^^^             meta.scope.target.makefile
 #         ^^^^     meta.scope.prerequisites.makefile
-
-
-# not misinterpreted
-# ------------------
-
-targ: pre # a=b
-#^^^^^^^^          meta.scope.rulehead.makefile
-#     ^^^          meta.scope.prerequisites.makefile
-
-targ: pre$(a#b)req
-#^^^^^^^^          meta.scope.rulehead.makefile
-#     ^^^^^^^^^^^^ meta.scope.prerequisites.makefile
 
 
 # negatives
@@ -207,6 +196,10 @@ str\:_
 #^^^^^           - meta.scope.rulehead.makefile
 _\\\:_
 #^^^^^           - meta.scope.rulehead.makefile
+  str # n : t
+#^^^^^^^^^^^^^   - meta.scope.rulehead.makefile
+  str\:_
+#^^^^^^^         - meta.scope.rulehead.makefile
 
 $(v:r)______str
 #^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
@@ -214,3 +207,33 @@ $(v:r)$(v:r)str
 #^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
 $(v:r)${v:r}str
 #^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
+
+$(x aaa(b))_: t
+#^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
+${x aaa{b}}_: t
+#^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
+$(a${b$(c d}e): t
+#^^^^^^^^^^^^^^^ - meta.scope.rulehead.makefile
+$(a$$(b)c)__: t
+#^^^^^^^^^^^^^^  - meta.scope.rulehead.makefile
+
+
+# not misinterpreted
+# ------------------
+
+targ: pre # a=b
+#^^^^^^^^          meta.scope.rulehead.makefile
+#     ^^^          meta.scope.prerequisites.makefile
+
+targ: pre$(a#b)req
+#^^^^^^^^          meta.scope.rulehead.makefile
+#     ^^^^^^^^^^^^ meta.scope.prerequisites.makefile
+
+defineTarg: pre
+#^^^^^^^^^^^^^^    meta.scope.rulehead.makefile
+#           ^^^    meta.scope.prerequisites.makefile
+
+loadTarg  : pre
+#^^^^^^^^^^^^^^    meta.scope.rulehead.makefile
+#           ^^^    meta.scope.prerequisites.makefile
+

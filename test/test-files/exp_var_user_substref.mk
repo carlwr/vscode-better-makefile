@@ -2,6 +2,8 @@
 
 
 v = $(s____:f____%=r$(v)%)
+#     ^^^^^               variable.other.makefile
+#           ^^^^^  ^      string.unquoted.makefile
 #          ^              punctuation.separator.substref.colon.makefile
 #          ^              keyword.operator.substref.colon.makefile
 #          ^              support.function.substref.colon.makefile
@@ -11,8 +13,11 @@ v = $(s____:f____%=r$(v)%)
 #                ^      ^ constant.other.placeholder.substref.percent.makefile
 #                ^      ^ keyword.other.operator.substref.percent.makefile
 #                ^      ^ variable.other.constant.substref.percent.makefile
+#            ^^^^^^^^^^^^ meta.substref.makefile
+#     ^^^^^^^^^^^^^^^^^^^ meta.scope.expansion.makefile
 
 v = $(s$(v):f____%=r____%)
+#     ^  ^                variable.other.makefile
 #          ^              punctuation.separator.substref.colon.makefile
 #                 ^       punctuation.separator.substref.equal.makefile
 #                ^      ^ constant.other.placeholder.substref.percent.makefile
@@ -20,17 +25,14 @@ v = $(s$(v):f____%=r____%)
 
 
 v = $(s:f$(t:%u=%v)%=w%)
-#   ^^   ^^       ^    ^  punctuation.definition.variable.makefile
 #      ^    ^             punctuation.separator.substref.colon.makefile
 #              ^    ^     punctuation.separator.substref.equal.makefile
 #            ^  ^  ^  ^   constant.other.placeholder.substref.percent.makefile
 v = $(s:f${t:%u=%v}%=w%)
-#   ^^   ^^       ^    ^  punctuation.definition.variable.makefile
 #      ^    ^             punctuation.separator.substref.colon.makefile
 #              ^    ^     punctuation.separator.substref.equal.makefile
 #            ^  ^  ^  ^   constant.other.placeholder.substref.percent.makefile
 v = ${s:f$(t:%u=%v)%=w%}
-#   ^^   ^^       ^    ^  punctuation.definition.variable.makefile
 #      ^    ^             punctuation.separator.substref.colon.makefile
 #              ^    ^     punctuation.separator.substref.equal.makefile
 #            ^  ^  ^  ^   constant.other.placeholder.substref.percent.makefile
@@ -45,7 +47,6 @@ v = $(s____:f____%=r$(v)%)
 
 aa = $(A:find=repl)
 #      ^                 variable.other.makefile
-#    ^^           ^      punctuation.definition.variable.makefile
 
 
 bb = $(B:find=repl)
@@ -59,32 +60,34 @@ cc = $(C:%fnd=%rpl)
 
 dd = $(D:find=re$(V)pl)
 #      ^          ^      variable.other.makefile
-#    ^^         ^^ ^  ^  punctuation.definition.variable.makefile
 
 d2 = $(D$(v):f%=r%)
 #      ^  ^              variable.other.makefile
-#    ^^ ^^ ^      ^      punctuation.definition.variable.makefile
 #           ^            punctuation.separator.substref.colon.makefile
 #              ^         punctuation.separator.substref.equal.makefile
 
 gg = $(D:find=$$$(V)pl)
 #      ^          ^      variable.other.makefile
-#    ^^         ^^ ^  ^  punctuation.definition.variable.makefile
 #             ^^         constant.character.escape.dollar.makefile
 
 
-# TODO:
 ee = $(D:fi\
            n%=rep%)
-# cmt
+#           ^    ^       constant.other.placeholder.substref.percent.makefile
+#            ^           punctuation.separator.substref.equal.makefile
+#          ^  ^^^        string.unquoted.makefile
 
 ff = $(D:find=re$(V\
                    AR)pl)
-# cmt
+#                     ^^ string.unquoted.makefile
+#                  ^^    variable.other.makefile
+
 
 # --------------------- in misc. contexts --------------------- #
 
 e=$(e$(E:%fnd=%rpl))
+#   ^  ^                 variable.other.makefile
+#         ^^^  ^^^       string.unquoted.makefile
 #       ^                punctuation.separator.substref.colon.makefile
 #            ^           punctuation.separator.substref.equal.makefile
 #        ^    ^          constant.other.placeholder.substref.percent.makefile

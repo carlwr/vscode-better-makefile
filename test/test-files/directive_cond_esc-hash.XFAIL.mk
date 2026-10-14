@@ -12,4 +12,5 @@ ifdef FOO\#bar
 #          ^^^   variable.other.makefile
 escapedHash := ok
 endif
+## /^FOO#bar = yes/
 ## /^escapedHash := ok/

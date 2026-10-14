@@ -16,10 +16,12 @@ v_i1 := a$(_{#}_#)a #CMT          ## /^\Qv_i1 := aa \E$/
 T_i0_ = a$(_{#}_#)a #CMT
 #       ^^^^^^^^^^^             - comment.line.number-sign.makefile
 #                   ^^^^          comment.line.number-sign.makefile
+#          ^^^^^^                 variable.other.makefile
 
 T_i1:= a$(_{#}_#)a #CMT
 #      ^^^^^^^^^^^              - comment.line.number-sign.makefile
 #                  ^^^^           comment.line.number-sign.makefile
+#         ^^^^^^                  variable.other.makefile
 
 
 # raw ()s within $(<func> ..)
@@ -46,3 +48,7 @@ T_j0_ = a$(or x,(#)_#)a #CMT
 T_k0_ = a$(or x,{#}_#)a #CMT
 #       ^^^^^^^^^^^^^^^         - comment.line.number-sign.makefile
 #                       ^^^^      comment.line.number-sign.makefile
+
+T_k0b = a$(or x,_{#}_#)a #CMT
+#       ^^^^^^^^^^^^^^^^        - comment.line.number-sign.makefile
+#                        ^^^^     comment.line.number-sign.makefile

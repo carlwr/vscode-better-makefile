@@ -16,6 +16,11 @@ override FOO = foo
 #        ^^^^^^^^^   meta.expression.assignment.makefile
 #        ^^^         variable.other.assignment.makefile
 
+private  FOO = foo
+#            ^       keyword.operator.assignment.makefile
+#        ^^^^^^^^^   meta.expression.assignment.makefile
+#        ^^^         variable.other.assignment.makefile
+
 
 # -------- directives where assignment may _not_follow -------- #
 

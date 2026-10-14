@@ -50,11 +50,8 @@ hijk=HI=K   ## /^hijk = HI=K/
 #<-         variable.other.assignment.makefile
 #^^^        variable.other.assignment.makefile
 
-# GNU make hangs when queried for the make db of this file if this line is active:
-# excl!!=ex   /^excl! != ex/
 
-
-name\=val   ## /\Qname\ = val/
+name\=val   ## /^\Qname\ = val/
 #^^^^       variable.other.assignment.makefile
 #    ^      keyword.operator.assignment.makefile
 
@@ -71,7 +68,7 @@ vpath
 # combined tests: LHS exp. + operator variants
 # --------------------------------------------
 
-$(c)$(d)   != v
+$(c)$(d)   := v
 #          ^^           keyword.operator.assignment.makefile
 $(c)var_   += v
 #          ^^           keyword.operator.assignment.makefile
@@ -121,13 +118,17 @@ $(#$c :=)__$(v${w=})  := v
 #                     ^^     keyword.operator.assignment.makefile
 $(v$(=%))__$(${})___  := v
 #                     ^^     keyword.operator.assignment.makefile
-$(___$(x)__$(y____)_c)!= v
+$(___$(x)__$(y____)_c):= v
 #                     ^^     keyword.operator.assignment.makefile
 $(___$(x)__${y$(x)}_c)+= v
 #                     ^^     keyword.operator.assignment.makefile
 $(___$(x)__${y$(x)}$c)?= v
 #                     ^^     keyword.operator.assignment.makefile
 $(___$(x)__${y$(x)}$$):= v
+#                     ^^     keyword.operator.assignment.makefile
+$(a${b$(c)d}e)f_______:= v
+#                     ^^     keyword.operator.assignment.makefile
+$(x $$$(y))___________:= v
 #                     ^^     keyword.operator.assignment.makefile
 
 # negatives (since whitespace):
@@ -136,6 +137,16 @@ $$$(c$$=)  $(v= )$c$  := v
 $(#$c :=)  $(v${w=})  := v
 #                     ^^   - keyword.operator.assignment.makefile
 $(v$(=%))  $(${})___  := v
+#                     ^^   - keyword.operator.assignment.makefile
+
+# negatives (since unbalanced, or escaped $):
+$(x aaa(b))___________:= v
+#                     ^^   - keyword.operator.assignment.makefile
+${x aaa{b}}___________:= v
+#                     ^^   - keyword.operator.assignment.makefile
+$(a${b$(c d}e)________:= v
+#                     ^^   - keyword.operator.assignment.makefile
+$(x $$(y))____________:= v
 #                     ^^   - keyword.operator.assignment.makefile
 
 

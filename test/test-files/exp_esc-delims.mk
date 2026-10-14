@@ -6,14 +6,14 @@
 
 # helper vars:
 
-bbB  := bb\\#       ## /(?x) ^  \QbbB := bb\\E  $  /
-bBB  := b\\\\#      ## /(?x) ^  \QbBB := b\\\E  $  /
+bbB  := bb\\#       ## /^(?x)   \QbbB := bb\\E  $  /
+bBB  := b\\\\#      ## /^(?x)   \QbBB := b\\\E  $  /
 
 
 # create vars with names that include backslash:
 
-$(bbB) := bbB#      ## /(?x) ^  \Qbb\ := bbB\E  $  /
-$(bBB) := bBB#      ## /(?x) ^  \Qb\\ := bBB\E  $  /
+$(bbB) := bbB#      ## /^(?x)   \Qbb\ := bbB\E  $  /
+$(bBB) := bBB#      ## /^(?x)   \Qb\\ := bBB\E  $  /
 
 
 
@@ -23,7 +23,7 @@ $(bBB) := bBB#      ## /(?x) ^  \Qb\\ := bBB\E  $  /
 # make behaviour: `$(..\)` -> the \ is not special; does not escape the `)`
 #
 # below:
-# - the above is shown by the parseAssert tests 
+# - the above is shown by the parseAssert tests
 # - grammar adherence to the above is tested with the scope tests
 
 

@@ -20,8 +20,10 @@ endif
 endif
 #^^^^          - keyword.control.endif.makefile
 
-ifneq (ccc,)
-  ifeq (CCC,)
+ifneq (c:c,)
+#^^^^            keyword.control.ifneq.makefile
+  ifeq (C:C,)
+# ^^^^           keyword.control.ifeq.makefile
 		else
 # ^^^^           keyword.control.else.makefile
   endif

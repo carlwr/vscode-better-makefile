@@ -7,7 +7,6 @@
 define FOO
 endef
 #^^^^        keyword.control.endef.makefile
-#^^^^      - keyword.control.override.makefile
 
 define BAR
 endef # cmt

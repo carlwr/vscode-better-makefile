@@ -35,6 +35,7 @@ N = $(1:a%=%)
 #   ^^      ^  punctuation.definition.variable.makefile
 #        ^ ^   constant.other.placeholder.substref.percent.makefile
 #       ^^^^   meta.substref.makefile
+#     ^^^^^^   meta.scope.expansion.makefile
 
 
 # --------------------------- nested -------------------------- #

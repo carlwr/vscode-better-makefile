@@ -4,8 +4,9 @@ define aa1
 vpath
 #^^^^           - keyword.control.vpath.makefile
 #^^^^             meta.scope.define.makefile
+#^^^^             meta.scope.define.body.makefile
 endef
-
+#^^^^           - meta.scope.define.body.makefile
 
 define aa1b#cmt
 vpath
@@ -63,4 +64,12 @@ endef
 define eee
  #cmt space-ind
 #^^^^^^^^^^^^^^ - comment.line.number-sign.makefile
+endef
+
+define fff
+#^^^^^^^^^      - meta.scope.define.body.makefile
+endef
+
+define fff2 = #cmt
+#^^^^^^^^^^^^^^^^^  - meta.scope.define.body.makefile
 endef

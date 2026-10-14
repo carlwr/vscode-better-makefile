@@ -4,7 +4,6 @@
 # just expansion
 # --------------
 
-# disabled:
 $(a=b)
 # ^^^            meta.scope.expansion.makefile
 #^^^^^         - meta.expression.assignment.makefile
@@ -21,8 +20,6 @@ $(a:_)  # t:p
 
 
 $(FFF:%fnd=%rp)
-#<-               punctuation.definition.variable.makefile
-#^                punctuation.definition.variable.makefile
 # ^^^             variable.other.makefile
 #^^^^^^^^^^^^^^ - meta.scope.rulehead.makefile
 

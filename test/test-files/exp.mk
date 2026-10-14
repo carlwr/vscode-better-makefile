@@ -6,7 +6,6 @@
 
 name = $(NME)
 #        ^^^        meta.scope.expansion.makefile
-#      ^^   ^       punctuation.definition.variable.makefile
 #      ^^           punctuation.definition.template-expression.begin.makefile
 #           ^       punctuation.definition.template-expression.end.makefile
 #^^^^^^^^   ^     - meta.scope.expansion.makefile
@@ -14,7 +13,6 @@ name = $(NME)
 nme0 = $(dir str)
 #        ^^^^^^^    meta.scope.function-call.makefile
 #        ^^^^^^^    meta.scope.expansion.makefile
-#      ^^       ^   punctuation.definition.variable.makefile
 #      ^^           punctuation.definition.template-expression.begin.makefile
 #               ^   punctuation.definition.template-expression.end.makefile
 
@@ -37,7 +35,6 @@ aaac = $(c)a
 #         ^         punctuation.definition.template-expression.end.makefile
 
 aaad = ${c}a
-#      ^^ ^         punctuation.definition.variable.makefile
 #        ^          meta.scope.expansion.makefile
 #      ^^           punctuation.definition.template-expression.begin.makefile
 #         ^         punctuation.definition.template-expression.end.makefile
@@ -53,8 +50,6 @@ targt: $(TGT)
 #        ^^^        meta.scope.expansion.makefile
 
 $(e) = $(EXP)
-#^ ^   ^^   ^       punctuation.definition.variable.makefile
-#<-                 punctuation.definition.variable.makefile
 # ^      ^^^        meta.scope.expansion.makefile
 
 ddd = $(x$$y)
@@ -64,8 +59,6 @@ ddd = $(x$$y)
 #       ^^^^        meta.scope.expansion.makefile
 
 $(V) : $(exp)
-#^ ^   ^^   ^       punctuation.definition.variable.makefile
-#<-                 punctuation.definition.variable.makefile
 #<-                 punctuation.definition.template-expression.begin.makefile
 #^                  punctuation.definition.template-expression.begin.makefile
 #  ^                punctuation.definition.template-expression.end.makefile

@@ -109,7 +109,7 @@ x2= \$$(X1)
 
 y1= _$$(if Y2,,)
 #    ^^          constant.character.escape.dollar.makefile
-#       ^^     - support.function
+#       ^^     - support.function.if.makefile
 
 y2= Z$$@
 #    ^^          constant.character.escape.dollar.makefile
@@ -122,7 +122,7 @@ z1_ := a\$(var)  ## /^\Qz1_ := a\VAL    /
 #       ^^     - constant.character.escape.dollar.makefile
 
 c := C
-z := _\$c_       ##  /^\Qz := _\C_
+z := _\$c_       ##  /^\Qz := _\C_/
 #       ^        variable.other.makefile
 
 

@@ -4,7 +4,7 @@
 # NOT escapes
 # -----------
 
-tt____\\_: p    ## /tt_*( )?[\\][\\]_: p/
+tt____\\_: p    ## /^tt_*( )?[\\][\\]_: p/
 #^^^^^^^^          meta.scope.target.makefile
 #          ^       meta.scope.prerequisites.makefile
 #     ^          - constant.character.escape.backslash.makefile
@@ -14,16 +14,16 @@ tt____\\_: p    ## /tt_*( )?[\\][\\]_: p/
 # implicit rules
 # --------------
 
-t0______%: p    ## /t0_*(     )?%: p/
+t0______%: p    ## /^t0_*(     )?%: p/
 #       ^          constant.other.placeholder.percent.makefile
 
 
-t2____\\%: p    ## /t2_*( )?[\\]%: p/
+t2____\\%: p    ## /^t2_*( )?[\\]%: p/
 #     ^            constant.character.escape.backslash.makefile
 #      ^           meta.escaped-char.makefile
 #       ^          constant.other.placeholder.percent.makefile
 
-t4__\\\\%: p    ## /t4_*[\\][\\]%: p/
+t4__\\\\%: p    ## /^t4_*[\\][\\]%: p/
 #   ^ ^            constant.character.escape.backslash.makefile
 #    ^ ^           meta.escaped-char.makefile
 #       ^          constant.other.placeholder.percent.makefile
@@ -37,11 +37,11 @@ u:p_\\\\%
 # files (the % are literal)
 # -------------------------
 
-t1_____\%: p    ## /t1_*(     )?%: p/
+t1_____\%: p    ## /^t1_*(     )?%: p/
 #      ^           constant.character.escape.backslash.makefile
 #       ^          meta.escaped-char.makefile
 
-t3___\\\%: p    ## /t3_*( )?[\\]%: p/
+t3___\\\%: p    ## /^t3_*( )?[\\]%: p/
 #    ^ ^           constant.character.escape.backslash.makefile
 #     ^ ^          meta.escaped-char.makefile
 
@@ -49,6 +49,6 @@ v:p__\\\%
 #    ^ ^           constant.character.escape.backslash.makefile
 #     ^ ^          meta.escaped-char.makefile
 
-t5_\\\\\%: p    ## /t5_*[\\][\\]%: p/
+t5_\\\\\%: p    ## /^t5_*[\\][\\]%: p/
 #  ^ ^ ^           constant.character.escape.backslash.makefile
 #   ^ ^ ^          meta.escaped-char.makefile

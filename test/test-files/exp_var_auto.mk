@@ -5,7 +5,10 @@
 
 aaaa = $@a
 #       ^      variable.parameter.automatic.makefile
-#^^^^^^^ ^   - variable.parameter.automatic.makefile
+#      ^       punctuation.definition.variable.makefile
+#       ^      meta.scope.expansion.makefile
+#       ^    - punctuation.definition.variable.makefile
+#^^^^^^^ ^   - meta.scope.expansion.makefile
 
 
 tight_=$@t
@@ -14,7 +17,9 @@ tight_=$@t
 
 nme = $(@)a
 #       ^      variable.parameter.automatic.makefile
+#       ^      meta.scope.expansion.makefile
 #^^^^^^^ ^   - variable.parameter.automatic.makefile
+#^^^^^^^ ^^  - meta.scope.expansion.makefile
 
 nme = ${@}a
 #       ^      variable.parameter.automatic.makefile
@@ -41,9 +46,12 @@ user = $uU
 
 usr = $(uD)U
 #       ^^   - variable.parameter.automatic.makefile
-#       ^^     meta.scope.expansion.makefile
 
 usr = $(@x)
+#       ^^   - variable.parameter.automatic.makefile
+#       ^^     meta.scope.expansion.makefile
+
+usr = $(@@)
 #       ^^   - variable.parameter.automatic.makefile
 #       ^^     meta.scope.expansion.makefile
 
@@ -51,15 +59,27 @@ usr = $(x@)
 #       ^^   - variable.parameter.automatic.makefile
 #       ^^     meta.scope.expansion.makefile
 
+usr =  $@@
+#      ^       punctuation.definition.variable.makefile
+#       ^      variable.parameter.automatic.makefile
+#       ^      meta.scope.expansion.makefile
+#        ^   - variable.parameter.automatic.makefile
+#        ^   - meta.scope.expansion.makefile
+
+usr = $$@
+#       ^    - variable.parameter.automatic.makefile
+#     ^^^    - meta.scope.expansion.makefile
+
 
 # -------------------------- substref ------------------------- #
 
-N = $(%:a%=%)
-#     ^        variable.parameter.automatic.makefile
-#^^^^^ ^^^^^ - variable.parameter.automatic.makefile
-#   ^^      ^  punctuation.definition.variable.makefile
-#        ^ ^   constant.other.placeholder.substref.percent.makefile
-#       ^^^^   meta.substref.makefile
+N =$(%:a%=%)
+#    ^         variable.parameter.automatic.makefile
+#  ^^      ^   punctuation.definition.variable.makefile
+#       ^ ^    constant.other.placeholder.substref.percent.makefile
+#     ^^^^^    meta.substref.makefile
+#    ^^^^^^    meta.scope.expansion.makefile
+#^^^^ ^^^^^  - variable.parameter.automatic.makefile
 
 
 # -------------------------- variants ------------------------- #
@@ -118,10 +138,9 @@ kkkk:
 
 # ---------------------------- misc --------------------------- #
 
+# don't require the grammar to describe this GNU make behaviour, therefore, only parse tests on these:
 l0 = $}        ## /^\Ql0 = $} \E/
 l1 = $)        ## /^\Ql1 = $) \E/
-l2 = $(name)
-
 
 
 # cmt: $@

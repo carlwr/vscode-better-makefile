@@ -1,9 +1,12 @@
 # SYNTAX TEST "source.makefile"
 
 %tgt: %pre
-#<-   ^        constant.other.placeholder.percent.makefile
-#<-   ^        keyword.other.operator.percent.makefile
-#<-   ^        variable.other.constant.percent.makefile
+#<-            constant.other.placeholder.percent.makefile
+#<-            keyword.other.operator.percent.makefile
+#<-            variable.other.constant.percent.makefile
+#     ^        constant.other.placeholder.percent.makefile
+#     ^        keyword.other.operator.percent.makefile
+#     ^        variable.other.constant.percent.makefile
 # ^^           entity.name.function.target.makefile
 # ^^           meta.scope.target.makefile
 #     ^^^^     meta.scope.prerequisites.makefile
@@ -47,9 +50,10 @@ tmA_% tmB_%: p
 w:A_%   B_%
 #   ^     ^    constant.other.placeholder.percent.makefile
 
-# with two % in _the same_ target or prereq, preferrably only the first should be marked as special since `make` will consider the second a literal character - however, don't require that from the grammar; instead test only that with two % in a target/prereq the _first_ is still recognized.
+# with two % in _the same_ target or prereq, preferably only the first should be marked as special since `make` will consider the second a literal character - however, don't require that from the grammar; instead test only that with two % in a target/prereq the _first_ is still recognized.
 %tg%: %pr%
-#<-   ^        constant.other.placeholder.percent.makefile
+#<-            constant.other.placeholder.percent.makefile
+#     ^        constant.other.placeholder.percent.makefile
 #^^            entity.name.function.target.makefile
 #^^^           meta.scope.target.makefile
 #     ^^^^     meta.scope.prerequisites.makefile

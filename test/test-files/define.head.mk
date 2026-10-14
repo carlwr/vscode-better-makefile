@@ -83,9 +83,6 @@ endef
 define op0    =
 #             ^   keyword.operator.assignment.makefile
 endef
-define op1   !=
-#            ^^   keyword.operator.assignment.makefile
-endef
 define op2   +=
 #            ^^   keyword.operator.assignment.makefile
 endef
@@ -102,6 +99,12 @@ define op6 :::=
 #          ^^^^   keyword.operator.assignment.makefile
 endef
 
+define _protect0 =
+$(error won't execute shell)
+define op1   !=
+#            ^^   keyword.operator.assignment.makefile
+endef
+endef
 
 # -------------------------- comments ------------------------- #
 
@@ -134,7 +137,7 @@ define plus2+=
 #      ^^^^^       variable.other.assignment.makefile
 #           ^^     keyword.operator.assignment.makefile
 endef
-## /^(define )?plus2(?(1)$|( \+=))/
+## /^(define )?plus2(?(1)$|( =))/
 
 define exc!l
 #      ^^^^^       variable.other.assignment.makefile
@@ -142,6 +145,7 @@ define exc!l
 endef
 ## /^(define )?exc!l(?(1)$|( =))/
 
+# allow this to actually be executed by the shell, to allow for the parse test (shell will get a single `# ..` comment):
 define excl2!=
 #      ^^^^^       variable.other.assignment.makefile
 #           ^^     keyword.operator.assignment.makefile
@@ -159,7 +163,7 @@ define question2?=
 #      ^^^^^^^^^   variable.other.assignment.makefile
 #               ^^ keyword.operator.assignment.makefile
 endef
-## /^(define )?question2(?(1)$|( \?=))/
+## /^(define )?question2(?(1)$|( =))/
 
 define col:on
 #      ^^^^^^      variable.other.assignment.makefile
@@ -184,15 +188,15 @@ define dceq::=
 #      ^^^^        variable.other.assignment.makefile
 #          ^^^     keyword.operator.assignment.makefile
 endef
-## /^(define )?dceq(?(1)$|( :+=))/
-##                           |--> not sure of exact op. in make db
+## /^(define )?dceq(?(1)$|( :=))/
+##                          |--> NOTE: as ':=', not '::=', in make db
 
 define tceq:::=
 #      ^^^^        variable.other.assignment.makefile
 #          ^^^^    keyword.operator.assignment.makefile
 endef
-## /^(define )?tceq(?(1)$|( :+=))/
-##                           |--> not sure of exact op. in make db
+## /^(define )?tceq(?(1)$|( =))/
+##                          |--> NOTE: as '=', not ':::=', in make db
 
 define tc:::
 #      ^^^^^       variable.other.assignment.makefile

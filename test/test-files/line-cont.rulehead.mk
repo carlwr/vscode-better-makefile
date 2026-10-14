@@ -17,22 +17,22 @@ targ0_B: pre
 #^^^^^^       meta.scope.target.makefile
 #        ^^^  meta.scope.prerequisites.makefile
 #
-## /targ0_A: pre/
-## /targ0_B: pre/
+## /^targ0_A: pre/
+## /^targ0_B: pre/
 
 targ1:\
  pre
 #^^^       meta.scope.prerequisites.makefile
 #^^^     - entity.name.function.target.makefile
 #
-## /targ1: pre/
+## /^targ1: pre/
 
 targ2: pre2_A \
 pre2_B
 #^^^^^       meta.scope.prerequisites.makefile
 #^^^^^     - entity.name.function.target.makefile
 #
-## /targ2: pre2_A pre2_B/
+## /^targ2: pre2_A pre2_B/
 
 targ3: pre3_A \
 pre3_B \
@@ -40,7 +40,7 @@ pre3_C
 #^^^^^       meta.scope.prerequisites.makefile
 #^^^^^     - entity.name.function.target.makefile
 #
-## /targ3: pre3_A pre3_B pre3_C/
+## /^targ3: pre3_A pre3_B pre3_C/
 
 targ4:\
  pre

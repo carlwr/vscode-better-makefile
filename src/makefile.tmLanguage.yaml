@@ -640,10 +640,9 @@ repository:
       - include: "#recipe"
 
   recipe:
-    name: *SCOPE_recipe__
-    # do use a general meta scope, for testing (vscode-tmgrammar-test can only test for a complete scope name)
     begin: (?!\n)
     end:   (?=\n)
+    name: *SCOPE_recipe__
     applyEndPatternLast: 1
     patterns:
     - match: \G[\t @+\-]+

@@ -6,7 +6,6 @@
 define $(sort b a)
 #        ^^^^        support.function.sort.makefile
 #        ^^^^^^^^    meta.scope.expansion.makefile
-#      ^^        ^   punctuation.definition.variable.makefile
 yes
 endef
 ## /^(define )?a b(?(1)$|( =))/

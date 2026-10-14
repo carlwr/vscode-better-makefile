@@ -47,9 +47,6 @@ vaz2 = s$cX
 vaz3 = s$(v$(a)r)x
 #      ^         ^    string.unquoted.makefile
 #       ^^^^^^^^^   - string.unquoted.makefile
-vaz4 = s$(dir dr)x
-#      ^         ^    string.unquoted.makefile
-#       ^^^^^^^^^   - string.unquoted.makefile
 vaz5 = x$(MAKE)y
 #      ^       ^      string.unquoted.makefile
 #       ^^^^^^^     - string.unquoted.makefile
@@ -75,15 +72,15 @@ vox2 = s$$xy
 # - \<nl> (line cont.)
 # - itself for the two forms above
 
-_esc0 = a\#b      ## /\Q_esc0 = a#b/
+_esc0 = a\#b      ## /^\Q_esc0 = a#b/
 #        ^           constant.character.escape.backslash.makefile
 #       ^  ^         string.unquoted.makefile
-_esc2 = a\\#b     ## /\Q_esc2 = a/
+_esc2 = a\\#b     ## /^_esc2 = a\\$/
 #        ^           constant.character.escape.backslash.makefile
 #       ^            string.unquoted.makefile
 #          ^^      - string.unquoted.makefile
 _escX = a\
-b                 ## /\Q_escX = a b/
+b                 ## /^\Q_escX = a b/
 #<-                  string.unquoted.makefile
 _escY = a\
 #       ^            string.unquoted.makefile

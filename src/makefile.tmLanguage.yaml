@@ -59,8 +59,8 @@ __miscAnchors:
     keyword.control.recipe-lineprefix.makefile
 
 - &SCOPE_str >-
-    string.unquoted.makefile
     meta.string.makefile
+    string.unquoted.makefile
 
 - &SCOPE_target_special >-
     support.function.target.$1.makefile

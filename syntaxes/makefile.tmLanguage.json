@@ -866,7 +866,7 @@
             },
             {
               "match": ".*",
-              "name": "string.unquoted.makefile meta.string.makefile"
+              "name": "meta.string.makefile string.unquoted.makefile"
             }
           ]
         }
@@ -1045,7 +1045,7 @@
         },
         {
           "match": "[^%=\\s]",
-          "name": "string.unquoted.makefile meta.string.makefile"
+          "name": "meta.string.makefile string.unquoted.makefile"
         }
       ]
     },
@@ -1160,7 +1160,7 @@
             },
             {
               "match": ".*",
-              "name": "string.unquoted.makefile meta.string.makefile"
+              "name": "meta.string.makefile string.unquoted.makefile"
             }
           ]
         }

@@ -23,8 +23,6 @@ keyword.control.vpath.makefile
 keyword.operator.assignment.makefile
 keyword.operator.substref.colon.makefile
 keyword.operator.substref.equal.makefile
-keyword.other.operator.percent.makefile
-keyword.other.operator.substref.percent.makefile
 meta.escaped-char.makefile
 meta.expression.assignment.makefile
 meta.function-call.arguments.makefile

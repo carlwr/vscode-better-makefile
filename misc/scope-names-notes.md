@@ -159,10 +159,12 @@ targets
   * substitution references
   * more?
 * -> decide to scope:
-  * `constant.other.placeholder`
+  * `variable.other.constant.percent`
+    * note: theme for Catppuccin: peach
+  * `constant.other.placeholder.percent`
     * since: is how e.g. `%s` in printf format strings should be scoped, per https://www.sublimetext.com/docs/scope_naming.html#constant
-  * `keyword.other.operator`, for VS Code
-  * `variable.other.constant`, for Catppuccin (peach)
+    * note: theme VS Code 2026: red
+      * requires: last, else `variable.other.constant` wins (-> blue)
 
 
 substitution references (`$(file:%.c=%.o)` etc.)

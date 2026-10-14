@@ -1,11 +1,8 @@
 # SYNTAX TEST "source.makefile"
 
 %tgt: %pre
-#<-            constant.other.placeholder.percent.makefile
-#<-            keyword.other.operator.percent.makefile
-#<-            variable.other.constant.percent.makefile
+#<-            variable.other.constant.percent.makefile constant.other.placeholder.percent.makefile
 #     ^        constant.other.placeholder.percent.makefile
-#     ^        keyword.other.operator.percent.makefile
 #     ^        variable.other.constant.percent.makefile
 # ^^           entity.name.function.target.makefile
 # ^^           meta.scope.target.makefile

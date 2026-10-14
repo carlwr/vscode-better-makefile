@@ -6,9 +6,7 @@ v = $(s____:f____%=r$(v)%)
 #           ^^^^^  ^      string.unquoted.makefile
 #          ^              punctuation.separator.substref.colon.makefile keyword.operator.substref.colon.makefile
 #                 ^       punctuation.separator.substref.equal.makefile keyword.operator.substref.equal.makefile
-#                ^      ^ constant.other.placeholder.substref.percent.makefile
-#                ^      ^ keyword.other.operator.substref.percent.makefile
-#                ^      ^ variable.other.constant.substref.percent.makefile
+#                ^      ^ variable.other.constant.substref.percent.makefile constant.other.placeholder.substref.percent.makefile
 #            ^^^^^^^^^^^^ meta.substref.makefile
 #     ^^^^^^^^^^^^^^^^^^^ meta.scope.expansion.makefile
 

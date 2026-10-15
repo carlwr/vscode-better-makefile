@@ -341,7 +341,7 @@ repository:
     repository:
 
       include-directive:
-        begin: ^[ ]*([s\-]?include)\b
+        begin: ^[ ]*([s\-]?include)(?=[ \t])
         beginCaptures:
           "1": { name: keyword.control.include.makefile }
         end:   ^

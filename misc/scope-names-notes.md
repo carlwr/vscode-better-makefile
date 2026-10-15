@@ -307,6 +307,18 @@ RHS of `!=` (shell assignment)
 * known gap: `define VAR !=` bodies (XFAIL)
 
 
+paths: args of directives `include`, `load`, `vpath`
+* -> decide to scope:
+  * `meta.string.makefile`
+  * `string.unquoted.path.makefile`
+    * since: still a string for themes not styling it; styled by XD Theme (variant "mix-it-up")
+    * precedent: `string.unquoted.path.nix` (styled by Catppuccin)
+  * considered but rejected: scope `include` arg with `meta.module-reference.makefile`
+    * decided against since uncommon in other grammars, and since it would add little value
+  * `vpath` pattern: also scoped as path (a file name pattern)
+  * not for: function args (more work), targets + prereqs (not known to be paths)
+
+
 ## scope prefix `meta.scope.X` vs. `meta.X`
 
 -> decided:

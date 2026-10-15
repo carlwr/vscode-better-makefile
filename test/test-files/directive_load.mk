@@ -19,25 +19,39 @@ load ./f.so
 #<-              keyword.control.load.makefile
 #^^^             keyword.control.load.makefile
 #   ^^^^^^^    - keyword.control.load.makefile
+#    ^^^^^^      meta.string.makefile
+#    ^^^^^^      string.unquoted.path.makefile
+#   ^          - string.unquoted.path.makefile
 
 load file # c
 #^^^             keyword.control.load.makefile
 #         ^^^    comment.line.number-sign.makefile
+#    ^^^^        string.unquoted.path.makefile
+#         ^^^  - string.unquoted.path.makefile
 
 load f.so(f)
 #^^^             keyword.control.load.makefile
 #         ^      meta.scope.load-symbolname.makefile
 #        ^ ^     punctuation.definition.parameters.load-symbolname.makefile
 #        ^ ^     punctuation.section.load-symbolname.makefile
+#    ^^^^        string.unquoted.path.makefile
+#        ^^^   - string.unquoted.path.makefile
+
+load a.so b.so(s)
+#    ^^^^ ^^^^   string.unquoted.path.makefile
 
 load dd$$_
 #^^^             keyword.control.load.makefile
 #      ^^        constant.character.escape.dollar.makefile
+#    ^^  ^       string.unquoted.path.makefile
+#      ^^      - string.unquoted.path.makefile
 
 load e$(xp)
 #^^^             keyword.control.load.makefile
 #       ^^       variable.other.makefile
 #    ^^^^^^    - meta.scope.load-symbolname.makefile
+#    ^           string.unquoted.path.makefile
+#     ^^^^^    - string.unquoted.path.makefile
 
 # odd no. of \-s: line cont., the others are escaped \-s
 load f.so(s\\\

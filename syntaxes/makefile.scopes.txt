@@ -62,6 +62,7 @@ punctuation.separator.substref.equal.makefile
 punctuation.whitespace.comment.leading.makefile
 source.makefile
 string.unquoted.makefile
+string.unquoted.path.makefile
 support.function.$1.makefile
 support.function.target.$1.makefile
 variable.language.constant.special.makefile

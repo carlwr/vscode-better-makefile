@@ -67,6 +67,10 @@ __miscAnchors:
     meta.string.makefile
     string.unquoted.makefile
 
+- &SCOPE_path >-
+    meta.string.makefile
+    string.unquoted.path.makefile
+
 - &SCOPE_target_special >-
     support.function.target.$1.makefile
 
@@ -81,6 +85,11 @@ __miscAnchors:
 - &SCOPE_sr_per >-
     variable.other.constant.substref.percent.makefile
     constant.other.placeholder.substref.percent.makefile
+
+- &__pathSegment |-
+    (?x)
+      [^\s$#\\%:()]++   # chars possibly special to the including rule...
+    | \S                # ...are path chars if that rule doesn't match them first
 
 - &__notExp |-
     (?x)
@@ -350,6 +359,10 @@ repository:
         - include: "#doubleDollar"
         - include: "#expansions"
         - include: "#percent"
+        - match: *__pathSegment
+          name: >-
+            meta.string.makefile
+            string.unquoted.path.makefile
 
       load:
         patterns:
@@ -362,6 +375,8 @@ repository:
           - include: "#load-symbolname"
           - include: "#doubleDollar"
           - include: "#expansions"
+          - match: *__pathSegment
+            name: *SCOPE_path
         repository:
           load-symbolname:
             begin: (?x) \(
@@ -389,6 +404,8 @@ repository:
         - include: "#percent"
         - match: ':'
           name: punctuation.separator.paths.vpath.makefile
+        - match: *__pathSegment
+          name: *SCOPE_path
 
       define:
         begin: |-

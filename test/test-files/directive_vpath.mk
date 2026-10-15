@@ -6,6 +6,9 @@ vpath
 vpath %.c p
 #^^^^       keyword.control.vpath.makefile
 #     ^     constant.other.placeholder.percent.makefile
+#      ^^ ^ meta.string.makefile
+#      ^^ ^ string.unquoted.path.makefile
+#     ^   - string.unquoted.path.makefile
 
 vpath % p:q
 #^^^^       keyword.control.vpath.makefile
@@ -15,6 +18,8 @@ vpath \% p
 #     ^     constant.character.escape.backslash.makefile
 #      ^    meta.escaped-char.makefile
 #      ^  - constant.other.placeholder.percent.makefile
+#     ^^  - string.unquoted.path.makefile
+#        ^  string.unquoted.path.makefile
 vpath \\% p
 #     ^     constant.character.escape.backslash.makefile
 #      ^    meta.escaped-char.makefile
@@ -22,6 +27,12 @@ vpath \\% p
 
 vpath % path1:path2
 #            ^       punctuation.separator.paths.vpath.makefile
+#       ^^^^^ ^^^^^  string.unquoted.path.makefile
+#            ^     - string.unquoted.path.makefile
+
+vpath % d # c
+#       ^            string.unquoted.path.makefile
+#         ^^^      - string.unquoted.path.makefile
 
 vpath   path1:path2
 #            ^       punctuation.separator.paths.vpath.makefile

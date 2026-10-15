@@ -336,6 +336,10 @@
             },
             {
               "include": "#percent"
+            },
+            {
+              "match": "(?x)\n  [^\\s$#\\\\%:()]++   # chars possibly special to the including rule...\n| \\S                # ...are path chars if that rule doesn't match them first",
+              "name": "meta.string.makefile string.unquoted.path.makefile"
             }
           ]
         },
@@ -361,6 +365,10 @@
                 },
                 {
                   "include": "#expansions"
+                },
+                {
+                  "match": "(?x)\n  [^\\s$#\\\\%:()]++   # chars possibly special to the including rule...\n| \\S                # ...are path chars if that rule doesn't match them first",
+                  "name": "meta.string.makefile string.unquoted.path.makefile"
                 }
               ]
             }
@@ -493,6 +501,10 @@
             {
               "match": ":",
               "name": "punctuation.separator.paths.vpath.makefile"
+            },
+            {
+              "match": "(?x)\n  [^\\s$#\\\\%:()]++   # chars possibly special to the including rule...\n| \\S                # ...are path chars if that rule doesn't match them first",
+              "name": "meta.string.makefile string.unquoted.path.makefile"
             }
           ]
         }

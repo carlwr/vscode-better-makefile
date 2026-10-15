@@ -67,12 +67,11 @@ function watch(cb: () => void) {
 /**
  * Drop YAML anchors; no reason to keep them in the generated json.
  */
-function dropAnchorHolders(obj: SomeRecord) {
-  const repository = (obj.repository ?? {}) as SomeRecord
-  for (const map of [obj, repository]) {
-    for (const key of Object.keys(map)) {
-      if (key.startsWith(ANCHOR_PREFIX)) delete map[key]
-    }
+function dropAnchorHolders(obj: unknown) {
+  if (typeof obj !== 'object' || obj === null) return
+  for (const [key, value] of Object.entries(obj)) {
+    if (key.startsWith(ANCHOR_PREFIX)) delete (obj as SomeRecord)[key]
+    else dropAnchorHolders(value)
   }
 }
 

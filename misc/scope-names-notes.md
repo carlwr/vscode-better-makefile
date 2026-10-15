@@ -269,7 +269,7 @@ function calls/invocation meta-scope (at call sites)
 strings
 * what to scope with _string_ scopes?
   * -> decide:
-    - those ranges that we can reliably know to be strings: RHS of assignments (including define)
+    - those ranges that we can reliably know to be strings: RHS of assignments (including define), except `!=`
     - function args
     - relevant parts of substref-s
   * since:
@@ -298,15 +298,13 @@ strings
   * quotes auto-close unless `notIn` -> `notIn` comment only (effectively as stock)
 
 
-## Deliberately not done
-
-_more fine-grained scoping for some functions_:
-- e.g.:
-  - `$(foreach varname, ..)`
-  - `$(call funcvar, ..)`
-  - `$(let a b,x y)`
-  - (maybe others)
-- skip since: considered too much work / considered to make the YAML grammar too complicated vs. what user value it would add
+RHS of `!=` (shell assignment)
+* -> decide to scope:
+  * `meta.shell-command.makefile`; no string scopes
+    * since: a shell command, like recipe lines
+* other Makefile grammars
+  * SublimeText: `source.shell.embedded.makefile`
+* known gap: `define VAR !=` bodies (XFAIL)
 
 
 ## scope prefix `meta.scope.X` vs. `meta.X`
@@ -361,11 +359,9 @@ VS Code (`vscode-textmate`) behaviour:
 _more fine-grained scoping for some functions_:
 - e.g.:
   - `$(foreach varname, ..)`
-  - `$(value varname)`
   - `$(call funcvar, ..)`
   - `$(let a b,x y)`
   - (maybe others)
-  - (there might be XFAIL tests for some of the above)
 - skip since: considered too much work / considered to make the YAML grammar too complicated vs. what user value it would add
 
 

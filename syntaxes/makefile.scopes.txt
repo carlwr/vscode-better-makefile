@@ -42,6 +42,7 @@ meta.scope.recipe.makefile
 meta.scope.recipe.rulehead.makefile
 meta.scope.rulehead.makefile
 meta.scope.target.makefile
+meta.shell-command.makefile
 meta.string.makefile
 meta.substref.makefile
 punctuation.definition.comment.makefile

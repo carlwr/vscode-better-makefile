@@ -74,6 +74,9 @@ unexport v        # : _
 undefine v        # : _
 #        ^                 variable.other.makefile
 
+override undefine v # : _
+#                 ^        variable.other.makefile
+
 
 # -------- directives where assignment may _not_follow -------- #
 

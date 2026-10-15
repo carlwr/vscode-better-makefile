@@ -44,3 +44,14 @@ unexport
 undefine yyy
 #^^^^^^^            keyword.control.undefine.makefile
 #        ^^^        variable.other.makefile
+
+# valid per GNU Make manual (no entry in make db so can't use a parse test):
+override undefine ovrUnd
+#^^^^^^^                  keyword.control.override.makefile
+#        ^^^^^^^^         keyword.control.undefine.makefile
+#                 ^^^^^^  variable.other.makefile
+
+override undefine ov:Und
+#^^^^^^^                  keyword.control.override.makefile
+#        ^^^^^^^^         keyword.control.undefine.makefile
+#                 ^^^^^^  variable.other.makefile

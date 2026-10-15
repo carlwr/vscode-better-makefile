@@ -466,9 +466,10 @@ repository:
         - include: "#directive-varname"
 
       undefine:
-        begin: ^[ ]*(undefine)\b
+        begin: ^[ ]*+(override\b)?[ \t]*+(undefine)\b
         beginCaptures:
-          "1": { name: keyword.control.undefine.makefile }
+          "1": { name: keyword.control.override.makefile }
+          "2": { name: keyword.control.undefine.makefile }
         end:   ^
         patterns:
         - include: "#comment"

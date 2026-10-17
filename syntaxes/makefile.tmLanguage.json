@@ -659,12 +659,6 @@
               "include": "#expansions--func-builtin-NESTED"
             },
             {
-              "include": "#percent"
-            },
-            {
-              "include": "#wildcard"
-            },
-            {
               "include": "#line-cont"
             }
           ]
@@ -771,12 +765,6 @@
             },
             {
               "include": "#expansions--func-builtin-NESTED"
-            },
-            {
-              "include": "#percent"
-            },
-            {
-              "include": "#wildcard"
             },
             {
               "include": "#line-cont"

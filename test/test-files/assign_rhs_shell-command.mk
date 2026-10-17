@@ -39,6 +39,8 @@ v4 != echo $(X) $$y # c
 
 v5 != echo '$$x'        # /^v5 = \$x$/
 v6 != echo a # b        # /^v6 = a$/
+v6b != echo a\#b        # /^v6b = a#b$/
+#            ^^           constant.character.escape.hash.makefile
 
 
 # empty RHS; following lines unaffected
@@ -60,6 +62,14 @@ v9 != echo a \
 w1 := s
 #     ^                   string.unquoted.makefile
 #     ^                 - meta.shell-command.makefile
+
+# odd no. of \-s: line cont.; make halves the preceding \-s
+v10 != echo a\\\
+  b                     # /^v10 = a b$/
+
+v10_ != echo a\\\
+#             ^^          constant.character.escape.backslash.makefile
+#               ^         punctuation.separator.continuation.makefile
 
 
 # other assignment contexts

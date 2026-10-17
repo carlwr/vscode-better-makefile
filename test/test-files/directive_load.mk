@@ -55,6 +55,7 @@ load e$(xp)
 
 # odd no. of \-s: line cont., the others are escaped \-s
 load f.so(s\\\
+#          ^^    constant.character.escape.backslash.makefile
 #            ^   punctuation.separator.continuation.makefile
   )
 # ^              punctuation.section.load-symbolname.makefile

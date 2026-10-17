@@ -15,14 +15,12 @@ vpath % p:q
 #     ^     constant.other.placeholder.percent.makefile
 
 vpath \% p
-#     ^     constant.character.escape.backslash.makefile
-#      ^    meta.escaped-char.makefile
+#     ^^    constant.character.escape.percent.makefile
 #      ^  - constant.other.placeholder.percent.makefile
 #     ^^  - string.unquoted.path.makefile
 #        ^  string.unquoted.path.makefile
 vpath \\% p
-#     ^     constant.character.escape.backslash.makefile
-#      ^    meta.escaped-char.makefile
+#     ^^    constant.character.escape.backslash.makefile
 #       ^   constant.other.placeholder.percent.makefile
 
 vpath % path1:path2

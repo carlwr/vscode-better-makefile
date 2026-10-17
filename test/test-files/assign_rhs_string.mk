@@ -107,10 +107,10 @@ vox2 = s$$xy
 # - itself for the two forms above
 
 _esc0 = a\#b      ## /^\Q_esc0 = a#b/
-#        ^           constant.character.escape.backslash.makefile
+#        ^^          constant.character.escape.hash.makefile
 #       ^  ^         string.unquoted.makefile
 _esc2 = a\\#b     ## /^_esc2 = a\\$/
-#        ^           constant.character.escape.backslash.makefile
+#        ^^          constant.character.escape.backslash.makefile
 #       ^            string.unquoted.makefile
 #          ^^      - string.unquoted.makefile
 _escX = a\

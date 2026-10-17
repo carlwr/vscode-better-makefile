@@ -31,6 +31,16 @@ line continuation character
   * order: escapes last -> Catppuccin: escape color, not punctuation color
 
 
+escapes (e.g. `\#`, `\%`, `\\`, `$$`)
+* -> decide to scope:
+  * the whole sequence: `constant.character.escape.<char>` (e.g. `.hash` for `\#`)
+    * since: convention (e.g. C, JSON, shell, SublimeText's Makefile grammar)
+  * only where `make` unescapes it (e.g. not `\#` within `$(..)` or recipes)
+* `\`-s before a newline
+  * odd no.: line cont.; the preceding pairs are escapes, except in recipes (`make` passes them on to the shell as-is)
+  * even no.: literal; no line cont.
+
+
 variable name in variable assignment
 * -> decide to scope:
   * `variable.other.assignment.makefile`

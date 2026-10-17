@@ -309,8 +309,7 @@ func0 := $(if ,,a #b  )     ## /^\Qfunc0 := a #b  /
 #            ^            - meta.function-call.arguments.makefile
 
 func1 := $(if ,,a\#b  )     ## /^\Qfunc1 := a\#b  /
-#                ^        - constant.character.escape.backslash.makefile
-#                 ^       - meta.escaped-char.makefile
+#                ^^       - constant.character.escape.hash.makefile
 #                 ^       - comment.line.number-sign.makefile
 #        ^^                 punctuation.definition.template-expression.begin.makefile
 #                     ^     punctuation.definition.template-expression.end.makefile
@@ -320,6 +319,7 @@ func1 := $(if ,,a\#b  )     ## /^\Qfunc1 := a\#b  /
 #               ^^^^        meta.function-call.arguments.makefile
 
 func2 := $(dir  a\#b  )
+#                ^^       - constant.character.escape.hash.makefile
 #                 ^       - comment.line.number-sign.makefile
 
 

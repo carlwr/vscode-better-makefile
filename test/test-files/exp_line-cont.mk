@@ -117,6 +117,21 @@ _)#arg}#cmt
 #      ^^^^      comment.line.number-sign.makefile
 # )})} #close
 
+# odd no. of \-s: line cont., the others are escaped \-s
+$(or _\\\
+#       ^        punctuation.separator.continuation.makefile
+#arg)#cmt
+#^^^^          - comment.line.number-sign.makefile
+#    ^^^^        comment.line.number-sign.makefile
+# )})} #close
+
+${or {_\\\
+#        ^       punctuation.separator.continuation.makefile
+_}#arg}#cmt
+#^^^^^^        - comment.line.number-sign.makefile
+#      ^^^^      comment.line.number-sign.makefile
+# )})} #close
+
 
 # ---------------------- nested functions --------------------- #
 

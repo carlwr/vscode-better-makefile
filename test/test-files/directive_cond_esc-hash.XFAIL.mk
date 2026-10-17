@@ -7,8 +7,7 @@ define FOO\#bar
 yes
 endef
 ifdef FOO\#bar
-#        ^       constant.character.escape.backslash.makefile
-#         ^      meta.escaped-char.makefile
+#        ^^      constant.character.escape.hash.makefile
 #          ^^^   variable.other.makefile
 escapedHash := ok
 endif

@@ -76,6 +76,13 @@ ff = $(D:find=re$(V\
 #                     ^^ string.unquoted.makefile
 #                  ^^    variable.other.makefile
 
+# odd no. of \-s: line cont., the others are escaped \-s
+hh = $(D:f\\\
+#         ^^             constant.character.escape.backslash.makefile
+#           ^            punctuation.separator.continuation.makefile
+          %=r%)
+#         ^  ^           constant.other.placeholder.substref.percent.makefile
+
 
 # --------------------- in misc. contexts --------------------- #
 

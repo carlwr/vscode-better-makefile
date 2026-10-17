@@ -210,10 +210,8 @@ repository:
 
   esc-backslashes:
     patterns:
-    - match: (\\)(\\)
-      captures:
-        "1": { name: constant.character.escape.backslash.makefile }
-        "2": { name: meta.escaped-char.makefile }
+    - match: \\\\
+      name: constant.character.escape.backslash.makefile
 
   doubleDollar:
     match: (\$\$)+
@@ -257,11 +255,10 @@ repository:
           (?x)
           (?<!    \\        )   # otherwise unreliable \ count -> don't match
           (   (?: \\{2} )*+ )   # "1": any even no. of \-s -> quoting \-es
-                 (\\)(\#)       # "2": the quoted #
+                 (\\\#)         # "2": the quoted #
         captures:
           "1": { patterns: [include: "#esc-backslashes"] }
-          "2": { name: constant.character.escape.backslash.makefile }
-          "3": { name: meta.escaped-char.makefile }
+          "2": { name: constant.character.escape.hash.makefile }
 
   __lineCont:
     match: &__lineCont |-
@@ -299,10 +296,8 @@ repository:
           # at this point, we know that what remains is either
           #   - \%   i.e. an escaped %, or
           #   -  %   i.e. a plain %
-        - match: (\\)(%)
-          captures:
-            "1": { name: constant.character.escape.backslash.makefile }
-            "2": { name: meta.escaped-char.makefile }
+        - match: \\%
+          name: constant.character.escape.percent.makefile
         - match: '%'
           name: >-
             variable.other.constant.percent.makefile
@@ -317,10 +312,8 @@ repository:
       "0":
         patterns:
         - include: "#esc-backslashes"
-        - match: (\\)([*?\[\]])
-          captures:
-            "1": { name: constant.character.escape.backslash.makefile }
-            "2": { name: meta.escaped-char.makefile }
+        - match: \\[*?\[\]]
+          name: constant.character.escape.wildcard.makefile
         - match: '[*?\[\]]'
           name: >-
             variable.language.special.wildcard.makefile

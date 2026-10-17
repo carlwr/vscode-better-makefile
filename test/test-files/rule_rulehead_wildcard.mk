@@ -25,22 +25,21 @@ _?_*: [ _]
 # -------
 
 \*: p
+#<-        constant.character.escape.wildcard.makefile
 #<-      - variable.language.special.wildcard.makefile
 #^       - variable.language.special.wildcard.makefile
 #^         meta.scope.target.makefile
 #   ^      meta.scope.prerequisites.makefile
 
 t_\\*: p
-# ^        constant.character.escape.backslash.makefile
-#  ^       meta.escaped-char.makefile
+# ^^       constant.character.escape.backslash.makefile
 #   ^      variable.language.special.wildcard.makefile
 #^^^^      meta.scope.target.makefile
 #      ^   meta.scope.prerequisites.makefile
 
 targ:\*
-#    ^     constant.character.escape.backslash.makefile
+#    ^^    constant.character.escape.wildcard.makefile
 #     ^  - variable.language.special.wildcard.makefile
-#     ^    meta.escaped-char.makefile
 #^^^       meta.scope.target.makefile
 #    ^^    meta.scope.prerequisites.makefile
 

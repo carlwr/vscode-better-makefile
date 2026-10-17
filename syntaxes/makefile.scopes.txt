@@ -2,7 +2,10 @@ comment.line.number-sign.makefile
 constant.character.escape.backslash.makefile
 constant.character.escape.continuation.makefile
 constant.character.escape.dollar.makefile
+constant.character.escape.hash.makefile
 constant.character.escape.line-continuation.makefile
+constant.character.escape.percent.makefile
+constant.character.escape.wildcard.makefile
 constant.other.placeholder.percent.makefile
 constant.other.placeholder.substref.percent.makefile
 constant.other.placeholder.wildcard.makefile
@@ -24,7 +27,6 @@ keyword.control.vpath.makefile
 keyword.operator.assignment.makefile
 keyword.operator.substref.colon.makefile
 keyword.operator.substref.equal.makefile
-meta.escaped-char.makefile
 meta.expression.assignment.makefile
 meta.function-call.arguments.makefile
 meta.function-call.braces-group.makefile

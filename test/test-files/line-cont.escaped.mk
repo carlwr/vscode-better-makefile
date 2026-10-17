@@ -23,19 +23,22 @@ cont                ## /^cont_std1 = c cont  /
 # main scope tests
 # ----------------
 
-# from now on, only test scope
+# from now on, only test scopes
 #
 #    punctuation.separator.continuation.makefile
+#    constant.character.escape.backslash.makefile
 #
 
 
-# odd number of \-s: last is line-cont.:
+# odd number of \-s: last is line-cont., the others are escaped \-s:
 a0 = a __\\\
 #          ^      punctuation.separator.continuation.makefile
 #        ^^     - punctuation.separator.continuation.makefile
+#        ^^       constant.character.escape.backslash.makefile
 a1 = a \\\\\
 #          ^      punctuation.separator.continuation.makefile
 #      ^^^^     - punctuation.separator.continuation.makefile
+#      ^^^^       constant.character.escape.backslash.makefile
 
 # even number of \-s: no line-cont.:
 a2 = a ___\\
@@ -72,6 +75,7 @@ cont                  ## /^\Qcont_esc3 = c \ cont  /
 
 cont_esc3_= c \\\
 #               ^     punctuation.separator.continuation.makefile
+#             ^^      constant.character.escape.backslash.makefile
 
 cont_esc5 = c \\\\\
 cont                ## /^\Qcont_esc5 = c \\ cont  /
@@ -79,6 +83,7 @@ cont                ## /^\Qcont_esc5 = c \\ cont  /
 
 cont_esc5_= c \\\\\
 #                 ^   punctuation.separator.continuation.makefile
+#             ^^^^    constant.character.escape.backslash.makefile
 
 cont_esc7 = c \\\\\\\
 cont

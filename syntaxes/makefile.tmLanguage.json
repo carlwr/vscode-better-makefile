@@ -88,13 +88,10 @@
               ]
             },
             "2": {
-              "name": "constant.character.escape.backslash.makefile"
-            },
-            "3": {
-              "name": "meta.escaped-char.makefile"
+              "name": "constant.character.escape.hash.makefile"
             }
           },
-          "match": "(?x)\n(?<!    \\\\        )   # otherwise unreliable \\ count -> don't match\n(   (?: \\\\{2} )*+ )   # \"1\": any even no. of \\-s -> quoting \\-es\n       (\\\\)(\\#)       # \"2\": the quoted #"
+          "match": "(?x)\n(?<!    \\\\        )   # otherwise unreliable \\ count -> don't match\n(   (?: \\\\{2} )*+ )   # \"1\": any even no. of \\-s -> quoting \\-es\n       (\\\\\\#)         # \"2\": the quoted #"
         }
       }
     },
@@ -517,15 +514,8 @@
     "esc-backslashes": {
       "patterns": [
         {
-          "match": "(\\\\)(\\\\)",
-          "captures": {
-            "1": {
-              "name": "constant.character.escape.backslash.makefile"
-            },
-            "2": {
-              "name": "meta.escaped-char.makefile"
-            }
-          }
+          "match": "\\\\\\\\",
+          "name": "constant.character.escape.backslash.makefile"
         }
       ]
     },
@@ -946,15 +936,8 @@
               "include": "#esc-backslashes"
             },
             {
-              "match": "(\\\\)(%)",
-              "captures": {
-                "1": {
-                  "name": "constant.character.escape.backslash.makefile"
-                },
-                "2": {
-                  "name": "meta.escaped-char.makefile"
-                }
-              }
+              "match": "\\\\%",
+              "name": "constant.character.escape.percent.makefile"
             },
             {
               "match": "%",
@@ -1328,15 +1311,8 @@
               "include": "#esc-backslashes"
             },
             {
-              "match": "(\\\\)([*?\\[\\]])",
-              "captures": {
-                "1": {
-                  "name": "constant.character.escape.backslash.makefile"
-                },
-                "2": {
-                  "name": "meta.escaped-char.makefile"
-                }
-              }
+              "match": "\\\\[*?\\[\\]]",
+              "name": "constant.character.escape.wildcard.makefile"
             },
             {
               "match": "[*?\\[\\]]",

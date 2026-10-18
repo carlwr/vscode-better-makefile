@@ -40,11 +40,13 @@ a1 = a \\\\\
 #      ^^^^     - punctuation.separator.continuation.makefile
 #      ^^^^       constant.character.escape.backslash.makefile
 
-# even number of \-s: no line-cont.:
+# even number of \-s: no line-cont., no escapes:
 a2 = a ___\\
 #         ^^    - punctuation.separator.continuation.makefile
+#         ^^    - constant.character.escape.backslash.makefile
 a2 = a _\\\\
 #       ^^^^    - punctuation.separator.continuation.makefile
+#       ^^^^    - constant.character.escape.backslash.makefile
 
 
 # <nl> preceded by \
@@ -55,6 +57,7 @@ vpath                 ## /^\Qcont_esc2 = c \\/
                       ##    /cont_esc2 = c ..$/
 cont_esc2_= c \\
 #             ^^    - punctuation.separator.continuation.makefile
+#             ^^    - constant.character.escape.backslash.makefile
 
 # even no. of \-s:
 # -> NOT line cont.
@@ -64,6 +67,7 @@ vpath                 ## /^\Qcont_esc4 = c \\\\/
 
 cont_esc4_= c \\\\
 #             ^^^^  - punctuation.separator.continuation.makefile
+#             ^^^^  - constant.character.escape.backslash.makefile
 
 
 # odd no. of \-s:
@@ -90,6 +94,16 @@ cont
 
 cont_esc7 = c \\\\\\\
 #                   ^ punctuation.separator.continuation.makefile
+#             ^^^^^^  constant.character.escape.backslash.makefile
+
+
+# prerequisites: as above
+cont_trg2_: p \\
+#             ^^    - punctuation.separator.continuation.makefile
+#             ^^    - constant.character.escape.backslash.makefile
+cont_trg3_: p \\\
+#               ^     punctuation.separator.continuation.makefile
+#             ^^      constant.character.escape.backslash.makefile
 
 
 # ----------------------- not line-cont. ---------------------- #

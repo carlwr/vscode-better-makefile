@@ -71,6 +71,12 @@ v10_ != echo a\\\
 #             ^^          constant.character.escape.backslash.makefile
 #               ^         punctuation.separator.continuation.makefile
 
+# even no. of \-s: no line cont., no escapes
+v11 != echo a\\
+#            ^^         - constant.character.escape.backslash.makefile
+#            ^^         - punctuation.separator.continuation.makefile
+#            ^^           meta.shell-command.assignment.makefile
+
 
 # other assignment contexts
 # -------------------------

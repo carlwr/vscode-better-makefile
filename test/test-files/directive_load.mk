@@ -60,6 +60,12 @@ load f.so(s\\\
   )
 # ^              punctuation.section.load-symbolname.makefile
 
+# even no. of \-s: no line cont., no escapes
+load f.so(s\\
+#          ^^  - constant.character.escape.backslash.makefile
+#          ^^  - punctuation.separator.continuation.makefile
+#          ^^    meta.scope.load-symbolname.makefile
+
 
 # _not_ load directives
 # ---------------------

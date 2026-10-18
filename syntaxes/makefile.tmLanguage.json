@@ -1152,27 +1152,24 @@
       ]
     },
     "line-cont": {
-      "applyEndPatternLast": 1,
-      "begin": "(?=\\\\+\\n)",
-      "end": "(?!\\G)",
-      "patterns": [
-        {
-          "include": "#esc-backslashes"
-        },
-        {
-          "begin": "\\\\$",
-          "end": "^",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.separator.continuation.makefile constant.character.escape.continuation.makefile constant.character.escape.line-continuation.makefile"
+      "begin": "(?x)\n(?<!    \\\\        )   # otherwise unreliable \\ count -> don't match\n(   (?: \\\\{2} )*+ )   # \"1\": any even no. of \\-s -> quoting \\-es\n       (\\\\) $         # \"2\": the \\ continuing the line",
+      "beginCaptures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#esc-backslashes"
             }
-          }
+          ]
+        },
+        "2": {
+          "name": "punctuation.separator.continuation.makefile constant.character.escape.continuation.makefile constant.character.escape.line-continuation.makefile"
         }
-      ]
+      },
+      "end": "^"
     },
     "line-cont-recipe": {
       "applyEndPatternLast": 1,
-      "begin": "(?=\\\\+\\n)",
+      "begin": "(?x)\n(?<!    \\\\        )   # otherwise unreliable \\ count -> don't match\n(   (?: \\\\{2} )*+ )   # \"1\": any even no. of \\-s -> quoting \\-es\n       (\\\\) $         # \"2\": the \\ continuing the line",
       "end": "(?!\\G)",
       "patterns": [
         {

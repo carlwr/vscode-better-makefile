@@ -56,6 +56,15 @@ still_2b := a-comment
 ## /^still_2b := ORIG$/
 # -------------------//
 
+# even no. of \-s: no line cont., no escapes
+## /^var3_ := after$/
+var3_ := val3_ #cmt\\
+var3_ := after
+#^^^^                    variable.other.assignment.makefile
+
+var3a := val3_ #cmt\\
+#                  ^^  - constant.character.escape.backslash.makefile
+
 v = v#\
 cmt \
 cmt

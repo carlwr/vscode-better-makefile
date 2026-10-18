@@ -83,6 +83,12 @@ hh = $(D:f\\\
           %=r%)
 #         ^  ^           constant.other.placeholder.substref.percent.makefile
 
+# even no. of \-s: no line cont., no escapes
+ii = $(D:f\\
+#         ^^           - constant.character.escape.backslash.makefile
+#         ^^           - punctuation.separator.continuation.makefile
+#         ^^             string.unquoted.makefile
+
 
 # --------------------- in misc. contexts --------------------- #
 

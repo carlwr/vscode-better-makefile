@@ -119,6 +119,7 @@ _)#arg}#cmt
 
 # odd no. of \-s: line cont., the others are escaped \-s
 $(or _\\\
+#     ^^         constant.character.escape.backslash.makefile
 #       ^        punctuation.separator.continuation.makefile
 #arg)#cmt
 #^^^^          - comment.line.number-sign.makefile
@@ -126,10 +127,19 @@ $(or _\\\
 # )})} #close
 
 ${or {_\\\
+#      ^^        constant.character.escape.backslash.makefile
 #        ^       punctuation.separator.continuation.makefile
 _}#arg}#cmt
 #^^^^^^        - comment.line.number-sign.makefile
 #      ^^^^      comment.line.number-sign.makefile
+# )})} #close
+
+# even no. of \-s: no line cont., no escapes
+$(or _\\
+#     ^^       - constant.character.escape.backslash.makefile
+#     ^^       - punctuation.separator.continuation.makefile
+#cmt)
+#^^^^            comment.line.number-sign.makefile
 # )})} #close
 
 

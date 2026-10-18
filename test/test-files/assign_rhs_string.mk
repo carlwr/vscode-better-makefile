@@ -118,3 +118,6 @@ b                 ## /^\Q_escX = a b/
 #<-                  string.unquoted.makefile
 _escY = a\
 #       ^            string.unquoted.makefile
+
+_escZ = a\\
+#        ^^          string.unquoted.makefile

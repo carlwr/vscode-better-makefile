@@ -487,12 +487,23 @@ repository:
 
       define-body:
         patterns:
+        - include: "#line-cont-define-body"
         - include: "#doubleDollar"
         - include: "#expansions"
-        - match: '[^\$]+'
+        - match: '[^\n\$\\]+'
           name: *SCOPE_str
         - match: .
           name: *SCOPE_str
+
+      line-cont-define-body:
+        # spans the continued line, so it can't end the define or start a nested one
+        begin: *__lineCont
+        end:   (?!\G)(?=\n)
+        beginCaptures:
+          "1": { patterns: [include: "#esc-backslashes"] }
+          "2": { name: *SCOPE_lineCont }
+        patterns:
+        - include: "#define-body"
 
       directive-varname:
         match: \S+

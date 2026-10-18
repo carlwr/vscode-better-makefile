@@ -25,6 +25,7 @@ CONT2:
 r_odd:
 	echo r_odd\\\
 #          ^^     - constant.character.escape.backslash.makefile
+#            ^      punctuation.separator.continuation.makefile
 	more
 #^^^^               meta.scope.recipe.makefile
 
@@ -42,5 +43,6 @@ r_even2:
 
 r_semi: ; echo r_semi\\\
 #                    ^^   - constant.character.escape.backslash.makefile
+#                      ^    punctuation.separator.continuation.makefile
 	more
 #^^^^                      meta.scope.recipe.makefile

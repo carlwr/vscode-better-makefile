@@ -1168,23 +1168,13 @@
       "end": "^"
     },
     "line-cont-recipe": {
-      "applyEndPatternLast": 1,
       "begin": "(?x)\n(?<!    \\\\        )   # otherwise unreliable \\ count -> don't match\n(   (?: \\\\{2} )*+ )   # \"1\": any even no. of \\-s -> quoting \\-es\n       (\\\\) $         # \"2\": the \\ continuing the line",
-      "end": "(?!\\G)",
-      "patterns": [
-        {
-          "include": "#esc-backslashes"
-        },
-        {
-          "begin": "\\\\$",
-          "end": "^",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.separator.continuation.makefile constant.character.escape.continuation.makefile constant.character.escape.line-continuation.makefile"
-            }
-          }
+      "beginCaptures": {
+        "2": {
+          "name": "punctuation.separator.continuation.makefile constant.character.escape.continuation.makefile constant.character.escape.line-continuation.makefile"
         }
-      ]
+      },
+      "end": "^"
     },
     "percent": {
       "captures": {

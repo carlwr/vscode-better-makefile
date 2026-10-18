@@ -79,9 +79,9 @@ __miscAnchors:
 
 - &__notExp |-
     (?x)
-    ( [^ $]+
-    | (\$\$)+
-    )+
+    ( [^ $]++
+    | (\$\$)++
+    )++
 
 - &__specialTargets |-
     (?x)
@@ -136,9 +136,9 @@ repository:
       comment-actual:
         begin: |-
           (?x)
-          (     ^[ ]+        )?  # "1": if at BOL: any leading whitespace
+          (     ^[ ]++       )?  # "1": if at BOL: any leading whitespace
           (?<!  \\           )   # otherwise unreliable \ count -> don't match
-          (     (?: \\{2} )* )   # "2": any even no. of \-s -> quoting \-es
+          (     (?: \\{2} )*+)   # "2": any even no. of \-s -> quoting \-es
           (?=   \#           )   # an (unquoted) # on next position
         beginCaptures:
           "1": { name: punctuation.whitespace.comment.leading.makefile }
@@ -157,7 +157,7 @@ repository:
         match: |-
           (?x)
           (?<!    \\        )   # otherwise unreliable \ count -> don't match
-          (   (?: \\{2} )*  )   # "1": any even no. of \-s -> quoting \-es
+          (   (?: \\{2} )*+ )   # "1": any even no. of \-s -> quoting \-es
                  (\\)(\#)       #    : the quoted #
         captures:
           "1": { patterns: [include: "#esc-backslashes"] }
@@ -293,15 +293,15 @@ repository:
         begin: |-
           (?x)
           ^
-          \s* \b(override\b)?        # "1", optional
-          \s* \b(define  \b)         # "2", required
+          \s*+\b(override\b)?        # "1", optional
+          \s*+\b(define  \b)         # "2", required
           \s*   (                    # "3", required
-                  (?: [^\s#=!+?:]+     # >=1 of the subsequences
+                  (?: [^\s#=!+?:]++    # >=1 of the subsequences
                   |   ! (?!    =)
                   |  \+ (?!    =)
                   |  \? (?!    =)
                   |   : (?!:?:?=)
-                  )+
+                  )++
                 )
           \s*   (                    # "4", optional
                   (                    # optional prefix...
@@ -415,7 +415,7 @@ repository:
   __varAssignBegin:
     match: &__varAssignBegin |-
       (?x)
-      (?:  ^[\ ]*|\G\s*  )  # discard leading whitespace
+      (?:  ^[\ ]*+|\G\s*+ ) # discard leading whitespace
       ( (?:        [^!+?=\s$:#\\]++
         |   (?<!\\) [!+?] (?!=)
         |   \\
@@ -423,7 +423,7 @@ repository:
         |   \$(?! [({] )
         )++
       )  # group 1; the variable name
-      \s*                   # any space between name and assignment operator
+      \s*+                  # any space between name and assignment operator
                             # assignment operators:
       ( (?<![?:+!])   =     #    =
       |              !=     #   !=
@@ -463,9 +463,10 @@ repository:
     # Possessively eat anything that could be part of the target list before the colon, but importantly, NOT the colon - it must be carefully protected in the eating phase. When this eating is done, we are positioned to attempt to match one of the colon separators - if one matches, we go for a rulehead.
     match: &__ruleheadBegin |-
       (?x)
-      ^(?!\t)    # recipe line - fail the match
-      [ ]*       # eat leading whitespace
-      ( # "1": name of target(s)
+      ^(?!\t)             # recipe line - fail the match
+      [ ]*                # eat leading whitespace
+
+      (                   # "1": name of target(s)
         (?:
           (?:[^$&:#\\])++ # chars we can eat carelessly
         | \\    [:#\\]    # eat escaped variants of these
@@ -477,13 +478,15 @@ repository:
                           # (importantly, we never eat unescaped #-s)
         )++
       )
-      ( # "2": the separator after the target(s)
+
+      (                   # "2": the separator after the target(s)
          ::
       |  :
       | &::
       | &:
       )
-      (?!\=)     # the : was part of ':=' -> assignment -> fail the match!
+
+      (?!\=)              # the : was part of ':=' (= an assignment)
 
       # define named groups for recursive expansion detection:
       (?<_ch>  [^(){}\n]+                                              ){0}

@@ -277,3 +277,17 @@ overridedefine =
 #^^^^^^^             - keyword.control.override.makefile
 #       ^^^^^^       - keyword.control.define.makefile
 #^^^^^^^^^^^^^         variable.other.assignment.makefile
+
+
+# ---------------------- other modifiers ---------------------- #
+
+export define md1
+#             ^^^            variable.other.assignment.makefile
+endef
+## /^(define )?md1(?(1)$|( =))/
+
+private unexport define md2 ::=
+#^^^^^^                      keyword.control.private.makefile
+#       ^^^^^^^^             keyword.control.unexport.makefile
+endef
+## /^(define )?md2(?(1)$|( :=))/

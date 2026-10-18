@@ -369,8 +369,6 @@ repository:
     - include: "#define"
     - include: "#export"
     - include: "#undefine"
-    - include: "#override"
-    - include: "#private"
     - include: "#unexport"
     - include: "#conditional"
 
@@ -439,7 +437,10 @@ repository:
           (?x)
           ^
           \s*+  (                    # "1", optional
-                  (?: (?: override
+                  (?: (?: export
+                      |   unexport
+                      |   override
+                      |   private
                       ) [\ \t]++
                   )*+
                 )
@@ -459,7 +460,7 @@ repository:
                   =                    # ...and "="
                 )?
         beginCaptures:
-          "1": { name: keyword.control.override.makefile }
+          "1": { patterns: [include: "#assign-modifiers"] }
           "2": { name: keyword.control.define.makefile }
           "3":
             name: *SCOPE_varAsgn
@@ -517,7 +518,6 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
-        - include: "#variable-assignment"
         - include: "#directive-varname"
 
       undefine:
@@ -530,24 +530,6 @@ repository:
         - include: "#comment"
         - include: "#directive-varname"
 
-      override:
-        begin: ^[ ]*(override)\b
-        beginCaptures:
-          "1": { name: keyword.control.override.makefile }
-        end:   ^
-        patterns:
-        - include: "#comment"
-        - include: "#variable-assignment"
-
-      private:
-        begin: ^[ ]*(private)\b
-        beginCaptures:
-          "1": { name: keyword.control.private.makefile }
-        end:   ^
-        patterns:
-        - include: "#comment"
-        - include: "#variable-assignment"
-
       unexport:
         begin: ^[ ]*(unexport)\b
         beginCaptures:
@@ -555,7 +537,6 @@ repository:
         end:   ^
         patterns:
         - include: "#comment"
-        - include: "#variable-assignment"
         - include: "#directive-varname"
 
       condition-varname:
@@ -613,13 +594,20 @@ repository:
     match: &__varAssignBegin |-
       (?x)
       (?:  ^[\ ]*+|\G\s*+ ) # discard leading whitespace
+      ( (?: (?: export
+            |   unexport
+            |   override
+            |   private
+            ) [\ \t]++
+        )*                  # (not possessive: `export = v` assigns `export`)
+      )  # group 1; modifiers
       ( (?:        [^!+?=\s$:#\\]++
         |   (?<!\\) [!+?] (?!=)
         |   \\
         |   \g<exp>
         |   \$(?! [({] )
         )++
-      )  # group 1; the variable name
+      )  # group 2; the variable name
       \s*+                  # any space between name and assignment operator
                             # assignment operators:
       ( (?<![?:+!])   =     #    =
@@ -639,11 +627,9 @@ repository:
   variable-assignment:
     begin: *__varAssignBegin
     beginCaptures:
-      "1":
-        name: *SCOPE_varAsgn
-        patterns:
-        - include: "#varname-parts"
-      "2": { name: keyword.operator.assignment.makefile }
+      "1": { patterns: [include: "#assign-modifiers"] }
+      "2": { name: *SCOPE_varAsgn, patterns: [include: "#varname-parts"] }
+      "3": { name: keyword.operator.assignment.makefile }
     end: (?=\n)
     applyEndPatternLast: 1
     name: meta.expression.assignment.makefile
@@ -665,6 +651,13 @@ repository:
       name: *SCOPE_str
     - match: '[^\n]'
       name: *SCOPE_str
+
+  assign-modifiers:
+    patterns:
+    - { match: export  , name: keyword.control.export.makefile   }
+    - { match: unexport, name: keyword.control.unexport.makefile }
+    - { match: override, name: keyword.control.override.makefile }
+    - { match: private , name: keyword.control.private.makefile  }
 
 
 # --------------------------- rules --------------------------- #

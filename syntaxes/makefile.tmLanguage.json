@@ -26,6 +26,26 @@
     }
   ],
   "repository": {
+    "assign-modifiers": {
+      "patterns": [
+        {
+          "match": "export",
+          "name": "keyword.control.export.makefile"
+        },
+        {
+          "match": "unexport",
+          "name": "keyword.control.unexport.makefile"
+        },
+        {
+          "match": "override",
+          "name": "keyword.control.override.makefile"
+        },
+        {
+          "match": "private",
+          "name": "keyword.control.private.makefile"
+        }
+      ]
+    },
     "comma-condition": {
       "match": ",",
       "name": "punctuation.separator.delimiter.comma.condition.makefile"
@@ -116,12 +136,6 @@
           "include": "#undefine"
         },
         {
-          "include": "#override"
-        },
-        {
-          "include": "#private"
-        },
-        {
           "include": "#unexport"
         },
         {
@@ -210,10 +224,14 @@
           ]
         },
         "define": {
-          "begin": "(?x)\n^\n\\s*+  (                    # \"1\", optional\n        (?: (?: override\n            ) [\\ \\t]++\n        )*+\n      )\n    (\\b define   \\b)       # \"2\", required\n\\s*   (                    # \"3\", required\n        (?: [^\\s#=!+?:]++    # >=1 of the subsequences\n        |   ! (?!    =)\n        |  \\+ (?!    =)\n        |  \\? (?!    =)\n        |   : (?!:?:?=)\n        )++\n      )\n\\s*   (                    # \"4\", optional\n        (?: [!+?]            # optional prefix...\n        |   :{0,3}\n        )\n        =                    # ...and \"=\"\n      )?",
+          "begin": "(?x)\n^\n\\s*+  (                    # \"1\", optional\n        (?: (?: export\n            |   unexport\n            |   override\n            |   private\n            ) [\\ \\t]++\n        )*+\n      )\n    (\\b define   \\b)       # \"2\", required\n\\s*   (                    # \"3\", required\n        (?: [^\\s#=!+?:]++    # >=1 of the subsequences\n        |   ! (?!    =)\n        |  \\+ (?!    =)\n        |  \\? (?!    =)\n        |   : (?!:?:?=)\n        )++\n      )\n\\s*   (                    # \"4\", optional\n        (?: [!+?]            # optional prefix...\n        |   :{0,3}\n        )\n        =                    # ...and \"=\"\n      )?",
           "beginCaptures": {
             "1": {
-              "name": "keyword.control.override.makefile"
+              "patterns": [
+                {
+                  "include": "#assign-modifiers"
+                }
+              ]
             },
             "2": {
               "name": "keyword.control.define.makefile"
@@ -307,9 +325,6 @@
           "patterns": [
             {
               "include": "#comment"
-            },
-            {
-              "include": "#variable-assignment"
             },
             {
               "include": "#directive-varname"
@@ -424,40 +439,6 @@
             }
           }
         },
-        "override": {
-          "begin": "^[ ]*(override)\\b",
-          "beginCaptures": {
-            "1": {
-              "name": "keyword.control.override.makefile"
-            }
-          },
-          "end": "^",
-          "patterns": [
-            {
-              "include": "#comment"
-            },
-            {
-              "include": "#variable-assignment"
-            }
-          ]
-        },
-        "private": {
-          "begin": "^[ ]*(private)\\b",
-          "beginCaptures": {
-            "1": {
-              "name": "keyword.control.private.makefile"
-            }
-          },
-          "end": "^",
-          "patterns": [
-            {
-              "include": "#comment"
-            },
-            {
-              "include": "#variable-assignment"
-            }
-          ]
-        },
         "undefine": {
           "begin": "^[ ]*+(override\\b)?[ \\t]*+(undefine)\\b",
           "beginCaptures": {
@@ -489,9 +470,6 @@
           "patterns": [
             {
               "include": "#comment"
-            },
-            {
-              "include": "#variable-assignment"
             },
             {
               "include": "#directive-varname"
@@ -1413,9 +1391,16 @@
     },
     "variable-assignment": {
       "applyEndPatternLast": 1,
-      "begin": "(?x)\n(?:  ^[\\ ]*+|\\G\\s*+ ) # discard leading whitespace\n( (?:        [^!+?=\\s$:#\\\\]++\n  |   (?<!\\\\) [!+?] (?!=)\n  |   \\\\\n  |   \\g<exp>\n  |   \\$(?! [({] )\n  )++\n)  # group 1; the variable name\n\\s*+                  # any space between name and assignment operator\n                      # assignment operators:\n( (?<![?:+!])   =     #    =\n|              !=     #   !=\n|             \\+=     #   +=\n|             \\?=     #   ?=\n|              :=     #   :=\n|             ::=     #  ::=\n|            :::=     # :::=\n)\n(?:(?<!!=)[ \\t]*+)?   # (for !=: left to the shell-command rule)\n# define named groups for recursive expansion detection:\n(?<_ch>  [^(){}\\n$]++| \\$                                        ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)*+ \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)*+ \\) )++)  ){0}",
+      "begin": "(?x)\n(?:  ^[\\ ]*+|\\G\\s*+ ) # discard leading whitespace\n( (?: (?: export\n      |   unexport\n      |   override\n      |   private\n      ) [\\ \\t]++\n  )*                  # (not possessive: `export = v` assigns `export`)\n)  # group 1; modifiers\n( (?:        [^!+?=\\s$:#\\\\]++\n  |   (?<!\\\\) [!+?] (?!=)\n  |   \\\\\n  |   \\g<exp>\n  |   \\$(?! [({] )\n  )++\n)  # group 2; the variable name\n\\s*+                  # any space between name and assignment operator\n                      # assignment operators:\n( (?<![?:+!])   =     #    =\n|              !=     #   !=\n|             \\+=     #   +=\n|             \\?=     #   ?=\n|              :=     #   :=\n|             ::=     #  ::=\n|            :::=     # :::=\n)\n(?:(?<!!=)[ \\t]*+)?   # (for !=: left to the shell-command rule)\n# define named groups for recursive expansion detection:\n(?<_ch>  [^(){}\\n$]++| \\$                                        ){0}\n(?<exp>  (?<![^$]\\$) (?: (?: \\$\\{ (?:\\g<exp>|\\g<_ch>)*+ \\} )++\n                     |   (?: \\$\\( (?:\\g<exp>|\\g<_ch>)*+ \\) )++)  ){0}",
       "beginCaptures": {
         "1": {
+          "patterns": [
+            {
+              "include": "#assign-modifiers"
+            }
+          ]
+        },
+        "2": {
           "name": "variable.other.assignment.makefile",
           "patterns": [
             {
@@ -1423,7 +1408,7 @@
             }
           ]
         },
-        "2": {
+        "3": {
           "name": "keyword.operator.assignment.makefile"
         }
       },

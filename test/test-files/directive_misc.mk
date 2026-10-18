@@ -32,6 +32,11 @@ private  ef = EF
 private  ef:= EF
 #^^^^^^             keyword.control.private.makefile
 
+## /^OE = oe$/
+override export OE ?= oe
+#^^^^^^^                  keyword.control.override.makefile
+#        ^^^^^^           keyword.control.export.makefile
+
 unexport xxx
 #^^^^^^^            keyword.control.unexport.makefile
 #        ^^^        variable.other.makefile

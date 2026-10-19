@@ -713,21 +713,30 @@
     "expansions_bb_func-builtin_varUnary": {
       "patterns": [
         {
-          "begin": "(?<={)(flavor|origin|value)\\s(?=[^\\s}]+\\s*})",
-          "end": "(?=})",
+          "begin": "(?x)\n\\G\n( flavor\n| origin\n| value\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "end": "(?x) (?= \\}) | (?=\\n)",
           "beginCaptures": {
             "1": {
               "name": "support.function.$1.makefile"
             }
           },
           "name": "meta.function-call.makefile",
-          "contentName": "variable.other.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
+          "applyEndPatternLast": 1,
           "patterns": [
             {
               "include": "#doubleDollar"
             },
             {
               "include": "#expansions"
+            },
+            {
+              "match": "(?x) ((?:        [^\\\\$\\n{}(] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "variable.other.makefile"
+                }
+              }
             }
           ]
         }
@@ -830,21 +839,30 @@
     "expansions_pp_func-builtin_varUnary": {
       "patterns": [
         {
-          "begin": "(?<=\\()(flavor|origin|value)\\s(?=[^\\s)]+\\s*\\))",
-          "end": "(?=\\))",
+          "begin": "(?x)\n\\G\n( flavor\n| origin\n| value\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "end": "(?x) (?= \\)) | (?=\\n)",
           "beginCaptures": {
             "1": {
               "name": "support.function.$1.makefile"
             }
           },
           "name": "meta.function-call.makefile",
-          "contentName": "variable.other.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
+          "applyEndPatternLast": 1,
           "patterns": [
             {
               "include": "#doubleDollar"
             },
             {
               "include": "#expansions"
+            },
+            {
+              "match": "(?x) ((?:        [^\\\\$\\n(){] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "variable.other.makefile"
+                }
+              }
             }
           ]
         }

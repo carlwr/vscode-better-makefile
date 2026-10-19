@@ -62,12 +62,14 @@ varnme2 = $(dir _$$_)
 varnmeA = $(dir  s r)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^^   meta.function-call.makefile
-#                ^ ^   meta.function-call.arguments.makefile
+#                ^^^   meta.function-call.arguments.makefile
 #                ^ ^   string.unquoted.makefile
 
-varnmeAv= $(value _s_r)
+varnmeAv= $(value  s r)
 #           ^^^^^      support.function.value.makefile
 #           ^^^^^^^^^^ meta.function-call.makefile
+#                  ^^^ meta.function-call.arguments.makefile
+#                  ^ ^ variable.other.makefile
 
 varnmeB = $(dir )
 #           ^^^        support.function.dir.makefile
@@ -241,8 +243,7 @@ endif
 
 # ...test:
 V_comSp := $(if t, y,n)
-# TODO "...test:"
-
+#                 ^^  string.unquoted.makefile
 
 # ------------------------- line-cont. ------------------------ #
 

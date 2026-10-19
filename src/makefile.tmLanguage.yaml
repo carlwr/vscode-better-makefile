@@ -166,6 +166,15 @@ __miscAnchors:
     (?=[ \\])
     (?:\s*)    # eat any space following the function name
 
+- &__builtInFunc_varUnary |-
+    (?x)
+    \G
+    ( flavor
+    | origin
+    | value
+    )
+    (?=[ \\])
+    (?:\s*)
 
 # arg segments:
 #
@@ -795,25 +804,31 @@ repository:
 
   expansions_pp_func-builtin_varUnary:
     patterns:
-    - begin: (?<=\()(flavor|origin|value)\s(?=[^\s)]+\s*\))
-      end:   (?=\))
+    - begin: *__builtInFunc_varUnary
+      end:   (?x) (?= \)) | (?=\n)
       beginCaptures: { "1": { name: support.function.$1.makefile } }
-      name: meta.function-call.makefile
-      contentName: *SCOPE_var
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
       patterns:
       - include: "#doubleDollar"
       - include: "#expansions"
+      - match: *__funcarg_unary-pp
+        captures: { "1": { name: *SCOPE_var } }
 
   expansions_bb_func-builtin_varUnary:
     patterns:
-    - begin: (?<={)(flavor|origin|value)\s(?=[^\s}]+\s*})
-      end:   (?=})
+    - begin: *__builtInFunc_varUnary
+      end:   (?x) (?= \}) | (?=\n)
       beginCaptures: { "1": { name: support.function.$1.makefile } }
-      name: meta.function-call.makefile
-      contentName: *SCOPE_var
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
       patterns:
       - include: "#doubleDollar"
       - include: "#expansions"
+      - match: *__funcarg_unary-bb
+        captures: { "1": { name: *SCOPE_var } }
 
 
   # "*NESTED*" rules

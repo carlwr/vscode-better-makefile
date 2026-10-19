@@ -1,6 +1,10 @@
 # SYNTAX TEST "source.makefile"
 
 
+v := $(value var)
+#      ^^^^^              support.function.value.makefile
+#            ^^^          variable.other.makefile
+
 v := $(flavor var)
 #      ^^^^^^             support.function.flavor.makefile
 #             ^^^         variable.other.makefile

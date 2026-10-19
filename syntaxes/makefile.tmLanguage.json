@@ -672,7 +672,7 @@
     "expansions_bb_func-builtin_multiary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
           "end": "(?x) (?= \\}) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -713,7 +713,7 @@
     "expansions_bb_func-builtin_varUnary": {
       "patterns": [
         {
-          "begin": "(?<={)(origin|flavor)\\s(?=[^\\s}]+\\s*})",
+          "begin": "(?<={)(flavor|origin|value)\\s(?=[^\\s}]+\\s*})",
           "end": "(?=})",
           "beginCaptures": {
             "1": {
@@ -789,7 +789,7 @@
     "expansions_pp_func-builtin_multiary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| value\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( abspath\n| addprefix\n| addsuffix\n| and\n| basename\n| call\n| dir\n| error\n| eval\n| file\n| filter\n| filter-out\n| findstring\n| firstword\n| foreach\n| guile\n| if\n| info\n| intcmp\n| join\n| lastword\n| let\n| notdir\n| or\n| patsubst\n| realpath\n| shell\n| sort\n| strip\n| subst\n| suffix\n| warning\n| wildcard\n| word\n| wordlist\n| words\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
           "end": "(?x) (?= \\)) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -830,7 +830,7 @@
     "expansions_pp_func-builtin_varUnary": {
       "patterns": [
         {
-          "begin": "(?<=\\()(origin|flavor)\\s(?=[^\\s)]+\\s*\\))",
+          "begin": "(?<=\\()(flavor|origin|value)\\s(?=[^\\s)]+\\s*\\))",
           "end": "(?=\\))",
           "beginCaptures": {
             "1": {

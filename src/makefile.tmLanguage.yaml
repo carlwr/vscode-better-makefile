@@ -157,7 +157,6 @@ __miscAnchors:
     | strip
     | subst
     | suffix
-    | value
     | warning
     | wildcard
     | word
@@ -796,7 +795,7 @@ repository:
 
   expansions_pp_func-builtin_varUnary:
     patterns:
-    - begin: (?<=\()(origin|flavor)\s(?=[^\s)]+\s*\))
+    - begin: (?<=\()(flavor|origin|value)\s(?=[^\s)]+\s*\))
       end:   (?=\))
       beginCaptures: { "1": { name: support.function.$1.makefile } }
       name: meta.function-call.makefile
@@ -807,7 +806,7 @@ repository:
 
   expansions_bb_func-builtin_varUnary:
     patterns:
-    - begin: (?<={)(origin|flavor)\s(?=[^\s}]+\s*})
+    - begin: (?<={)(flavor|origin|value)\s(?=[^\s}]+\s*})
       end:   (?=})
       beginCaptures: { "1": { name: support.function.$1.makefile } }
       name: meta.function-call.makefile

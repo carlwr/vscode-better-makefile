@@ -62,13 +62,12 @@ varnme2 = $(dir _$$_)
 varnmeA = $(dir  s r)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^^   meta.function-call.makefile
-#                ^^^   meta.function-call.arguments.makefile
+#                ^ ^   meta.function-call.arguments.makefile
 #                ^ ^   string.unquoted.makefile
 
-varnmeAv= $(value  s r)
+varnmeAv= $(value _s_r)
 #           ^^^^^      support.function.value.makefile
 #           ^^^^^^^^^^ meta.function-call.makefile
-#                  ^^^ meta.function-call.arguments.makefile
 
 varnmeB = $(dir )
 #           ^^^        support.function.dir.makefile

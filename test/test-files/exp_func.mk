@@ -9,6 +9,8 @@ $(info message)
 
 $(info 1,2,3,4)
 # ^^^^               support.function.info.makefile
+#      ^^^^^^^       string.unquoted.makefile
+#      ^^^^^^^     - punctuation.separator.delimiter.comma.function.makefile
 
 $(info     msg)
 # ^^^^               support.function.info.makefile
@@ -25,6 +27,10 @@ v00 = $(dir /path/f)
 $(info [DEBUG] q = 100%)
 # ^^^^                             support.function.info.makefile
 #      ^^^^^^^^^^^^^^^^            string.unquoted.makefile
+
+v10 = $(dir a=?[]*:\ ,\\ (_)(){})
+#       ^^^                        support.function.dir.makefile
+#           ^^^^^^^^^^^^^^^^^^^^   string.unquoted.makefile
 
 v20 = $(dir (=?[]*:\ ,\\ (_)(){}))
 #       ^^^                        support.function.dir.makefile

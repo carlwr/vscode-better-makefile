@@ -129,50 +129,66 @@ __miscAnchors:
 # built-in functions anchors
 # --------------------------
 
+# terminology:
+#
+#   TERM        EXAMPLE          COMMENTS
+#   --------    -------------    ----------------------------------
+#   multiary    $(if t,Y,n)      have commas, the args are strings
+#   unary       $(words a)       no commas,   the arg is a string
+#   unaryVar    $(value name)    no commas,   the arg is a var name
+#
+
 - &__builtInFunc_multiary |-
     (?x)
     \G
     (?# built-in functions -> )
     (?# ref.: function.c -> struct function_table_entry + guile)
-    ( abspath
-    | addprefix
+    ( addprefix
     | addsuffix
     | and
-    | basename
     | call
-    | dir
-    | error
-    | eval
     | file
     | filter
     | filter-out
     | findstring
-    | firstword
     | foreach
-    | guile
     | if
-    | info
     | intcmp
     | join
-    | lastword
     | let
-    | notdir
     | or
     | patsubst
+    | subst
+    | word
+    | wordlist
+    )
+    (?=[ \\])
+    (?:\s*)    # eat any space following the function name
+
+- &__builtInFunc_unary |-
+    (?x)
+    \G
+    ( abspath
+    | basename
+    | dir
+    | error
+    | eval
+    | firstword
+    | guile
+    | info
+    | lastword
+    | notdir
     | realpath
     | shell
     | sort
     | strip
-    | subst
     | suffix
     | warning
     | wildcard
-    | word
-    | wordlist
     | words
     )
     (?=[ \\])
-    (?:\s*)    # eat any space following the function name
+    (?:\s*)
 
 - &__builtInFunc_varUnary |-
     (?x)
@@ -789,6 +805,7 @@ repository:
       patterns:
       - include: "#line-cont"
       - include: "#expansions_pp_func-builtin_multiary"
+      - include: "#expansions_pp_func-builtin_unary"
       - include: "#expansions_pp_func-builtin_varUnary"
       - include: "#expansions"
       - include: "#varname-specialVar"
@@ -809,6 +826,7 @@ repository:
       patterns:
       - include: "#line-cont"
       - include: "#expansions_bb_func-builtin_multiary"
+      - include: "#expansions_bb_func-builtin_unary"
       - include: "#expansions_bb_func-builtin_varUnary"
       - include: "#expansions"
       - include: "#varname-specialVar"
@@ -850,6 +868,38 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - include: "#line-cont"
       - match: *__funcarg_multiary-bb
+        captures: { "1": { name: *SCOPE_str } }
+
+  expansions_pp_func-builtin_unary:
+    patterns:
+    - begin: *__builtInFunc_unary
+      end:   (?x) (?= \)) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#doubleDollar"
+      - include: "#expansions"
+      - include: "#expansions--func-builtin-NESTED"
+      - include: "#line-cont"
+      - match: *__funcarg_unary-pp
+        captures: { "1": { name: *SCOPE_str } }
+
+  expansions_bb_func-builtin_unary:
+    patterns:
+    - begin: *__builtInFunc_unary
+      end:   (?x) (?= \}) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#doubleDollar"
+      - include: "#expansions"
+      - include: "#expansions--func-builtin-NESTED"
+      - include: "#line-cont"
+      - match: *__funcarg_unary-bb
         captures: { "1": { name: *SCOPE_str } }
 
   expansions_pp_func-builtin_varUnary:

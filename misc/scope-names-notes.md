@@ -235,6 +235,18 @@ function calls/invocation meta-scope (at call sites)
     * (says nothing about meta scopes at function call sites either way)
 
 
+* function arguments (at call sites)
+  * -> decide:
+    * `meta.function-call.arguments.makefile`
+  * other grammars:
+    * (most grammars: no scope; exceptions:)
+    * `meta.arguments.coffeescript`
+    * `meta.function-call.arguments.python`
+    * `meta.function-call.arguments.r`
+  * guidelines:
+    * Sublimetext guidelines: says nothing
+
+
 strings
 * what to scope with _string_ scopes?
   * -> decide:

@@ -746,6 +746,7 @@ repository:
       end:   (?x) (?= \)) | (?=\n)
       beginCaptures: { "1": { name: support.function.$1.makefile } }
       name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
       applyEndPatternLast: 1
       patterns:
       - include: "#comma-funcargs"
@@ -760,6 +761,7 @@ repository:
       end:   (?x) (?= \}) | (?=\n)
       beginCaptures: { "1": { name: support.function.$1.makefile } }
       name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
       applyEndPatternLast: 1
       patterns:
       - include: "#comma-funcargs"

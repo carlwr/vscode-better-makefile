@@ -27,6 +27,7 @@ keyword.other.operator.percent.makefile
 keyword.other.operator.substref.percent.makefile
 meta.escaped-char.makefile
 meta.expression.assignment.makefile
+meta.function-call.arguments.makefile
 meta.function-call.braces-group.makefile
 meta.function-call.makefile
 meta.function-call.parens-group.makefile

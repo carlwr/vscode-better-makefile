@@ -644,6 +644,7 @@
             }
           },
           "name": "meta.function-call.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
           "applyEndPatternLast": 1,
           "patterns": [
             {
@@ -752,6 +753,7 @@
             }
           },
           "name": "meta.function-call.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
           "applyEndPatternLast": 1,
           "patterns": [
             {

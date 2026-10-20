@@ -26,15 +26,16 @@ $(info [DEBUG] q = 100%)
 
 # ------------- in assignment-RHSs, in rule heads ------------- #
 
-
 varnme0 = $(dir str)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^    meta.scope.expansion.makefile
 #           ^^^^^^^    meta.function-call.makefile
+#               ^^^    meta.function-call.arguments.makefile
 
 varnme1 = $(dir  str)
 #           ^^^        support.function.dir.makefile
 #           ^^^^^^^^   meta.function-call.makefile
+#                ^^^   meta.function-call.arguments.makefile
 
 varnme2 = $(dir str )
 #           ^^^        support.function.dir.makefile
@@ -117,7 +118,6 @@ RULE:
 
 vA= $(if t,y,n)
 #         ^ ^         punctuation.separator.delimiter.comma.function.makefile
-#   ^^^^^           - meta.function-call.arguments.makefile
 
 vA= $(if t,y,)
 #         ^ ^         punctuation.separator.delimiter.comma.function.makefile

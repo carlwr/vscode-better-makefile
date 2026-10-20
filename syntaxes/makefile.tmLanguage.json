@@ -928,7 +928,7 @@
               "match": "(?x)\n(?# special targets: )\n(?<![^ ])\n( \\.DEFAULT\n| \\.DELETE_ON_ERROR\n| \\.EXPORT_ALL_VARIABLES\n| \\.IGNORE\n| \\.INTERMEDIATE\n| \\.LOW_RESOLUTION_TIME\n| \\.NOTINTERMEDIATE\n| \\.NOTPARALLEL\n| \\.ONESHELL\n| \\.PHONY\n| \\.POSIX\n| \\.PRECIOUS\n| \\.SECONDARY\n| \\.SECONDEXPANSION\n| \\.SILENT\n| \\.SUFFIXES\n| \\.WAIT\n)\n(\\z|(?=[ ]))",
               "captures": {
                 "1": {
-                  "name": "support.function.target.$1.makefile variable.language.constant.makefile constant.language.makefile"
+                  "name": "support.function.target.$1.makefile"
                 }
               }
             },

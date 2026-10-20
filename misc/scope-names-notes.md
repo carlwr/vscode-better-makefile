@@ -113,7 +113,18 @@ positional variables
 special targets (e.g. `.PHONY`)
 * -> decide to scope:
   * `support.function.target.$1.makefile`
-  * _and_ with the scopes used for built-in constants (that the user may only read, not set)
+    * since: that's what `make.tmbundle` does (-> yellow in VSCode-Modern/2026)
+    * note: -> special targets styled distinct from user targets with VSCode-2026 but not with VSCode-Modern
+* considered and rejected: adding also `support.type.target.$1.makefile`
+  * for: would make user<->special targets distinct also with VSCode-Modern
+  * against: would be a stretch semantically; would introduce a visual difference vs. `make.tmbundle`; wouldn't add visual benefit in the most important theme (VSCode-2026)
+* themes
+  * VSCode-Modern, VSCode-2026
+    * `support.type`: green-teal
+  * VSCode
+    * `entity.other.attribute` styled green-teal
+  * Catppuccin
+    * `support.type`: yellow + italic
 
 
 prereqs in rule head:

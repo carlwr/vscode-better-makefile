@@ -340,7 +340,7 @@ repository:
           name: *SCOPE_str  # not expected to be assigned
 
   wildcard:
-    match: \\*[*?\[\]]
+    match: '(?x) \\* (?: [*?\[\]] | (?<=\s|^)~(?![*?\[\]]) )'
     # same structure as "percent" - see that rule for explanation
     captures:
       "0":
@@ -348,7 +348,7 @@ repository:
         - include: "#esc-backslashes"
         - match: \\[*?\[\]]
           name: constant.character.escape.wildcard.makefile
-        - match: '[*?\[\]]'
+        - match: '(?x) (?: [*?\[\]] | (?<=\s|^)~(?![*?\[\]]) )'
           name: >-
             variable.language.special.wildcard.makefile
             variable.other.constant.wildcard.makefile
@@ -1007,6 +1007,8 @@ repository:
       - include: "#wildcard"
       - match: *__funcarg_wildc-pp
         captures: { "1": { name: *SCOPE_str } }
+      - match: '~'
+        name: *SCOPE_str
 
   expansions_bb_func-builtin_wildc:
     patterns:
@@ -1024,6 +1026,8 @@ repository:
       - include: "#wildcard"
       - match: *__funcarg_wildc-bb
         captures: { "1": { name: *SCOPE_str } }
+      - match: '~'
+        name: *SCOPE_str
 
 
   # "*NESTED*" rules

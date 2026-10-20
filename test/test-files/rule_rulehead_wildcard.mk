@@ -19,6 +19,18 @@ _?_*: [ _]
 #^^^       meta.scope.target.makefile
 #     ^^^^ meta.scope.prerequisites.makefile
 
+sbf/f ~rms/f: g
+#     ^       variable.language.special.wildcard.makefile
+#^^^^^^^^^^^  meta.scope.target.makefile
+
+~rms/f: g
+#<-        variable.language.special.wildcard.makefile
+#^^^^^     meta.scope.target.makefile
+
+word~: g
+#   ^    - variable.language.special.wildcard.makefile
+#^^^^      meta.scope.target.makefile
+
 
 
 # escapes

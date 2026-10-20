@@ -890,6 +890,10 @@
                   "name": "meta.string.makefile string.unquoted.makefile"
                 }
               }
+            },
+            {
+              "match": "~",
+              "name": "meta.string.makefile string.unquoted.makefile"
             }
           ]
         }
@@ -1148,6 +1152,10 @@
                   "name": "meta.string.makefile string.unquoted.makefile"
                 }
               }
+            },
+            {
+              "match": "~",
+              "name": "meta.string.makefile string.unquoted.makefile"
             }
           ]
         }
@@ -1572,7 +1580,7 @@
               "name": "constant.character.escape.wildcard.makefile"
             },
             {
-              "match": "[*?\\[\\]]",
+              "match": "(?x) (?: [*?\\[\\]] | (?<=\\s|^)~(?![*?\\[\\]]) )",
               "name": "variable.language.special.wildcard.makefile variable.other.constant.wildcard.makefile constant.other.placeholder.wildcard.makefile"
             },
             {
@@ -1582,7 +1590,7 @@
           ]
         }
       },
-      "match": "\\\\*[*?\\[\\]]"
+      "match": "(?x) \\\\* (?: [*?\\[\\]] | (?<=\\s|^)~(?![*?\\[\\]]) )"
     }
   }
 }

@@ -33,6 +33,8 @@ meta.function-call.braces-group.makefile
 meta.function-call.makefile
 meta.function-call.parens-group.makefile
 meta.scope.condition.makefile
+meta.scope.condition.parens.makefile
+meta.scope.condition.quoted.makefile
 meta.scope.conditional.makefile
 meta.scope.define.body.makefile
 meta.scope.define.makefile
@@ -50,10 +52,14 @@ meta.string.makefile
 meta.substref.makefile
 punctuation.definition.comment.makefile
 punctuation.definition.parameters.load-symbolname.makefile
+punctuation.definition.string.begin.makefile
+punctuation.definition.string.end.makefile
 punctuation.definition.template-expression.begin.makefile
 punctuation.definition.template-expression.end.makefile
 punctuation.definition.variable.makefile
 punctuation.section.load-symbolname.makefile
+punctuation.section.parens.begin.condition.makefile
+punctuation.section.parens.end.condition.makefile
 punctuation.separator.continuation.makefile
 punctuation.separator.delimiter.comma.condition.makefile
 punctuation.separator.delimiter.comma.function.makefile
@@ -64,6 +70,8 @@ punctuation.separator.substref.colon.makefile
 punctuation.separator.substref.equal.makefile
 punctuation.whitespace.comment.leading.makefile
 source.makefile
+string.quoted.double.makefile
+string.quoted.single.makefile
 string.unquoted.makefile
 string.unquoted.path.makefile
 support.function.$1.makefile

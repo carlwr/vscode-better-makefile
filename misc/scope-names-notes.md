@@ -286,6 +286,7 @@ strings
     - those ranges that we can reliably know to be strings: RHS of assignments (including define), except `!=`
     - function args
     - relevant parts of substref-s
+    - operands of `ifeq`, `ifneq`
   * since:
     * function args: keeps `fadeevab/make.tmbundle`'s look
     * precedents
@@ -331,6 +332,30 @@ paths: args of directives `include`, `load`, `vpath`
     * decided against since uncommon in other grammars, and since it would add little value
   * `vpath` pattern: also scoped as path (a file name pattern)
   * not for: function args (more work), targets + prereqs (not known to be paths)
+
+
+operands of `ifeq`, `ifneq`
+* terms: _conditional_: an `if..`/`endif` block; _condition_: what follows an `if..` keyword; _operands_: the condition's args
+* -> decide to scope:
+  * `(` + `)`: `punctuation.section.parens.{begin,end}.condition`
+    * since: precedent in VS Code's C grammar (`if (..)`); the parens group no expression
+    * `.condition`: as for the comma; brackets occur in other constructs too
+    * considered and rejected: `punctuation.section.group.*` (SublimeText's Makefile grammar)
+  * `'..'`, `".."`:
+    * `meta.string`
+    * `string.quoted.{single,double}`
+      * since: convention; precedent in SublimeText's Makefile grammar
+    * quote chars: `punctuation.definition.string.{begin,end}`
+      * no `.condition`: quotes are syntax only here
+  * operands within `(..)`: strings, as function args
+  * meta scopes: `meta.scope.condition.{parens,quoted}`
+    * since: specific -> aids debugging + targeted theme rules
+    * `quoted`, not e.g. `quoted-string`: a `string` part makes the whole operand, `$(..)` included, a string token
+* known gaps: nested bare parens, e.g. `((a),b)`; line cont. outside operands
+* themes
+  * VS Code: styles none of these scopes, except through `string`
+* guidelines
+  * Sublimetext: parens: `meta.group` + `punctuation.section.group.*`, or `meta.parens` + `punctuation.section.parens.*`, "based on appropriate semantics"
 
 
 ## scope prefix `meta.scope.X` vs. `meta.X`

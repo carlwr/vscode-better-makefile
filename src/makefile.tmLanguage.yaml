@@ -51,6 +51,12 @@ __miscAnchors:
 - &SCOPE_expPunct_close >-
     punctuation.definition.template-expression.end.makefile
 
+- &SCOPE_conditionParens_open >-
+    punctuation.section.parens.begin.condition.makefile
+
+- &SCOPE_conditionParens_close >-
+    punctuation.section.parens.end.condition.makefile
+
 - &SCOPE_recipe__ >-
     meta.scope.recipe.makefile
     meta.shell-command.recipe.makefile
@@ -71,6 +77,14 @@ __miscAnchors:
 - &SCOPE_path >-
     meta.string.makefile
     string.unquoted.path.makefile
+
+- &SCOPE_strSingleQuote >-
+    meta.string.makefile
+    string.quoted.single.makefile
+
+- &SCOPE_strDoubleQuote >-
+    meta.string.makefile
+    string.quoted.double.makefile
 
 - &SCOPE_target_special >-
     support.function.target.$1.makefile
@@ -555,10 +569,59 @@ repository:
             patterns:
             - include: "#varname-parts"
 
+      condition-operand-parts:
+        patterns:
+        - include: "#doubleDollar"
+        - include: "#expansions"
+        - include: "#comment"
+        - include: "#line-cont"
+
+      condition-parens:
+        begin: (?x) \(
+        end:   (?x) \) | (?=\n)
+        beginCaptures: { "0": { name: *SCOPE_conditionParens_open } }
+        endCaptures:   { "0": { name: *SCOPE_conditionParens_close } }
+        name: meta.scope.condition.parens.makefile
+        patterns:
+        - include: "#comma-condition"
+        - include: "#condition-operand-parts"
+        - match: (?x) [^,\n$#\\()]+ | [^,\n()]
+          name: *SCOPE_str
+
+      condition-quoted:
+        patterns:
+        - begin: (?x) (')
+          end:   (?x) (') | (?=\n)
+          beginCaptures:
+            "0": { name: *SCOPE_strSingleQuote }
+            "1": { name: punctuation.definition.string.begin.makefile }
+          endCaptures:
+            "0": { name: *SCOPE_strSingleQuote }
+            "1": { name: punctuation.definition.string.end.makefile }
+          name: meta.scope.condition.quoted.makefile
+          patterns:
+          - include: "#condition-operand-parts"
+          - match: (?x) [^'\n$#\\]+ | [^'\n]
+            name: *SCOPE_strSingleQuote
+        - begin: (?x) (")
+          end:   (?x) (") | (?=\n)
+          beginCaptures:
+            "0": { name: *SCOPE_strDoubleQuote }
+            "1": { name: punctuation.definition.string.begin.makefile }
+          endCaptures:
+            "0": { name: *SCOPE_strDoubleQuote }
+            "1": { name: punctuation.definition.string.end.makefile }
+          name: meta.scope.condition.quoted.makefile
+          patterns:
+          - include: "#condition-operand-parts"
+          - match: (?x) [^"\n$#\\]+ | [^"\n]
+            name: *SCOPE_strDoubleQuote
+
       condition-body:
         patterns:
         - include: "#condition-varname"
-        - include: "#comma-condition"
+        - include: "#condition-parens"
+        - include: "#condition-quoted"
         - include: "#doubleDollar"
         - include: "#expansions"
         - include: "#comment"

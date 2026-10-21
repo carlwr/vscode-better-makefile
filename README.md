@@ -53,6 +53,7 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
   - single-line rules (`t: p; recipe`)
   - RHS of assignments (strings) (`var := a_string`)
   - comma separators for function arguments (`$(if true,1,0)`) (except when `,`s are literal; `$(info Yes, sir!)`)
+  - punctuation around operands of conditionals (`ifeq ($u,1)`)
   - escape and escaped characters, depending on syntax context
 - does not highlight invalid syntax as valid in some cases where the default _VS Code_ grammar incorrectly does, making errors easier to spot
   - e.g. `$(SHELL )`, `$((SHELL))` (_GNU `make`_ does not expand those to the intended special variables, but the default _VS Code_ grammar highlights as if they do)

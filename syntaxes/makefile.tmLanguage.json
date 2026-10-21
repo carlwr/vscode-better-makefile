@@ -159,7 +159,10 @@
               "include": "#condition-varname"
             },
             {
-              "include": "#comma-condition"
+              "include": "#condition-parens"
+            },
+            {
+              "include": "#condition-quoted"
             },
             {
               "include": "#doubleDollar"
@@ -169,6 +172,113 @@
             },
             {
               "include": "#comment"
+            }
+          ]
+        },
+        "condition-operand-parts": {
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#line-cont"
+            }
+          ]
+        },
+        "condition-parens": {
+          "begin": "(?x) \\(",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.begin.condition.makefile"
+            }
+          },
+          "end": "(?x) \\) | (?=\\n)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.end.condition.makefile"
+            }
+          },
+          "name": "meta.scope.condition.parens.makefile",
+          "patterns": [
+            {
+              "include": "#comma-condition"
+            },
+            {
+              "include": "#condition-operand-parts"
+            },
+            {
+              "match": "(?x) [^,\\n$#\\\\()]+ | [^,\\n()]",
+              "name": "meta.string.makefile string.unquoted.makefile"
+            }
+          ]
+        },
+        "condition-quoted": {
+          "patterns": [
+            {
+              "begin": "(?x) (')",
+              "end": "(?x) (') | (?=\\n)",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.string.makefile string.quoted.single.makefile"
+                },
+                "1": {
+                  "name": "punctuation.definition.string.begin.makefile"
+                }
+              },
+              "endCaptures": {
+                "0": {
+                  "name": "meta.string.makefile string.quoted.single.makefile"
+                },
+                "1": {
+                  "name": "punctuation.definition.string.end.makefile"
+                }
+              },
+              "name": "meta.scope.condition.quoted.makefile",
+              "patterns": [
+                {
+                  "include": "#condition-operand-parts"
+                },
+                {
+                  "match": "(?x) [^'\\n$#\\\\]+ | [^'\\n]",
+                  "name": "meta.string.makefile string.quoted.single.makefile"
+                }
+              ]
+            },
+            {
+              "begin": "(?x) (\")",
+              "end": "(?x) (\") | (?=\\n)",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.string.makefile string.quoted.double.makefile"
+                },
+                "1": {
+                  "name": "punctuation.definition.string.begin.makefile"
+                }
+              },
+              "endCaptures": {
+                "0": {
+                  "name": "meta.string.makefile string.quoted.double.makefile"
+                },
+                "1": {
+                  "name": "punctuation.definition.string.end.makefile"
+                }
+              },
+              "name": "meta.scope.condition.quoted.makefile",
+              "patterns": [
+                {
+                  "include": "#condition-operand-parts"
+                },
+                {
+                  "match": "(?x) [^\"\\n$#\\\\]+ | [^\"\\n]",
+                  "name": "meta.string.makefile string.quoted.double.makefile"
+                }
+              ]
             }
           ]
         },

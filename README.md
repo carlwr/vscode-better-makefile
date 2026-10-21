@@ -45,6 +45,7 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
   - assignment operators `::=`, `!=`
   - rulehead separators `&:`, `::`
   - substitution references (`$(src:%.c=%.o)`)
+  - placeholder chars for function arguments that give them special meaning (`$(patsubst src,%.c,%.o)`, `$(filter tmp%,$(files))`)
   - parenthesized automatic variables (`$(@D)`, `$(@F)`, `$(@)`)
   - static-pattern rules (`a.o b.o: %.o: %.c`)
   - wildcard chars in ruleheads (`*.o: common.h`)

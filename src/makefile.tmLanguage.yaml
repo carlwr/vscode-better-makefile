@@ -148,8 +148,6 @@ __miscAnchors:
     | and
     | call
     | file
-    | filter
-    | filter-out
     | findstring
     | foreach
     | if
@@ -157,7 +155,6 @@ __miscAnchors:
     | join
     | let
     | or
-    | patsubst
     | subst
     | word
     | wordlist
@@ -200,6 +197,17 @@ __miscAnchors:
     (?=[ \\])
     (?:\s*)
 
+- &__builtInFunc_percents |-
+    (?x)
+    \G
+    ( filter
+    | filter-out
+    | patsubst
+    )
+    (?=[ \\])
+    (?:\s*)
+
+
 # arg segments:
 #
 # how to form segments differ by arity, e.g.:
@@ -217,6 +225,9 @@ __miscAnchors:
 
 - &__funcarg_unary-pp    '(?x) ((?:        [^\\$\n(){] | \\(?!\\*\n) )+)'
 - &__funcarg_unary-bb    '(?x) ((?:        [^\\$\n{}(] | \\(?!\\*\n) )+)'
+
+- &__funcarg_percents-pp '(?x) ((?:      [^%,\\$\n(){] | \\(?!\\*\n) )+)'
+- &__funcarg_percents-bb '(?x) ((?:      [^%,\\$\n{}(] | \\(?!\\*\n) )+)'
 
 
 
@@ -807,6 +818,7 @@ repository:
       - include: "#expansions_pp_func-builtin_multiary"
       - include: "#expansions_pp_func-builtin_unary"
       - include: "#expansions_pp_func-builtin_varUnary"
+      - include: "#expansions_pp_func-builtin_percents"
       - include: "#expansions"
       - include: "#varname-specialVar"
       - include: "#varname-automatic"
@@ -828,6 +840,7 @@ repository:
       - include: "#expansions_bb_func-builtin_multiary"
       - include: "#expansions_bb_func-builtin_unary"
       - include: "#expansions_bb_func-builtin_varUnary"
+      - include: "#expansions_bb_func-builtin_percents"
       - include: "#expansions"
       - include: "#varname-specialVar"
       - include: "#varname-automatic"
@@ -929,6 +942,42 @@ repository:
       - include: "#expansions"
       - match: *__funcarg_unary-bb
         captures: { "1": { name: *SCOPE_var } }
+
+
+  expansions_pp_func-builtin_percents:
+    patterns:
+    - begin: *__builtInFunc_percents
+      end:   (?x) (?= \)) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#comma-funcargs"
+      - include: "#doubleDollar"
+      - include: "#expansions"
+      - include: "#expansions--func-builtin-NESTED"
+      - include: "#line-cont"
+      - include: "#percent"
+      - match: *__funcarg_percents-pp
+        captures: { "1": { name: *SCOPE_str } }
+
+  expansions_bb_func-builtin_percents:
+    patterns:
+    - begin: *__builtInFunc_percents
+      end:   (?x) (?= \}) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#comma-funcargs"
+      - include: "#doubleDollar"
+      - include: "#expansions"
+      - include: "#expansions--func-builtin-NESTED"
+      - include: "#line-cont"
+      - match: *__funcarg_percents-bb
+        captures: { "1": { name: *SCOPE_str } }
 
 
   # "*NESTED*" rules

@@ -669,6 +669,9 @@
               "include": "#expansions_bb_func-builtin_varUnary"
             },
             {
+              "include": "#expansions_bb_func-builtin_percents"
+            },
+            {
               "include": "#expansions"
             },
             {
@@ -697,7 +700,7 @@
     "expansions_bb_func-builtin_multiary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( addprefix\n| addsuffix\n| and\n| call\n| file\n| filter\n| filter-out\n| findstring\n| foreach\n| if\n| intcmp\n| join\n| let\n| or\n| patsubst\n| subst\n| word\n| wordlist\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( addprefix\n| addsuffix\n| and\n| call\n| file\n| findstring\n| foreach\n| if\n| intcmp\n| join\n| let\n| or\n| subst\n| word\n| wordlist\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
           "end": "(?x) (?= \\}) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -725,6 +728,47 @@
             },
             {
               "match": "(?x) ((?:       [^,\\\\$\\n{}(] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "expansions_bb_func-builtin_percents": {
+      "patterns": [
+        {
+          "begin": "(?x)\n\\G\n( filter\n| filter-out\n| patsubst\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "end": "(?x) (?= \\}) | (?=\\n)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "name": "meta.function-call.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#comma-funcargs"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#line-cont"
+            },
+            {
+              "match": "(?x) ((?:      [^%,\\\\$\\n{}(] | \\\\(?!\\\\*\\n) )+)",
               "captures": {
                 "1": {
                   "name": "meta.string.makefile string.unquoted.makefile"
@@ -836,6 +880,9 @@
               "include": "#expansions_pp_func-builtin_varUnary"
             },
             {
+              "include": "#expansions_pp_func-builtin_percents"
+            },
+            {
               "include": "#expansions"
             },
             {
@@ -864,7 +911,7 @@
     "expansions_pp_func-builtin_multiary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( addprefix\n| addsuffix\n| and\n| call\n| file\n| filter\n| filter-out\n| findstring\n| foreach\n| if\n| intcmp\n| join\n| let\n| or\n| patsubst\n| subst\n| word\n| wordlist\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
+          "begin": "(?x)\n\\G\n(?# built-in functions -> )\n(?# ref.: function.c -> struct function_table_entry + guile)\n( addprefix\n| addsuffix\n| and\n| call\n| file\n| findstring\n| foreach\n| if\n| intcmp\n| join\n| let\n| or\n| subst\n| word\n| wordlist\n)\n(?=[ \\\\])\n(?:\\s*)    # eat any space following the function name",
           "end": "(?x) (?= \\)) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -892,6 +939,50 @@
             },
             {
               "match": "(?x) ((?:       [^,\\\\$\\n(){] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "expansions_pp_func-builtin_percents": {
+      "patterns": [
+        {
+          "begin": "(?x)\n\\G\n( filter\n| filter-out\n| patsubst\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "end": "(?x) (?= \\)) | (?=\\n)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "name": "meta.function-call.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#comma-funcargs"
+            },
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#line-cont"
+            },
+            {
+              "include": "#percent"
+            },
+            {
+              "match": "(?x) ((?:      [^%,\\\\$\\n(){] | \\\\(?!\\\\*\\n) )+)",
               "captures": {
                 "1": {
                   "name": "meta.string.makefile string.unquoted.makefile"

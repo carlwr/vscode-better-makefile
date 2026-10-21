@@ -181,7 +181,6 @@ __miscAnchors:
     | strip
     | suffix
     | warning
-    | wildcard
     | words
     )
     (?=[ \\])
@@ -207,6 +206,14 @@ __miscAnchors:
     (?=[ \\])
     (?:\s*)
 
+- &__builtInFunc_wildc |-
+    (?x)
+    \G
+    ( wildcard
+    )
+    (?=[ \\])
+    (?:\s*)
+
 
 # arg segments:
 #
@@ -228,6 +235,9 @@ __miscAnchors:
 
 - &__funcarg_percents-pp '(?x) ((?:      [^%,\\$\n(){] | \\(?!\\*\n) )+)'
 - &__funcarg_percents-bb '(?x) ((?:      [^%,\\$\n{}(] | \\(?!\\*\n) )+)'
+
+- &__funcarg_wildc-pp    '(?x) ((?: [^?*\[\]~\\$\n(){] | \\(?!\\*\n) )+)'
+- &__funcarg_wildc-bb    '(?x) ((?: [^?*\[\]~\\$\n{}(] | \\(?!\\*\n) )+)'
 
 
 
@@ -819,6 +829,7 @@ repository:
       - include: "#expansions_pp_func-builtin_unary"
       - include: "#expansions_pp_func-builtin_varUnary"
       - include: "#expansions_pp_func-builtin_percents"
+      - include: "#expansions_pp_func-builtin_wildc"
       - include: "#expansions"
       - include: "#varname-specialVar"
       - include: "#varname-automatic"
@@ -841,6 +852,7 @@ repository:
       - include: "#expansions_bb_func-builtin_unary"
       - include: "#expansions_bb_func-builtin_varUnary"
       - include: "#expansions_bb_func-builtin_percents"
+      - include: "#expansions_bb_func-builtin_wildc"
       - include: "#expansions"
       - include: "#varname-specialVar"
       - include: "#varname-automatic"
@@ -977,6 +989,40 @@ repository:
       - include: "#expansions--func-builtin-NESTED"
       - include: "#line-cont"
       - match: *__funcarg_percents-bb
+        captures: { "1": { name: *SCOPE_str } }
+
+  expansions_pp_func-builtin_wildc:
+    patterns:
+    - begin: *__builtInFunc_wildc
+      end:   (?x) (?= \)) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#doubleDollar"
+      - include: "#expansions"
+      - include: "#expansions--func-builtin-NESTED"
+      - include: "#line-cont"
+      - include: "#wildcard"
+      - match: *__funcarg_wildc-pp
+        captures: { "1": { name: *SCOPE_str } }
+
+  expansions_bb_func-builtin_wildc:
+    patterns:
+    - begin: *__builtInFunc_wildc
+      end:   (?x) (?= \}) | (?=\n)
+      beginCaptures: { "1": { name: support.function.$1.makefile } }
+      name:        meta.function-call.makefile
+      contentName: meta.function-call.arguments.makefile
+      applyEndPatternLast: 1
+      patterns:
+      - include: "#doubleDollar"
+      - include: "#expansions"
+      - include: "#expansions--func-builtin-NESTED"
+      - include: "#line-cont"
+      - include: "#wildcard"
+      - match: *__funcarg_wildc-bb
         captures: { "1": { name: *SCOPE_str } }
 
 

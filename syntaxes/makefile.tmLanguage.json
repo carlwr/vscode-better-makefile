@@ -672,6 +672,9 @@
               "include": "#expansions_bb_func-builtin_percents"
             },
             {
+              "include": "#expansions_bb_func-builtin_wildc"
+            },
+            {
               "include": "#expansions"
             },
             {
@@ -782,7 +785,7 @@
     "expansions_bb_func-builtin_unary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n( abspath\n| basename\n| dir\n| error\n| eval\n| firstword\n| guile\n| info\n| lastword\n| notdir\n| realpath\n| shell\n| sort\n| strip\n| suffix\n| warning\n| wildcard\n| words\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "begin": "(?x)\n\\G\n( abspath\n| basename\n| dir\n| error\n| eval\n| firstword\n| guile\n| info\n| lastword\n| notdir\n| realpath\n| shell\n| sort\n| strip\n| suffix\n| warning\n| words\n)\n(?=[ \\\\])\n(?:\\s*)",
           "end": "(?x) (?= \\}) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -849,6 +852,47 @@
         }
       ]
     },
+    "expansions_bb_func-builtin_wildc": {
+      "patterns": [
+        {
+          "begin": "(?x)\n\\G\n( wildcard\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "end": "(?x) (?= \\}) | (?=\\n)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "name": "meta.function-call.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#line-cont"
+            },
+            {
+              "include": "#wildcard"
+            },
+            {
+              "match": "(?x) ((?: [^?*\\[\\]~\\\\$\\n{}(] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
     "expansions_pp_": {
       "patterns": [
         {
@@ -881,6 +925,9 @@
             },
             {
               "include": "#expansions_pp_func-builtin_percents"
+            },
+            {
+              "include": "#expansions_pp_func-builtin_wildc"
             },
             {
               "include": "#expansions"
@@ -996,7 +1043,7 @@
     "expansions_pp_func-builtin_unary": {
       "patterns": [
         {
-          "begin": "(?x)\n\\G\n( abspath\n| basename\n| dir\n| error\n| eval\n| firstword\n| guile\n| info\n| lastword\n| notdir\n| realpath\n| shell\n| sort\n| strip\n| suffix\n| warning\n| wildcard\n| words\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "begin": "(?x)\n\\G\n( abspath\n| basename\n| dir\n| error\n| eval\n| firstword\n| guile\n| info\n| lastword\n| notdir\n| realpath\n| shell\n| sort\n| strip\n| suffix\n| warning\n| words\n)\n(?=[ \\\\])\n(?:\\s*)",
           "end": "(?x) (?= \\)) | (?=\\n)",
           "beginCaptures": {
             "1": {
@@ -1056,6 +1103,47 @@
               "captures": {
                 "1": {
                   "name": "variable.other.makefile"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "expansions_pp_func-builtin_wildc": {
+      "patterns": [
+        {
+          "begin": "(?x)\n\\G\n( wildcard\n)\n(?=[ \\\\])\n(?:\\s*)",
+          "end": "(?x) (?= \\)) | (?=\\n)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.$1.makefile"
+            }
+          },
+          "name": "meta.function-call.makefile",
+          "contentName": "meta.function-call.arguments.makefile",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "include": "#doubleDollar"
+            },
+            {
+              "include": "#expansions"
+            },
+            {
+              "include": "#expansions--func-builtin-NESTED"
+            },
+            {
+              "include": "#line-cont"
+            },
+            {
+              "include": "#wildcard"
+            },
+            {
+              "match": "(?x) ((?: [^?*\\[\\]~\\\\$\\n(){] | \\\\(?!\\\\*\\n) )+)",
+              "captures": {
+                "1": {
+                  "name": "meta.string.makefile string.unquoted.makefile"
                 }
               }
             }

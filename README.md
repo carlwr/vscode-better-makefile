@@ -48,7 +48,7 @@ Improvements vs. the default _VS Code_ treatment of makefiles include:
   - placeholder chars for function arguments that give them special meaning (`$(patsubst src,%.c,%.o)`, `$(filter tmp%,$(files))`)
   - parenthesized automatic variables (`$(@D)`, `$(@F)`, `$(@)`)
   - static-pattern rules (`a.o b.o: %.o: %.c`)
-  - wildcard chars in ruleheads (`*.o: common.h`)
+  - wildcard chars (`*.o: common.h`, `$(wildcard honou?r.md)`)
   - target-specific assignments (`main: CFLAGS = -g`)
   - single-line rules (`t: p; recipe`)
   - RHS of assignments (strings) (`var := a_string`)

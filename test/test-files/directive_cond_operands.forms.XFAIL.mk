@@ -1,25 +1,31 @@
 # SYNTAX TEST "source.makefile"
 
-# Currently, punctuation used with conditional expressions for conditions are not supported. Tests below include example/placeholder names for non-existing scopes.
-
 ifeq (aaaa,  AAAA)
-#    ^           ^   punctuation.definition.conditional-operands.makefile
-#         ^          punctuation.separator.conditional-operands.makefile
+#     ^^^^   ^^^^    string.unquoted.makefile
+#    ^               punctuation.section.parens.begin.condition.makefile
+#                ^   punctuation.section.parens.end.condition.makefile
+#         ^          punctuation.separator.delimiter.comma.condition.makefile
 
 ifeq 'bbbb' 'BBBB'
-#     ^^^^   ^^^^    string.quoted.makefile
-#    ^    ^ ^    ^   punctuation.definition.string.makefile
+#    ^^^^^^ ^^^^^^   string.quoted.single.makefile
+#    ^      ^        punctuation.definition.string.begin.makefile
+#         ^      ^   punctuation.definition.string.end.makefile
 ifeq "cccc" "CCCC"
-#     ^^^^   ^^^^    string.quoted.makefile
-#    ^    ^ ^    ^   punctuation.definition.string.makefile
+#    ^^^^^^ ^^^^^^   string.quoted.double.makefile
+#    ^      ^        punctuation.definition.string.begin.makefile
+#         ^      ^   punctuation.definition.string.end.makefile
 
 ifeq "dddd" 'DDDD'
-#     ^^^^   ^^^^    string.quoted.makefile
-#    ^    ^ ^    ^   punctuation.definition.string.makefile
+#    ^^^^^^          string.quoted.double.makefile
+#           ^^^^^^   string.quoted.single.makefile
+#    ^      ^        punctuation.definition.string.begin.makefile
+#         ^      ^   punctuation.definition.string.end.makefile
 
 ifeq 'eeee' "EEEE"
-#     ^^^^   ^^^^    string.quoted.makefile
-#    ^    ^ ^    ^   punctuation.definition.string.makefile
+#    ^^^^^^          string.quoted.single.makefile
+#           ^^^^^^   string.quoted.double.makefile
+#    ^      ^        punctuation.definition.string.begin.makefile
+#         ^      ^   punctuation.definition.string.end.makefile
 
 endif
 endif

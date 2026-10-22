@@ -59,7 +59,14 @@
         "scopeName": "source.makefile",
         "path": "./syntaxes/makefile.tmLanguage.json"
       }
-    ]
+    ],
+    "configurationDefaults": {
+      "[makefile]": {
+        "editor.quickSuggestions": {
+          "strings": "offWhenInlineCompletions"
+        }
+      }
+    }
   },
   "scripts": {
     "prepare": "git config core.hooksPath .githooks || true",

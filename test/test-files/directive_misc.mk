@@ -60,3 +60,29 @@ override undefine ov:Und
 #^^^^^^^                  keyword.control.override.makefile
 #        ^^^^^^^^         keyword.control.undefine.makefile
 #                 ^^^^^^  variable.other.makefile
+
+
+# ------------------ comment right after name ----------------- #
+
+export   ex#c
+#        ^^         variable.other.makefile
+#          ^^       comment.line.number-sign.makefile
+
+unexport a un#c
+#          ^^       variable.other.makefile
+#            ^^     comment.line.number-sign.makefile
+
+ud := defined
+undefine ud#c
+#        ^^         variable.other.makefile
+#          ^^       comment.line.number-sign.makefile
+ud ?= undefined
+## /^ud = undefined$/
+
+override undefine ou#c
+#                 ^^      variable.other.makefile
+#                   ^^    comment.line.number-sign.makefile
+
+export   $(v)_#c
+#            ^      variable.other.makefile
+#             ^^    comment.line.number-sign.makefile

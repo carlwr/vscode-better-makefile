@@ -507,9 +507,9 @@ repository:
         - include: "#define-body"
 
       directive-varname:
-        match: \S+
+        match: '[^\s#]+'
         name: *SCOPE_var
-        captures: { "0": { patterns: [include: "#varname-specialVar"] } }
+        captures: { "0": { patterns: [include: "#varname-parts"] } }
 
       export:
         begin: ^[ ]*(export)\b

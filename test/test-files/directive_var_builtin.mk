@@ -10,6 +10,9 @@ undefine CURDIR
 unexport A SHELL B
 #          ^^^^^      variable.language.readwrite.special.makefile
 
+export SHELL#cmt
+#      ^^^^^          variable.language.readwrite.special.makefile
+
 
 # ------------------------- negatives ------------------------- #
 

@@ -306,12 +306,12 @@
             "0": {
               "patterns": [
                 {
-                  "include": "#varname-specialVar"
+                  "include": "#varname-parts"
                 }
               ]
             }
           },
-          "match": "\\S+",
+          "match": "[^\\s#]+",
           "name": "variable.other.makefile"
         },
         "export": {

@@ -4,7 +4,7 @@
 # --------------------- in assignment-RHSs -------------------- #
 
 aaaa = $@a
-#      ^^      variable.parameter.automatic.makefile
+#      ^^      variable.language.automatic.makefile variable.parameter.automatic.makefile
 #      ^       punctuation.definition.variable.makefile
 #       ^      meta.scope.expansion.makefile
 #       ^    - punctuation.definition.variable.makefile
@@ -17,7 +17,7 @@ tight_=$@t
 #^^^^^^  ^   - variable.parameter.automatic.makefile
 
 nme = $(@)a
-#       ^      variable.parameter.automatic.makefile
+#       ^      variable.language.automatic.makefile variable.parameter.automatic.makefile
 #       ^      meta.scope.expansion.makefile
 #^^^^^^^ ^   - variable.parameter.automatic.makefile
 #^^^^^^^ ^^  - meta.scope.expansion.makefile
@@ -31,6 +31,7 @@ usr = $(u)A
 
 nme = $(@D)n
 #       ^^     variable.parameter.automatic.makefile
+#       ^^     variable.language.automatic.makefile
 #^^^^^^^  ^  - variable.parameter.automatic.makefile
 #     ^^       punctuation.definition.template-expression.begin.makefile
 #         ^    punctuation.definition.template-expression.end.makefile

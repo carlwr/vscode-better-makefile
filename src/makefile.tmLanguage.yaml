@@ -1003,6 +1003,7 @@ repository:
             (?<= \$[({] )  [@%<?^+|*]  [FD]  (?= [)}:\\] )  # $(@F)
         |   (?<= \$[({] )  [@%<?^+|*]        (?= [)}:\\] )  # $(@)
       name: >-
+        variable.language.automatic.makefile
         variable.parameter.automatic.makefile
     # ...$@; cursor on $:
     - match: (?x) (\$) ([@%<?^+|*])
@@ -1010,10 +1011,12 @@ repository:
         "1":
           name: >-
             punctuation.definition.variable.makefile
+            variable.language.automatic.makefile
             variable.parameter.automatic.makefile
         "2":
           name: >-
             meta.scope.expansion.makefile
+            variable.language.automatic.makefile
             variable.parameter.automatic.makefile
 
   varname-positional:
@@ -1021,16 +1024,19 @@ repository:
     patterns:
     - match: (?x) (?<= \$[({] ) [0-9]  (?= [)}:\\] )
       name: >-
+        variable.language.positional.makefile
         variable.parameter.positional.makefile
     - match: (?x) (\$) ([0-9])
       captures:
         "1":
           name: >-
             punctuation.definition.variable.makefile
+            variable.language.positional.makefile
             variable.parameter.positional.makefile
         "2":
           name: >-
             meta.scope.expansion.makefile
+            variable.language.positional.makefile
             variable.parameter.positional.makefile
 
   varname-userSingleChar:

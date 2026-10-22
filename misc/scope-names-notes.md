@@ -86,17 +86,21 @@ built-in variables (= special variables)
 
 automatic variables
 * -> decide to scope:
-  * `variable.parameter.automatic.makefile`
-    * since:
-      * is most similar to how common grammars (TS, JS, C#) scopes referenced function parameters (=~ automatic vars, semantically)
-      * is styled distinctive orange with VSCode-2026
-    * further notes + reasoning:
-      * as a consequence, VSCode-Modern will style with teal, the same as user vars)
-      * difference `make.tmbundle` -> this grammar, in VS Code:
-        * mid-blue -> orange (VSCode-2026)
-        * mid-blue -> teal (all themes up to -Modern)
-      * note: not possible for this grammar to stack `variable.parameter` and `variable.language` in a way so that -Modern retains mid-blue while -2026 gets orange
-      * -> prefer to scope with `variable.parameter` only; for VSCode-2026 that gives styling most consistent with other major languages grammars, and buys the distinct orange (tolerate the necessary _slight_ regression for VSCode-Modern)
+  * `variable.language.automatic.makefile`
+    `variable.parameter.automatic.makefile`
+  * since:
+    * `variable.language`
+      * is what `make.tmbundle`uses
+      * gives styling also with themes VSCode-Dark/Light
+    * `variable.parameter`
+      * precedent in the closest analog of automatic variables: _positional parameters_ in shellscripts (scoped with `variable.parameter.positional` by `better-shell-syntax`)
+      * VSCode-2026: gives the same styling (orange) as _referenced function parameters_ (=~ automatic vars, semantically) in TS, JS and C#
+  * order: `variable.parameter` last, else `variable.language` wins (-> VSCode-2026: blue, not orange)
+  * -> difference `make.tmbundle` -> this grammar, in VS Code:
+    * VSCode-2026:          mid-blue -> orange
+    * VSCode-Dark:          mid-blue -> mid-blue (no change)
+    * VSCode-{Plus,Modern}: mid-blue -> teal
+      * (notes: user vars also styled teal; slight unavoidable regression for these two themes)
 * reasoning about semantic meaning
   * an _automatic variable_ seems most similar to a _referenced function parameter_ (that `make` passed into recipes implicitly)
 * other language grammars

@@ -4,7 +4,7 @@
 # --------------------- in assignment-RHSs -------------------- #
 
 aaaa = $1a
-#      ^^      variable.parameter.positional.makefile
+#      ^^      variable.language.positional.makefile variable.parameter.positional.makefile
 #       ^      meta.scope.expansion.makefile
 #^^^^^^^ ^   - meta.scope.expansion.makefile
 #      ^       punctuation.definition.variable.makefile
@@ -13,11 +13,12 @@ aaaa = $1a
 
 
 nme = $(2)a
-#       ^      variable.parameter.positional.makefile
+#       ^      variable.language.positional.makefile variable.parameter.positional.makefile
 #     ^^       punctuation.definition.template-expression.begin.makefile
 #        ^     punctuation.definition.template-expression.end.makefile
 nme = ${3}a
 #       ^      variable.parameter.positional.makefile
+#       ^      variable.language.positional.makefile
 #     ^^       punctuation.definition.template-expression.begin.makefile
 #        ^     punctuation.definition.template-expression.end.makefile
 

@@ -67,7 +67,9 @@ string.unquoted.makefile
 string.unquoted.path.makefile
 support.function.$1.makefile
 support.function.target.$1.makefile
+variable.language.automatic.makefile
 variable.language.constant.special.makefile
+variable.language.positional.makefile
 variable.language.readwrite.special.makefile
 variable.language.special.wildcard.makefile
 variable.other.assignment.makefile

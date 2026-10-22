@@ -1204,16 +1204,16 @@
       "patterns": [
         {
           "match": "(?x)\n    (?<= \\$[({] )  [@%<?^+|*]  [FD]  (?= [)}:\\\\] )  # $(@F)\n|   (?<= \\$[({] )  [@%<?^+|*]        (?= [)}:\\\\] )  # $(@)",
-          "name": "variable.parameter.automatic.makefile"
+          "name": "variable.language.automatic.makefile variable.parameter.automatic.makefile"
         },
         {
           "match": "(?x) (\\$) ([@%<?^+|*])",
           "captures": {
             "1": {
-              "name": "punctuation.definition.variable.makefile variable.parameter.automatic.makefile"
+              "name": "punctuation.definition.variable.makefile variable.language.automatic.makefile variable.parameter.automatic.makefile"
             },
             "2": {
-              "name": "meta.scope.expansion.makefile variable.parameter.automatic.makefile"
+              "name": "meta.scope.expansion.makefile variable.language.automatic.makefile variable.parameter.automatic.makefile"
             }
           }
         }
@@ -1236,16 +1236,16 @@
       "patterns": [
         {
           "match": "(?x) (?<= \\$[({] ) [0-9]  (?= [)}:\\\\] )",
-          "name": "variable.parameter.positional.makefile"
+          "name": "variable.language.positional.makefile variable.parameter.positional.makefile"
         },
         {
           "match": "(?x) (\\$) ([0-9])",
           "captures": {
             "1": {
-              "name": "punctuation.definition.variable.makefile variable.parameter.positional.makefile"
+              "name": "punctuation.definition.variable.makefile variable.language.positional.makefile variable.parameter.positional.makefile"
             },
             "2": {
-              "name": "meta.scope.expansion.makefile variable.parameter.positional.makefile"
+              "name": "meta.scope.expansion.makefile variable.language.positional.makefile variable.parameter.positional.makefile"
             }
           }
         }

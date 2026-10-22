@@ -87,7 +87,7 @@ make check        # verify that `syntaxes/` is up to date
 ./scripts/scopes syntaxes/makefile.tmLanguage.json
 
 # print lines including "myVar" in the make database of `<file>.mk`:
-make -nps -f <file>.mk|grep myVar|cat -e|sort|less
+test/runner/printMakeDb <file>.mk | grep myVar | cat -e | less
 
 # possibly useful to print a partial ref on GNU `make` syntax:
 info --node 'quick' make | grep -Po "(?x) (?<=^') .* (?='$)" | less

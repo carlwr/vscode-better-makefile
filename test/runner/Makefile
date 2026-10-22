@@ -21,6 +21,7 @@ tmtest       ?= node_modules/.bin/vscode-tmgrammar-test
 
 here         := $(dir $(lastword $(MAKEFILE_LIST)))
 parseTest    := $(here)parseTest
+printMakeDb  := $(here)printMakeDb
 
 ifdef NOTRACE
   testoutTo  := /dev/null
@@ -112,7 +113,7 @@ T_xfail_%: %
 
 $(parse) :\
 T_parse_%: %
-	@$(call print-make-db,$<) | $(parseTest) $< \
+	@$(printMakeDb) $< | $(parseTest) $< \
 	  && $(call msg,ok  ,parse,_      ,$(<F))\
 	  || $(call msg,FAIL,parse,_      ,$(<F))
 
@@ -124,8 +125,6 @@ test-parse:; @$(call msg,done,parse,(n=$(words $(parse))),)
 # ------------------------------------------------------------- #
 #                           functions                           #
 # ------------------------------------------------------------- #
-
-print-make-db = { $(MAKE) -nsp --always-make -f $1 2>/dev/null || true; }
 
 testCmd := \
   $(strip \

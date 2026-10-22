@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+# GNU make as parse oracle: print its database for makefile $1, ignoring make's errors
+emulate -L zsh
+autoload -U is-at-least
+
+make=${commands[gmake]:-make}
+
+# minimum version for the GNU make that is to serve as the oracle
+# should be set to the make version the grammar officially supports
+minVer=4.4.1
+
+ver=$($make --version 2>/dev/null | sed -n '1s/^GNU Make //p')
+
+if ! is-at-least $minVer ${ver:-0}
+then
+  print -u2 "${0:t}: requires GNU make >= $minVer; got: $make ${ver:-?}"
+  exit 1
+fi
+
+mk=${1:?no makefile given}
+$make -nsp --always-make -f $mk 2>/dev/null || true

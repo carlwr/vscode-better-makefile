@@ -15,7 +15,7 @@ help=(
   ''
   "usage:"
   "    $me"' --files-with-tests f.mk g.mk ..   # [1]'
-  "    $me"' f.mk <<< $(make -np f.mk)         # [2]'
+  "    $me"' f.mk <<< $(make -np -f f.mk)      # [2]'
   ''
   '    [1]: output names of files with tests'
   '    [2]: run the tests in the file'

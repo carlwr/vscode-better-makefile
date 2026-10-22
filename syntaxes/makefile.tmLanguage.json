@@ -332,10 +332,10 @@
               "include": "#expansions"
             },
             {
-              "include": "#percent"
+              "include": "#wildcard"
             },
             {
-              "match": "(?x)\n  [^\\s$#\\\\%:()]++   # chars possibly special to the including rule...\n| \\S                # ...are path chars if that rule doesn't match them first",
+              "match": "[^\\s#\\\\$\\n*?\\[\\]~]+",
               "name": "meta.string.makefile string.unquoted.path.makefile"
             }
           ]

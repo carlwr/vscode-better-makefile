@@ -31,15 +31,15 @@ sinclude al:o
 include foo
 #^^^^^^^          - string.unquoted.path.makefile
 
-include $(d)/f.mk *.mk
-#       ^^^^      - string.unquoted.path.makefile
-#           ^^^^^   string.unquoted.path.makefile
-#                 ^^^^  string.unquoted.path.makefile
+include $(d)/f.mk $c.mk
+#         ^        ^     variable.other.makefile
+#       ^^^^           - string.unquoted.path.makefile
+#           ^^^^^   ^^^  string.unquoted.path.makefile
 
-include %.mk
-#       ^         - string.unquoted.path.makefile
-#       ^           constant.other.placeholder.percent.makefile
-#        ^^^        string.unquoted.path.makefile
+include _%_?.mk
+#       ^^^ ^^^     string.unquoted.path.makefile
+#          ^      - string.unquoted.path.makefile
+#          ^        variable.language.special.wildcard.makefile
 
 include a # c
 #       ^           string.unquoted.path.makefile

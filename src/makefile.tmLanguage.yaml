@@ -352,8 +352,8 @@ repository:
         - include: "#comment"
         - include: "#doubleDollar"
         - include: "#expansions"
-        - include: "#percent"
-        - match: *__pathSegment
+        - include: "#wildcard"
+        - match: '[^\s#\\$\n*?\[\]~]+'
           name: >-
             meta.string.makefile
             string.unquoted.path.makefile

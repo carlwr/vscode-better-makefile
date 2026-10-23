@@ -57,7 +57,8 @@ cmt1:
 
 linepref0:
 	@cmd
-#^^^^     meta.scope.recipe.makefile
+# ^^^     meta.scope.recipe.makefile
+#^      - meta.scope.recipe.makefile
 #^        keyword.control.recipe-lineprefix.makefile
 # ^^^   - keyword.control.recipe-lineprefix.makefile
 
@@ -70,7 +71,8 @@ linepref1:
 linepref2:
 	  +	 @ +@@- cmd
 #  ^  ^ ^^^^     keyword.control.recipe-lineprefix.makefile
-#^^^^^^^^^^^^^^^ meta.scope.recipe.makefile
+#            ^^^ meta.scope.recipe.makefile
+#^^^^^^^^^^^^  - meta.scope.recipe.makefile
 
 linepref3:
 	cmd\

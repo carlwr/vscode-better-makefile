@@ -737,6 +737,7 @@ repository:
                 patterns:
                 - include: "#wildcard"
                 - include: "#percent"
+                - include: "#comment"
                 - include: "#doubleDollar"
       "2": { name: punctuation.separator.key-value.rulehead.makefile }
     end:   (?=\n)
@@ -769,14 +770,17 @@ repository:
       - include: "#recipe"
 
   recipe:
-    begin: (?!\n)
+    begin: (?!\n)([\t @+\-]*)
     end:   (?=\n)
-    name: *SCOPE_recipe__
+    beginCaptures:
+      "1":
+        patterns:
+        - { match: '[\t ]+' }
+        - { match: '[@+\-]+', name: *SCOPE_recipeLnPfx }
+    contentName: *SCOPE_recipe__
     applyEndPatternLast: 1
     patterns:
-    - match: \G[\t @+\-]+
-      captures:
-        "0": { patterns: [{ match: '[@+\-]+', name: *SCOPE_recipeLnPfx }] }
+    - match: ^\t
     - include: "#line-cont-recipe"
     - include: "#doubleDollar"
     - include: "#expansions"

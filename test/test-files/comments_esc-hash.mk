@@ -21,6 +21,9 @@ tgq0___: \#b    ## /^tgq0___: #b/
 #        ^^        constant.character.escape.hash.makefile
 #         ^      - comment.line.number-sign.makefile
 
+tuc\#__: pre   ## /^tuc#__: pre/
+#  ^^              constant.character.escape.hash.makefile
+#   ^            - comment.line.number-sign.makefile
 
 # ------ quoted `\`: \\ (only if it avoids quoting a `#`) ----- #
 

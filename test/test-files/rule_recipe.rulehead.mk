@@ -12,18 +12,18 @@ tg_:_pr_;_recp
 #        ^^^^^   meta.shell-command.recipe.makefile
 tg : pr ; r cp
 #   ^^^^         meta.scope.prerequisites.makefile
-#        ^^^^^   meta.scope.recipe.makefile
-#^^^^^^^^      - meta.scope.recipe.makefile
+#         ^^^^   meta.scope.recipe.makefile
+#^^^^^^^^^     - meta.scope.recipe.makefile
 tg : pr ; r;cp
 #   ^^^^         meta.scope.prerequisites.makefile
-#        ^^^^^   meta.scope.recipe.makefile
+#         ^^^^   meta.scope.recipe.makefile
 tg : pr ;$(e)p
 #   ^^^^         meta.scope.prerequisites.makefile
 #        ^^^^^   meta.scope.recipe.makefile
 #          ^     variable.other.makefile
 tg : pr ; $ecp
 #   ^^^^         meta.scope.prerequisites.makefile
-#        ^^^^^   meta.scope.recipe.makefile
+#         ^^^^   meta.scope.recipe.makefile
 #          ^     variable.other.makefile
 
 $(a;b):$(a;);rc
@@ -69,12 +69,12 @@ t0B: pB
 
 tg: pr; r#cp
 #  ^^^              meta.scope.prerequisites.makefile
-#      ^^^^^        meta.scope.recipe.makefile
+#       ^^^^        meta.scope.recipe.makefile
 #        ^^^      - comment.line.number-sign.makefile
 
 tg: pr; r #p
 #  ^^^              meta.scope.prerequisites.makefile
-#      ^^^^^        meta.scope.recipe.makefile
+#       ^^^^        meta.scope.recipe.makefile
 #        ^^^      - comment.line.number-sign.makefile
 
 
@@ -83,11 +83,13 @@ tg: pr; r #p
 
 lp0:; @cmd
 #     ^             keyword.control.recipe-lineprefix.makefile
-#    ^^^^^          meta.scope.recipe.makefile
+#      ^^^          meta.scope.recipe.makefile
+#^^^^^^           - meta.scope.recipe.makefile
 
 lp1:;	 +	 @ +@ cmd
 #      ^  ^ ^^      keyword.control.recipe-lineprefix.makefile
-#    ^^^^^^^^^^^    meta.scope.recipe.makefile
+#              ^^^  meta.scope.recipe.makefile
+#    ^^^^^^^^^^   - meta.scope.recipe.makefile
 
 lp2:; -cmd\
 	+cmd

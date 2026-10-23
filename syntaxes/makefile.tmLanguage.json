@@ -1212,22 +1212,25 @@
     },
     "recipe": {
       "applyEndPatternLast": 1,
-      "begin": "(?!\\n)",
+      "begin": "(?!\\n)([\\t @+\\-]*)",
+      "beginCaptures": {
+        "1": {
+          "patterns": [
+            {
+              "match": "[\\t ]+"
+            },
+            {
+              "match": "[@+\\-]+",
+              "name": "keyword.control.recipe-lineprefix.makefile"
+            }
+          ]
+        }
+      },
+      "contentName": "meta.scope.recipe.makefile meta.shell-command.recipe.makefile",
       "end": "(?=\\n)",
-      "name": "meta.scope.recipe.makefile meta.shell-command.recipe.makefile",
       "patterns": [
         {
-          "match": "\\G[\\t @+\\-]+",
-          "captures": {
-            "0": {
-              "patterns": [
-                {
-                  "match": "[@+\\-]+",
-                  "name": "keyword.control.recipe-lineprefix.makefile"
-                }
-              ]
-            }
-          }
+          "match": "^\\t"
         },
         {
           "include": "#line-cont-recipe"
@@ -1287,6 +1290,9 @@
                         },
                         {
                           "include": "#percent"
+                        },
+                        {
+                          "include": "#comment"
                         },
                         {
                           "include": "#doubleDollar"

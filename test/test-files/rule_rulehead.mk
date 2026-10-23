@@ -158,6 +158,13 @@ t$$g__  : p$$q
 #^^^^^             meta.scope.target.makefile
 #         ^^^^     meta.scope.prerequisites.makefile
 
+t\#g__  : preh
+#^^^^^             meta.scope.target.makefile
+#         ^^^^     meta.scope.prerequisites.makefile
+#^^                constant.character.escape.hash.makefile
+# ^              - comment.line.number-sign.makefile
+
+
 # raw (, ) in targets/prereqs:
 
 br0(__  : p0__     ## /^\Qbr0(__: p0/

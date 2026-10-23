@@ -6,6 +6,7 @@ SHELL := true
 
 
 define d1 !=
-#^^^^^          meta.shell-command.makefile
+echo p
+#^^^^^          meta.shell-command.assignment.makefile
 #^^^^^        - string.unquoted.makefile
 endef

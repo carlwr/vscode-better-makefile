@@ -9,6 +9,7 @@ tg_:_pr_;_recp
 #   ^^^^         meta.scope.prerequisites.makefile
 #       ^        punctuation.separator.key-value.rulehead.recipe.makefile
 #        ^^^^^   meta.scope.recipe.makefile
+#        ^^^^^   meta.shell-command.recipe.makefile
 tg : pr ; r cp
 #   ^^^^         meta.scope.prerequisites.makefile
 #        ^^^^^   meta.scope.recipe.makefile

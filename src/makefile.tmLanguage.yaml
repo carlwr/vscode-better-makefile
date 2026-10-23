@@ -53,6 +53,7 @@ __miscAnchors:
 
 - &SCOPE_recipe__ >-
     meta.scope.recipe.makefile
+    meta.shell-command.recipe.makefile
 
 - &SCOPE_recipeLN >-
     meta.scope.recipe.line.makefile
@@ -606,7 +607,7 @@ repository:
     - begin: \G(?<=!=)[ \t]*+(?!\n)  # (?!\n): no zero-width begin+end
       end:   (?=\n)
       applyEndPatternLast: 1
-      contentName: meta.shell-command.makefile
+      contentName: meta.shell-command.assignment.makefile
       patterns:
       - include: "#line-cont"
       - include: "#comment"

@@ -956,7 +956,7 @@
       "applyEndPatternLast": 1,
       "begin": "(?!\\n)",
       "end": "(?=\\n)",
-      "name": "meta.scope.recipe.makefile",
+      "name": "meta.scope.recipe.makefile meta.shell-command.recipe.makefile",
       "patterns": [
         {
           "match": "\\G[\\t @+\\-]+",
@@ -1162,7 +1162,7 @@
           "begin": "\\G(?<=!=)[ \\t]*+(?!\\n)",
           "end": "(?=\\n)",
           "applyEndPatternLast": 1,
-          "contentName": "meta.shell-command.makefile",
+          "contentName": "meta.shell-command.assignment.makefile",
           "patterns": [
             {
               "include": "#line-cont"

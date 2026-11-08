@@ -1,9 +1,4 @@
-*                  text=auto
-*.json             text eol=lf
-.githooks/*        text eol=lf
-scripts/*          text eol=lf
-syntaxes/*         text eol=lf
+*                  text=auto eol=lf
 syntaxes/*.json    linguist-generated
-scripts/*          linguist-detectable
-*.mk               diff=make merge=make linguist-language=makefile
-Makefile           diff=make merge=make linguist-language=makefile
+*.mk               diff=make
+Makefile           diff=make

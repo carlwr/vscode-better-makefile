@@ -2,8 +2,8 @@
 
 command `make test` will
 * (if needed) convert the .yaml grammar to .json format
-* run all tests, namely all files `test/grammar/*.mk`:
-  * `test/grammar/*.XFAIL.mk`: expected to fail (prints warning if passing)
+* run all tests, namely all files `test/test-files/*.mk`:
+  * `test/test-files/*.XFAIL.mk`: expected to fail (prints warning if passing)
   * all other: normal test; expected to pass
 
 xfail test files:

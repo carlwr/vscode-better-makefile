@@ -13,7 +13,7 @@ indent_style = tab
 [*.mk]
 indent_style = tab
 
-[test/grammar/*.mk]
+[test/test-files/*.mk]
 indent_style = tab
 indent_size = 1
 trim_trailing_whitespace = false

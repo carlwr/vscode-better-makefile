@@ -84,7 +84,7 @@
     "format": "biome check --write",
     "typecheck": "tsc --noEmit",
     "qa": "pnpm run typecheck && pnpm run lint && pnpm run test:silent",
-    "test": "pnpm run test:langConfig && timeout -t 3s -- vscode-tmgrammar-test \"test/grammar/!(*.XFAIL).mk\"",
+    "test": "pnpm run test:langConfig && timeout -t 3s -- vscode-tmgrammar-test \"test/test-files/!(*.XFAIL).mk\"",
     "test:langConfig": "tsx test/langConfig.test.ts",
     "test:silent": "pnpm run test >/dev/null && echo 'tests: passed' && echo"
   },

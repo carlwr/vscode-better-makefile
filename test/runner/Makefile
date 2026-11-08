@@ -16,7 +16,7 @@ NOTRACE ?=
 VERBOSE ?= 1
 HUMAN   ?=
 
-testdir :=  test/grammar
+testdir :=  test/test-files
 tmtest-bin   := node_modules/.bin/vscode-tmgrammar-test
 
 here         := $(dir $(lastword $(MAKEFILE_LIST)))

@@ -77,7 +77,7 @@ All files in the repo, including test files, should have a final newline.
 
 # parse tests
 
-details: see the `./scripts/parseTest` script itself
+details: see the `test/runner/parseTest` script itself
 
 
 # test file style guide

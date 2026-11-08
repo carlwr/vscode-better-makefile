@@ -70,7 +70,7 @@ git bisect run sh -c 'grep -q ^check: Makefile || exit 125; make check'
 ```bash
 make test
   # - runs xpass, xfail and parse tests
-  # - supports verbosity and output formatting control (see Makefile)
+  # - supports verbosity and output formatting control (see test/runner/Makefile)
 
 # -- or --
 

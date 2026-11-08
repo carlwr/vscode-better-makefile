@@ -149,7 +149,7 @@ Post the 1.0 release (spring 2026) agentic tooling might be used for improvement
 
 ---
 
-<sup>[1]</sup>: The [test runner used in this project](./Makefile) could be characterized as maybe _"a small custom-made test runner implemented in GNU make"_. It is quite unconventional but it does, I must say, serve its purpose reasonably well. Writing it as a Makefile allowed me to express it concisely and declaratively.
+<sup>[1]</sup>: The [test runner used in this project](./test/runner/Makefile) could be characterized as maybe _"a small custom-made test runner implemented in GNU make"_. It is quite unconventional but it does, I must say, serve its purpose reasonably well. Writing it as a Makefile allowed me to express it concisely and declaratively.
 
 
 <!----- links ----->

@@ -57,11 +57,11 @@ endif
 #                             rules                             #
 # ------------------------------------------------------------- #
 
-findTests = $(shell find $(testdir) -ipath '*$(TESTS)*' -path '*.mk' $1|sort)
+findTests = $(shell find $(testdir) -iname '*$(TESTS)*' -name '*.mk' $1|sort)
 
 # lists of files:
-xpass_files := $(call findTests,-not -name '*XFAIL*')
-xfail_files := $(call findTests,     -name '*XFAIL*')
+xpass_files := $(call findTests,-not -name '*.XFAIL.mk')
+xfail_files := $(call findTests,     -name '*.XFAIL.mk')
 parse_files != $(parseTest) --files-with-tests $(xpass_files) $(xfail_files)
 ifneq ($(.SHELLSTATUS),0)
   $(error $(parseTest): exit status $(.SHELLSTATUS))

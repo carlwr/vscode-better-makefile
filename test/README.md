@@ -28,7 +28,7 @@ make test --keep-going TESTS=nest HUMAN=1 NOTRACE=1 VERBOSE=
 
 The resulting test run:
 - won't stop at the first test failure
-- picks test files whose path match `/.*nest.*/`
+- picks test files whose filename match `/.*nest.*/`
 - will print colorized the terminal output
 - won't print traces
 - won't be verbose

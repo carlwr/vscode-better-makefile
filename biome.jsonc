@@ -1,6 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
-  "files": { "includes": ["src/**/*.ts", "build.ts", "test/**/*.ts"] },
+  "files": { "includes": ["src/**/*.ts", "build.ts"] },
   "formatter": { "useEditorconfig": true },
   "javascript": {
     "formatter": {

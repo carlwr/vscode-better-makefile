@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import * as cfg from '../src/cfg.js'
+import * as cfg from './cfg.js'
 
 // Vendored from vscode. Its default word pattern is this class plus a numeric branch (redundant once `-` and `.` are word characters)
 // from: https://github.com/microsoft/vscode/blob/6b924c5/src/vs/editor/common/core/wordHelper.ts

@@ -1,25 +1,25 @@
 ifeq ($(filter notintermediate,$(.FEATURES)),)
-  $(error requires GNU make >= 4.4; running: $(MAKE) $(MAKE_VERSION))
+  $(error requires GNU make 4.4+; running: $(MAKE) $(MAKE_VERSION))
 endif
   # use the "notintermediate" as a proxy; it entered GNU make at v4.4
 
-SHELL       :=  bash
-.SHELLFLAGS +=  -eu -o pipefail
-MAKEFLAGS   +=  --no-builtin-rules          \
-                --warn-undefined-variables  \
-                --jobs 6                    \
-                --output-sync
+SHELL        :=  bash
+.SHELLFLAGS  +=  -eu -o pipefail
+MAKEFLAGS    +=  --no-builtin-rules          \
+                 --warn-undefined-variables  \
+                 --jobs 6                    \
+                 --output-sync
 
-HUMAN   ?=
+HUMAN        ?=
 
-json    :=  makefile.tmLanguage.json
-scopes  :=  makefile.scopes.txt
+json         := makefile.tmLanguage.json
+scopes       := makefile.scopes.txt
 
 outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
 outs-checks  := out/check/$(json) out/check/$(scopes)
 
 runner       := test/runner/Makefile
-tsx-bin      := node_modules/.bin/tsx
+tsx          := FORCE_COLOR=$(if $(HUMAN),3,0) node_modules/.bin/tsx
 
 diff-jsons   := diff -u syntaxes/$(json)   out/check/$(json)
 diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
@@ -45,9 +45,11 @@ FORCE:
 # dependencies
 # ------------
 
-gen      : $(outs)
-check    : $(outs-checks)  # should _not_ build $(outs)
-test     : gen
+gen: $(outs)
+
+check: $(outs-checks)  # should _not_ build $(outs)
+
+test: gen
 
 
 # recipes
@@ -71,14 +73,3 @@ test:
 inspect.%:
 	@printf 'unevaluated: %s\n' '$(value $*)'
 	@printf 'evaluated  : %s\n' '$($*)'
-
-
-# ------------------------------------------------------------- #
-#                           functions                           #
-# ------------------------------------------------------------- #
-
-ifdef HUMAN
-  tsx        := FORCE_COLOR=3 $(tsx-bin)
-else
-  tsx        := FORCE_COLOR=0 $(tsx-bin)
-endif

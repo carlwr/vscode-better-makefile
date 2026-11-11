@@ -1,23 +1,23 @@
 ifeq ($(filter notintermediate,$(.FEATURES)),)
-  $(error requires GNU make >= 4.4; running: $(MAKE) $(MAKE_VERSION))
+  $(error requires GNU make 4.4+; running: $(MAKE) $(MAKE_VERSION))
 endif
   # use the "notintermediate" as a proxy; it entered GNU make at v4.4
 
-SHELL       :=  bash
-.SHELLFLAGS +=  -eu -o pipefail
-MAKEFLAGS   +=  --no-builtin-rules          \
-                --warn-undefined-variables  \
-                --jobs 6                    \
-                --output-sync               \
-                --no-print-directory
+SHELL        :=  bash
+.SHELLFLAGS  +=  -eu -o pipefail
+MAKEFLAGS    +=  --no-builtin-rules          \
+                 --warn-undefined-variables  \
+                 --jobs 6                    \
+                 --output-sync               \
+                 --no-print-directory
 
-TESTS   ?=
-NOTRACE ?=
-VERBOSE ?= 1
-HUMAN   ?=
+TESTS        ?=
+NOTRACE      ?=
+VERBOSE      ?= 1
+HUMAN        ?=
 
-testdir :=  test/test-files
-tmtest-bin   := node_modules/.bin/vscode-tmgrammar-test
+testdir      ?= test/test-files
+tmtest       ?= node_modules/.bin/vscode-tmgrammar-test
 
 here         := $(dir $(lastword $(MAKEFILE_LIST)))
 parseTest    := $(here)parseTest
@@ -57,7 +57,7 @@ endif
 #                             rules                             #
 # ------------------------------------------------------------- #
 
-findTests    = $(shell find $(testdir) -ipath '*$(TESTS)*' -path '*.mk' $1)
+findTests = $(shell find $(testdir) -ipath '*$(TESTS)*' -path '*.mk' $1)
 
 # lists of files:
 xpass_files := $(call findTests,-not -name '*XFAIL*')
@@ -68,18 +68,15 @@ ifneq ($(.SHELLSTATUS),0)
 endif
 
 # lists of test targets:
-xpass       := $(addprefix T_xpass_,$(xpass_files))
-xfail       := $(addprefix T_xfail_,$(xfail_files))
-parse       := $(addprefix T_parse_,$(parse_files))
+xpass := $(addprefix T_xpass_,$(xpass_files))
+xfail := $(addprefix T_xfail_,$(xfail_files))
+parse := $(addprefix T_parse_,$(parse_files))
 
 .PHONY:         \
   test          \
   test-xpass    \
   test-xfail    \
   test-parse    \
-  test-xpass_do \
-  test-xfail_do \
-  test-parse_do \
   $(xpass)      \
   $(xfail)      \
   $(parse)
@@ -88,17 +85,14 @@ parse       := $(addprefix T_parse_,$(parse_files))
 # dependencies
 # ------------
 
-test     : \
+test: \
   test-parse .WAIT \
   test-xfail .WAIT \
   test-xpass
 
-test-xpass    : test-xpass_do
-test-xfail    : test-xfail_do
-test-parse    : test-parse_do
-test-xpass_do : $(xpass)
-test-xfail_do : $(xfail)
-test-parse_do : $(parse)
+test-xpass: $(xpass)
+test-xfail: $(xfail)
+test-parse: $(parse)
 
 
 # recipes
@@ -136,8 +130,8 @@ print-make-db = { $(MAKE) -nsp --always-make -f $1 2>/dev/null || true; }
 testCmd := \
   $(strip \
     $(let gotTimeout,$(shell timeout --version 2>/dev/null|grep -o GNU), \
-      $(if $(gotTimeout), timeout -v 6s $(tmtest-bin)  \
-                        ,               $(tmtest-bin)   )))
+      $(if $(gotTimeout), timeout -v 6s $(tmtest)  \
+                        ,               $(tmtest)   )))
   # for Makefile test invocations, don't use timeout-cli, since formatted terminal output from vscode-tmgrammar-test is then lost
 
 msg = \

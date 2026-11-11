@@ -14,7 +14,8 @@ MAKEFLAGS    +=  --no-builtin-rules          \
 TESTS        ?=
 NOTRACE      ?=
 VERBOSE      ?= 1
-HUMAN        ?=
+NO_COLOR     ?=
+MAKE_TERMOUT ?=
 
 testdir      ?= test/test-files
 tmtest       ?= node_modules/.bin/vscode-tmgrammar-test
@@ -23,14 +24,18 @@ here         := $(dir $(lastword $(MAKEFILE_LIST)))
 parseTest    := $(here)parseTest
 printMakeDb  := $(here)printMakeDb
 
+color        := $(if $(NO_COLOR),,$(MAKE_TERMOUT))
+FORCE_COLOR  := $(if $(color),3,0)
+
+export FORCE_COLOR
+
 ifdef NOTRACE
   testoutTo  := /dev/null
 else
   testoutTo  := &1
 endif
 
-ifdef HUMAN
-  test        = FORCE_COLOR=3 $(testCmd) $1|awk '! /run success/'
+ifdef color
   color_FAIL := '$(shell tput setaf 1)'
   color_WARN := '$(shell tput setaf 3)'
   color_ok   := '$(shell tput setaf 2)'
@@ -39,7 +44,6 @@ ifdef HUMAN
   color_file := '$(shell tput setaf 0; tput sitm)'
   color_rst  := '$(shell tput sgr 0)'
 else
-  test        = FORCE_COLOR=0 $(testCmd) --compact $1|awk '! /run success/'
   color_FAIL := ''
   color_WARN := ''
   color_ok   := ''
@@ -132,6 +136,8 @@ testCmd := \
       $(if $(gotTimeout), timeout -v 6s $(tmtest)  \
                         ,               $(tmtest)   )))
   # for Makefile test invocations, don't use timeout-cli, since formatted terminal output from vscode-tmgrammar-test is then lost
+
+test = $(testCmd) $1|awk '! /run success/'
 
 msg = \
   $(strip \

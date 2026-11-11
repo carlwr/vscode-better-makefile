@@ -10,7 +10,8 @@ MAKEFLAGS    +=  --no-builtin-rules          \
                  --jobs 6                    \
                  --output-sync
 
-HUMAN        ?=
+NO_COLOR     ?=
+MAKE_TERMOUT ?=
 
 json         := makefile.tmLanguage.json
 scopes       := makefile.scopes.txt
@@ -19,10 +20,15 @@ outs         :=  syntaxes/$(json)  syntaxes/$(scopes)
 outs-checks  := out/check/$(json) out/check/$(scopes)
 
 runner       := test/runner/Makefile
-tsx          := FORCE_COLOR=$(if $(HUMAN),3,0) node_modules/.bin/tsx
+tsx          := node_modules/.bin/tsx
 
 diff-jsons   := diff -u syntaxes/$(json)   out/check/$(json)
 diff-scopes  := diff -u syntaxes/$(scopes) out/check/$(scopes)
+
+color        := $(if $(NO_COLOR),,$(MAKE_TERMOUT))
+FORCE_COLOR  := $(if $(color),3,0)
+
+export FORCE_COLOR
 
 
 # ------------------------------------------------------------- #

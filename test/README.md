@@ -20,16 +20,17 @@ make -f test/runner/Makefile test
 
 Environment variables can be used to select a subset of tests and to control the output. For details and defaults, see the [`runner/Makefile`](runner/Makefile) code.
 
+The output is colorized if stdout is a terminal. To force colors, set `MAKE_TERMOUT=1`; to force no colors, set `NO_COLOR=1`.
+
 ### Invocation example
 
 ```sh
-make test --keep-going TESTS=nest HUMAN=1 NOTRACE=1 VERBOSE=
+make test --keep-going TESTS=nest NOTRACE=1 VERBOSE=
 ```
 
 The resulting test run:
 - won't stop at the first test failure
 - picks test files whose filename match `/.*nest.*/`
-- will print colorized the terminal output
 - won't print traces
 - won't be verbose
 

@@ -37,7 +37,7 @@ help=(
   '    flags: see source code'
   )
 
-[[ -v  HUMAN         ]] || HUMAN=           # use colors for terminal output
+[[ -v  FORCE_COLOR   ]] || FORCE_COLOR=0    # use colors unless 0
 [[ -v  PARSE_NOTRACE ]] || PARSE_NOTRACE=   # suppress msgs on failing tests
 [[ -v  PARSE_DBG     ]] || PARSE_DBG=
 
@@ -138,7 +138,7 @@ failtrace() {
 # ------------------------------------------------------------- #
 
 prnt() {
-  (($#HUMAN)) || { print -rn -- "$2"; return; }
+  [[ $FORCE_COLOR != 0 ]] || { print -rn -- "$2"; return; }
 
   case $1 in
      (red   ) print -rn -- "$(tput setaf   1; )"

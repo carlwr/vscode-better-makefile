@@ -102,8 +102,6 @@
     "timeout-cli": "^0.3.2",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
-    "vscode-oniguruma": "2.0.1",
-    "vscode-textmate": "^9.3.2",
     "vscode-tmgrammar-test": "^0.1.3",
     "zod": "^4.6.5"
   }

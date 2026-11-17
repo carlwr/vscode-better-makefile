@@ -162,6 +162,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  vscode-tmgrammar-test>vscode-textmate: 9.3.2
+
 importers:
 
   .:
@@ -1119,9 +1122,6 @@ packages:
   vscode-oniguruma@2.0.1:
     resolution: {integrity: sha512-poJU8iHIWnC3vgphJnrLZyI3YdqRlR27xzqDmpPXYzA93R4Gk8z7T6oqDzDoHjoikA2aS82crdXFkjELCdJsjQ==}
 
-  vscode-textmate@7.0.4:
-    resolution: {integrity: sha512-9hJp0xL7HW1Q5OgGe03NACo7yiCTMEk3WU/rtKXUbncLtdg6rVVNJnHwD88UhbIYU2KoxY0Dih0x+kIsmUKn2A==}
-
   vscode-textmate@9.3.2:
     resolution: {integrity: sha512-n2uGbUcrjhUEBH16uGA0TvUfhWwliFZ1e3+pTjrkim1Mt7ydB41lV08aUvsi70OlzDWp6X7Bx3w/x3fAXIsN0Q==}
 
@@ -1936,8 +1936,6 @@ snapshots:
 
   vscode-oniguruma@2.0.1: {}
 
-  vscode-textmate@7.0.4: {}
-
   vscode-textmate@9.3.2: {}
 
   vscode-tmgrammar-test@0.1.3:
@@ -1948,7 +1946,7 @@ snapshots:
       diff: 4.0.4
       glob: 7.2.3
       vscode-oniguruma: 1.7.0
-      vscode-textmate: 7.0.4
+      vscode-textmate: 9.3.2
 
   which-module@1.0.0: {}
 

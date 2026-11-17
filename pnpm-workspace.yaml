@@ -2,3 +2,5 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - '@carlwr/textmate-validate'
+overrides:
+  vscode-tmgrammar-test>vscode-textmate: 9.3.2

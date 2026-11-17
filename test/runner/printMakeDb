@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# GNU make as parse oracle: print its database for makefile $1, ignoring make's errors
+# GNU make as parse oracle: print its database for makefile $1, in an empty environment and dir, ignoring make's errors
 emulate -L zsh
 autoload -U is-at-least
 
@@ -18,4 +18,20 @@ then
 fi
 
 mk=${1:?no makefile given}
-$make -nsp --always-make -f $mk 2>/dev/null || true
+tmp=$(mktemp -d) || exit
+
+trap 'rm -rf -- "$tmp"' EXIT
+
+opts=(
+  --dry-run
+  --silent
+  --print-data-base
+  --always-make
+  --no-builtin-rules
+  --no-builtin-variables
+  --include-dir=-
+  --directory=$tmp
+  --file=${mk:A}
+  )
+
+env -i PATH=$PATH $make $opts 2>/dev/null || true

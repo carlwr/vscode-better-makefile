@@ -23,3 +23,17 @@ The grammar tests' `vscode-textmate` version is set with a pnpm override; otherw
 Keep the override at a version that:
 - VS Code/Cursor users plausibly run
 - `vscode-tmgrammar-test` works with
+
+## Screenshots
+
+`arthurlobo.easy-codesnap`:
+
+```jsonc
+{
+  "easy-codesnap.showLineNumbers": false,
+  "easy-codesnap.roundingLevel": 3,
+  "easy-codesnap.containerPadding": "0",
+  "easy-codesnap.saveScale": 2,
+  "easy-codesnap.transparentBackground": true,
+}
+```

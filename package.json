@@ -72,7 +72,7 @@
     "prepare": "git config core.hooksPath .githooks || true",
     "build": "scripts/make gen",
     "watch:build": "tsx build.ts --watch",
-    "vsix": "npx -y @vscode/vsce@4 package --out ./better-makefile.vsix",
+    "vsix": "npx -y @vscode/vsce@4 package --baseImagesUrl https://github.com/carlwr/vscode-better-makefile/raw/v$npm_package_version/ --out ./better-makefile.vsix",
     "vscode:prepublish": "pnpm run build && pnpm run qa",
     "vscode:publish:dry": "pnpm run vscode:prepublish && npx -y @vscode/vsce@4 ls && echo '---\\n(DRY-RUN; ran `vsce ls` above.)'",
     "vscode:publish": "npx -y @vscode/vsce@4 publish",

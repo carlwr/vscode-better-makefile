@@ -30,6 +30,21 @@ Just install the extension - no other action is needed; _VS Code_ will automatic
 
 &nbsp;
 
+<table>
+<thead><tr>
+  <th align="center" width="50%">Stock VS Code/Cursor</th>
+  <th align="center" width="50%"><em>Better Makefile</em></th>
+</tr></thead>
+<tbody><tr>
+  <td><img src="misc/examples/EXAMPLE_stock.png" alt="stock"></td>
+  <td><img src="misc/examples/EXAMPLE_better.png" alt="better-makefile"></td>
+</tr></tbody>
+</table>
+
+(Screenshots rendered with the _Catppuccin Mocha_ [theme](#choice-of-highlighting-theme).)
+
+&nbsp;
+
 ## Footprint
 
 All functionality is shipped through two JSON files; there is no code that is run. This means there should be no impact on startup time and a near-zero security surface.
@@ -173,5 +188,3 @@ Post the 1.0 release (spring 2026) agentic tooling might be used for improvement
 [posix-make]: https://pubs.opengroup.org/onlinepubs/9799919799/utilities/make.html
 [pcre2]: https://www.pcre.org/current/doc/html/pcre2syntax.html
 [oniguruma]: https://github.com/kkos/oniguruma
-
-<!-- note: relative repo links should be fine; `vsce` re-writes them to absolute using the `repository` field; and Open VSX receives that re-written README -->

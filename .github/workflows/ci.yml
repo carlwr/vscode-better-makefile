@@ -87,7 +87,7 @@ jobs:
     needs: [check, release]
     if: ${{ !cancelled() && needs.check.result == 'success' && (github.event_name == 'workflow_dispatch' || needs.release.result == 'success') }}
     runs-on: ubuntu-latest
-    environment: marketplace
+    environment: publish
     permissions:
       contents: read
       id-token: write  # for OIDC trusted publishing
@@ -105,3 +105,6 @@ jobs:
 
       - name: Publish to VS Code Marketplace
         run: npx -y @vscode/vsce@4 publish --oidc --skip-duplicate --packagePath better-makefile.vsix
+
+      - name: Publish to Open VSX
+        run: npx -y ovsx@1 publish --trusted-publishing --skip-duplicate --packagePath better-makefile.vsix
